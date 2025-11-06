@@ -1,6 +1,5 @@
-public class Main {
+import screens.Initialization;
 
-	public static void main(String[] args) {
-		System.out.println("Hello World!");
-	}
+public class Main {
+    public static void main(String[] args) { new Initialization().initializeMap(); }
 }
