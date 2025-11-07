@@ -1,3 +1,5 @@
+//Lance Nelkin
+
 package automata;
 
 import world.Cell;

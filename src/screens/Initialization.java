@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Initialization {
 
-    public static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);	//lance says this ok. kat disagrees.
 
 
     //Might be moved to HomeUI?
