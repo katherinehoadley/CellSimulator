@@ -1,3 +1,4 @@
+//Katherine Hoadley
 package world;
 
 import automata.Bacteria;
