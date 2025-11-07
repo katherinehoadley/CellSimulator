@@ -1,6 +1,7 @@
 package screens;
 
 import world.Step;
+import world.StepGameOfLife;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -19,7 +20,8 @@ public class Initialization {
         new GameUI().setGridDimensions(0, 0);
 
         // Start tick loop (currently its 10 times per second, this can change)
-        scheduler.scheduleAtFixedRate(Step::update, 0, 100, TimeUnit.MILLISECONDS);
+        Step step = new StepGameOfLife();
+        scheduler.scheduleAtFixedRate(step::update, 0, 100, TimeUnit.MILLISECONDS);
     }
 
 }
