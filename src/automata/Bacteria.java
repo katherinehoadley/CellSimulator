@@ -1,3 +1,5 @@
+//Lance Nelkin
+
 package automata;
 
 import java.util.List;

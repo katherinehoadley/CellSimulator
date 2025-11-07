@@ -1,6 +1,8 @@
+//Katherine Hoadley
 package screens;
 
 import world.Step;
+import world.StepGameOfLife;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -8,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Initialization {
 
-    public static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);	//lance says this ok. kat disagrees.
 
 
     //Might be moved to HomeUI?
@@ -19,7 +21,8 @@ public class Initialization {
         new GameUI().setGridDimensions(0, 0);
 
         // Start tick loop (currently its 10 times per second, this can change)
-        scheduler.scheduleAtFixedRate(Step::update, 0, 100, TimeUnit.MILLISECONDS);
+        Step step = new StepGameOfLife();
+        scheduler.scheduleAtFixedRate(step::update, 0, 100, TimeUnit.MILLISECONDS);
     }
 
 }
