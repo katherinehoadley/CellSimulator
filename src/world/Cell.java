@@ -1,7 +1,28 @@
 package world;
 
-public class Cell {
+public enum Cell {
 
-    //This class might just become an enum of different state types to map like what the int is -> type
+    DEAD((byte) 0),
+    ALIVE((byte) 1),
+    SPAWNING_SOON((byte) 2),
+    DYING_SOON((byte) 3);
 
+    private final byte displayValue;
+
+    Cell(byte displayName) {
+        this.displayValue = displayName;
+    }
+
+    public byte getDisplayValue() {
+        return displayValue;
+    }
+
+    public static Cell fromValue(byte value) {
+        for (Cell mode : values()) {
+            if (mode.displayValue == value) {
+                return mode;
+            }
+        }
+        return DEAD;
+    }
 }
