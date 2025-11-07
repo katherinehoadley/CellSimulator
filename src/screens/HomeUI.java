@@ -1,4 +1,5 @@
 package screens;
 
-public class HomeUI extends BaseUI{
+public class HomeUI extends BaseUI {
+
 }
