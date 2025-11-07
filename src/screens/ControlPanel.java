@@ -15,8 +15,6 @@ public class ControlPanel {
 	private TextField columns;
 	
 //	private Controller controller;
-
-
 	
 	public HBox setupControlButtons(){
 		// Make the controls part
@@ -76,6 +74,22 @@ public class ControlPanel {
 			pauseButton.setText("Pause");
 		}
 	}
+	
+	
+	// can use these for creating grid, but maybe call createGrid method
+	// in here so we dont have to use getters?
+	public int getRows() {
+		return Integer.parseInt(rows.getText());
+	}
+	public int getColumns() {
+		return Integer.parseInt(columns.getText());
+	}
+	
+	
+	// can we create a create grid method in controller with these parameters?
+//	public void createGrid() {
+//		controller.createGrid(Integer.parseInt(rows.getText()), Integer.parseInt(columns.getText()));
+//	}
 	
 
 	
