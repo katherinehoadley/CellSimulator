@@ -4,24 +4,24 @@ package world;
 
 public enum Cell {
 
-    DEAD((byte) 0),
-    ALIVE((byte) 1),
-    SPAWNING_SOON((byte) 2),
-    DYING_SOON((byte) 3);
+    DEAD((int) 0),
+    ALIVE((int) 1),
+    SPAWNING_SOON((int) 2),
+    DYING_SOON((int) 3);
 
-    private final byte displayValue;
+    private final int displayValue;
 
-    Cell(byte displayName) {
+    Cell(int displayName) {
         this.displayValue = displayName;
     }
 
-    public byte getDisplayValue() {
+    public int getDisplayValue() {
         return displayValue;
     }
 
-    public static Cell fromValue(byte value) {
+    public static Cell fromValue(int grid) {
         for (Cell mode : values()) {
-            if (mode.displayValue == value) {
+            if (mode.displayValue == grid) {
                 return mode;
             }
         }
