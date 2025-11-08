@@ -19,7 +19,7 @@ public class GameUI extends BaseUI {
 	private final int CELL_SIZE = 10;
 	private final int SIMULATION_SPEED = 1;
 	
-    private byte[][] cells;
+    private int[][] cells;
     private Rectangle[][] visualizer;
     private CellularAutomata automata;
     
@@ -76,7 +76,7 @@ public class GameUI extends BaseUI {
         this.numRows = Math.max(rows, 10); 
         this.numCols = Math.max(cols, 10);
         
-        this.cells = new byte[numRows][numCols];
+        this.cells = new int[numRows][numCols];
         this.visualizer = new Rectangle[numRows][numCols];
 
         for (int y = 0; y < numRows; y++) {
