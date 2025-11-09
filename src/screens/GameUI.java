@@ -29,6 +29,10 @@ public class GameUI extends BaseUI {
     
     public GameUI() { }
     
+    public GameUI(int rows, int cols) {
+        setGridDimensions(rows, cols);
+    }
+    
     
     private void randomizeCellState(int x, int y) {
     	Random rand = new Random();
@@ -121,6 +125,10 @@ public class GameUI extends BaseUI {
         updateVisuals(); 
         
         return gridPane;
+    }
+    
+    public void redraw() {
+        updateVisuals();
     }
     
     public void step() { 
