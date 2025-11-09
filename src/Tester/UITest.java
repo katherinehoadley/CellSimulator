@@ -5,8 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import screens.ControlPanel;
-import screens.GameUI;
+import view.ControlPanel;
+import view.GameUI;
 
 public class UITest extends Application {
 	private GameUI gameUI;
