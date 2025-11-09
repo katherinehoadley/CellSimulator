@@ -1,5 +1,5 @@
 //Katherine Hoadley
-package screens;
+package view;
 
 import world.Cell;
 import world.Step;
