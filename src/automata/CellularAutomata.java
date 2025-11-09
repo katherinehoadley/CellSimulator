@@ -12,16 +12,16 @@ public abstract class CellularAutomata {
 
     public CellularAutomata() {}
 
-    public byte[][] updateGrid(byte[][] grid) {
+    public int[][] updateGrid(int[][] grid) {
         int rows = grid.length;
         int cols = grid[0].length;
-        byte[][] newGrid = new byte[rows][cols];
+        int[][] newGrid = new int[rows][cols];
 
         // pass 1 to mark what should live or die
         for (int y = 0; y < rows; y++) {
             for (int x = 0; x < cols; x++) {
 
-                byte value = grid[y][x];
+                int value = grid[y][x];
                 int neighbors = getNeighborCount(grid, x, y);
                 Cell cell = Cell.fromValue(value);
 
@@ -65,7 +65,7 @@ public abstract class CellularAutomata {
         return newGrid;
     }
 
-    public int getNeighborCount(byte[][] grid, int x, int y) {
+    public int getNeighborCount(int[][] grid, int x, int y) {
         //TODO - probably should rename these because directionX and directionY, and newX and newY
         // being shortened that much is bad for a clean code grade
         int rows = grid.length;

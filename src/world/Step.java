@@ -7,4 +7,6 @@ public abstract class Step {
 		//constructor, does nothing
 	}
     public abstract void update();
+    
+    public abstract int[][] getGrid();
 }
