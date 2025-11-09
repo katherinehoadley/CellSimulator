@@ -9,44 +9,46 @@ import screens.ControlPanel;
 import screens.GameUI;
 
 public class UITest extends Application {
-
 	private GameUI gameUI;
 	private ControlPanel panel;
 	private VBox root;
 
 	
 	private void createGrid(int rows, int cols) {
-		gameUI = new GameUI();
-		gameUI.setGridDimensions(rows, cols);
+		gameUI = new GameUI(rows, cols);
 		
-		root = new VBox();
+		root.getChildren().clear();
 		root.getChildren().addAll(
 			panel.setupGridSize(),
 			panel.setupControlButtons(),
+			new Button("Create Grid from Input") {{
+				setOnAction(e -> refreshGrid());
+			}},
 			gameUI.render()
 		);
 	}
 	
 	private void refreshGrid() {
+		int rows = 20; 
+		int cols = 20;
+		
 		try {
-			int rows = panel.getRows();
-			int cols = panel.getColumns();
-			createGrid(rows, cols);
+			rows = panel.getRows();
+			cols = panel.getColumns();
 		} 
 		catch (NumberFormatException e) {
-			System.out.println("Please enter valid numbers for rows and columns");
+			System.out.println("[NumberFormatException] using defauly values (20x20)");
 		}
+		
+		createGrid(rows, cols);
 	}
 	
 	
 	public void start(Stage stage) {
 		panel = new ControlPanel();
-		createGrid(20, 20);
+		root = new VBox();
 		
-		Button refreshButton = new Button("Create Grid from Input");
-		refreshButton.setOnAction(e -> refreshGrid());
-
-		root.getChildren().add(2, refreshButton);
+		createGrid(20, 20);
 
 		Scene scene = new Scene(root, 600, 700);
 		stage.setTitle("Game of Life Test");
