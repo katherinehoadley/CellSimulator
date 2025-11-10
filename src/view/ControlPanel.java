@@ -1,12 +1,17 @@
 // Anna Rakes
 package view;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import world.Step;
+import world.StepGameOfLife;
 
 public class ControlPanel {
 	
@@ -17,9 +22,12 @@ public class ControlPanel {
 	private 	HBox controls = new HBox();
 	private final int TEXT_FIELD_WIDTH = 50;
 	private Step stepper;
-	private GameUI gameUI;
+	
 	
 	//TODO - Add getter for paused
+    
+	private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);	//lance
+
 	
 	public HBox setupControlButtons(){
 		controls.setAlignment(Pos.BASELINE_CENTER);
@@ -36,7 +44,9 @@ public class ControlPanel {
 	private void createStartButton() {
 		Button startButton = new Button("Start");
 		startButton.setOnAction(value ->  {
-//			controller.start();
+			Runnable step = () -> stepper.step(paused);
+		    scheduler.scheduleAtFixedRate(step, 0, 100, TimeUnit.MILLISECONDS);
+
 		});
 		controls.getChildren().add(startButton);
 	}
