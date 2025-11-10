@@ -1,4 +1,4 @@
-package screens;
+package view;
 
 import java.util.Random;
 
@@ -28,6 +28,10 @@ public class GameUI extends BaseUI {
 
     
     public GameUI() { }
+    
+    public GameUI(int rows, int cols) {
+        setGridDimensions(rows, cols);
+    }
     
     
     private void randomizeCellState(int x, int y) {
@@ -121,6 +125,10 @@ public class GameUI extends BaseUI {
         updateVisuals(); 
         
         return gridPane;
+    }
+    
+    public void redraw() {
+        updateVisuals();
     }
     
     public void step() { 
