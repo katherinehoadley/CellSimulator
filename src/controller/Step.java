@@ -1,5 +1,5 @@
 //Katherine Hoadley
-package world;
+package controller;
 
 public abstract class Step {
 
@@ -10,5 +10,5 @@ public abstract class Step {
 
 	public abstract int[][] getGrid();
 
-	public abstract void step(boolean isPaused);
+	public abstract void step(boolean isPaused, boolean takeStep);
 }

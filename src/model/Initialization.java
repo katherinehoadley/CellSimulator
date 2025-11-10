@@ -1,16 +1,6 @@
 //Katherine Hoadley
-package view;
+package model;
 
-import world.Cell;
-import world.Step;
-import world.StepGameOfLife;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import automata.Bacteria;
-import automata.CellularAutomata;
 
 public class Initialization {
 
@@ -20,7 +10,6 @@ public class Initialization {
 	private final int BACK_ONE = 1;
 	private final int LOOP_START_VALUE = 0;
 	
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);	//lance
     private int[][] grid;
 
     
@@ -54,10 +43,7 @@ public class Initialization {
             }
         }
     	
-        CellularAutomata automata = new Bacteria();
-        StepGameOfLife step = new StepGameOfLife(grid);
 
-        scheduler.scheduleAtFixedRate(step::update, 0, 100, TimeUnit.MILLISECONDS);
         
     	return grid;
     }
