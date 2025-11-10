@@ -5,16 +5,15 @@ import controller.StepGameOfLife;
 
 public class Initialization {
 
-	private final double START_ALIVE_CHANCE = .3;
-	private final int START_INDEX = 0;
+	  private final double START_ALIVE_CHANCE = .3;
+  	private final int START_INDEX = 0;
 	   
     private int[][] grid;
 
     public Initialization() {};
     
     //creates a new grid when ui calls this function.
-    //starts a 3x3 grid of potentially alive bacteria
-    //in the center of the grid. the rest is dead.
+    //starts a grid of potentially alive bacteria
     public int[][] initializeGrid(int rows, int cols) {
         grid = new int[rows][cols];
 

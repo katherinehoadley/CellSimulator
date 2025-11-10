@@ -1,12 +1,10 @@
 //Katherine Hoadley
 package controller;
 
-import java.awt.Point;
-import java.util.Collection;
 
 import model.Bacteria;
 import model.CellularAutomata;
-import view.GridUI;
+
 
 public class StepGameOfLife extends Step{
 	
@@ -34,8 +32,8 @@ public class StepGameOfLife extends Step{
     }
     
     // Anna Rakes
-    public void step(boolean isPaused){
-		if (!isPaused) {
+    public void step(boolean isPaused, boolean takeStep){
+		if (!isPaused || takeStep) {
 			update();
 		}
     }
