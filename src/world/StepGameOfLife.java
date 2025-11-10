@@ -24,7 +24,7 @@ public class StepGameOfLife extends Step{
 	@Override
     public void update(){
 		grid = automata.updateGrid(grid);
-		GameUI.redraw(grid);
+
 
     }
     public int[][] getGrid(){
