@@ -52,7 +52,7 @@ public class ControlPanel {
 		Button startButton = new Button("Start");
 		startButton.setOnAction(value ->  {
 			// Lance: 
-			Runnable step = () -> stepper.step(paused);
+			Runnable step = () -> stepper.step(paused, false);
 		    scheduler.scheduleAtFixedRate(step, 0, BUFFER_PERIOD, TimeUnit.MILLISECONDS);
 
 		});
@@ -70,7 +70,7 @@ public class ControlPanel {
 	private void createStepButton() {
 		Button stepButton = new Button("Step");
 		stepButton.setOnAction(value ->  {
-			stepper.step(paused); 
+			stepper.step(paused, true); 
 		});
 		controls.getChildren().add(stepButton);
 	}

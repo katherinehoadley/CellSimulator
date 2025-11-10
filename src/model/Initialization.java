@@ -1,12 +1,6 @@
 //Katherine Hoadley
 package model;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import controller.Step;
-import controller.StepGameOfLife;
 
 public class Initialization {
 
@@ -16,7 +10,6 @@ public class Initialization {
 	private final int BACK_ONE = 1;
 	private final int LOOP_START_VALUE = 0;
 	
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);	//lance
     private int[][] grid;
 
     
@@ -50,10 +43,7 @@ public class Initialization {
             }
         }
     	
-        CellularAutomata automata = new Bacteria();
-        StepGameOfLife step = new StepGameOfLife(grid);
 
-        scheduler.scheduleAtFixedRate(step::update, 0, 100, TimeUnit.MILLISECONDS);
         
     	return grid;
     }
