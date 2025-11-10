@@ -15,7 +15,12 @@ import automata.CellularAutomata;
 public class Initialization {
 
 	private final double START_ALIVE_CHANCE = .3;
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);	//lance says this ok. kat disagrees.
+	private final int HALF = 2;
+	private final int START_SPAWN_SIZE = 3;
+	private final int BACK_ONE = 1;
+	private final int LOOP_START_VALUE = 0;
+	
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);	//lance
     private int[][] grid;
 
     
@@ -28,13 +33,13 @@ public class Initialization {
     	
     	grid = new int[rows][cols];
 
-        int startRow = (rows / 2) - 1;
-        int endRow = startRow + 3;
-        int startCol = (cols / 2) - 1;
-        int endCol = startCol + 3;
+        int startRow = (rows / HALF) - BACK_ONE;
+        int endRow = startRow + START_SPAWN_SIZE;
+        int startCol = (cols / HALF) - BACK_ONE;
+        int endCol = startCol + START_SPAWN_SIZE;
         
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < cols; x++) {
+        for (int y = LOOP_START_VALUE; y < rows; y++) {
+            for (int x = LOOP_START_VALUE; x < cols; x++) {
                 if (y >= startRow && y < endRow && x >= startCol && x < endCol) {
                     double randomValue = Math.random();
                     if (randomValue < START_ALIVE_CHANCE) {

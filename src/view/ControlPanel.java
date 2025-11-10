@@ -19,6 +19,8 @@ public class ControlPanel {
 	private Step stepper;
 	private GameUI gameUI;
 	
+	//TODO - Add getter for paused
+	
 	public HBox setupControlButtons(){
 		controls.setAlignment(Pos.BASELINE_CENTER);
 		controls.setSpacing(10);
