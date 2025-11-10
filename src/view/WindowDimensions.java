@@ -1,4 +1,4 @@
-package screens;
+package view;
 
 public class WindowDimensions {
 	private int windowHeight = 1000;

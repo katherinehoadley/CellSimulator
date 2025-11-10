@@ -1,11 +1,16 @@
 //Katherine Hoadley
 package world;
 
+import java.awt.Point;
+import java.util.Collection;
+
 import automata.Bacteria;
 import automata.CellularAutomata;
-import screens.GameUI;
+import view.GameUI;
 
 public class StepGameOfLife extends Step{
+	
+	
 
     //TODO - this class will update the grid to the next iteration every tick.
 	private int[][] grid;
@@ -19,11 +24,18 @@ public class StepGameOfLife extends Step{
 	@Override
     public void update(){
 		grid = automata.updateGrid(grid);
-		GameUI.redraw(grid);
+
 
     }
     public int[][] getGrid(){
     	return grid;
+    }
+    
+    // Anna Rakes
+    public void step(boolean isPaused){
+		if (!isPaused) {
+			update();
+		}
     }
 
 }
