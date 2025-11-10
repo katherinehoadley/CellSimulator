@@ -1,5 +1,5 @@
 //Katherine Hoadley
-package world;
+package controller;
 
 public abstract class Step {
 

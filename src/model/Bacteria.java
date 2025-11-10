@@ -1,6 +1,6 @@
 //Lance Nelkin
 
-package automata;
+package model;
 
 import java.util.List;
 

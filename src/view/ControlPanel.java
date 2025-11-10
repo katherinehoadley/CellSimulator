@@ -1,12 +1,17 @@
 // Anna Rakes
 package view;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import controller.Step;
+import controller.StepGameOfLife;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import world.Step;
 
 public class ControlPanel {
 	
@@ -15,15 +20,25 @@ public class ControlPanel {
 	private TextField rows;
 	private TextField columns;
 	private 	HBox controls = new HBox();
+	
 	private final int TEXT_FIELD_WIDTH = 50;
-	private Step stepper;
-	private GameUI gameUI;
+	private final int BUTTON_SPACING = 10;
+	private final int INPUT_BOX_SPACING = 5;
+	private final int BUFFER_PERIOD = 100; 
+	
+	private Step stepper = new StepGameOfLife();
+	private GridUI gridUI = new GridUI();
+	
 	
 	//TODO - Add getter for paused
+    
+	// Lance: 
+	private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
 	
 	public HBox setupControlButtons(){
 		controls.setAlignment(Pos.BASELINE_CENTER);
-		controls.setSpacing(10);
+		controls.setSpacing(BUTTON_SPACING);
 		
 		createStartButton();
 		createPauseButton();
@@ -36,7 +51,10 @@ public class ControlPanel {
 	private void createStartButton() {
 		Button startButton = new Button("Start");
 		startButton.setOnAction(value ->  {
-//			controller.start();
+			// Lance: 
+			Runnable step = () -> stepper.step(paused);
+		    scheduler.scheduleAtFixedRate(step, 0, BUFFER_PERIOD, TimeUnit.MILLISECONDS);
+
 		});
 		controls.getChildren().add(startButton);
 	}
@@ -44,7 +62,7 @@ public class ControlPanel {
 	private void createPauseButton() {
 		pauseButton = new Button("Pause");
 		pauseButton.setOnAction(value ->  {
-			pressPause(); // step must check for if paused
+			pressPause();
 		});
 		controls.getChildren().add(pauseButton);
 	}
@@ -60,7 +78,7 @@ public class ControlPanel {
 	private void createGridButton() {
 		Button createGridButton = new Button("Create Grid From Input");
 		createGridButton.setOnAction(value -> {
-			//gameUI.createGrid(Integer.parseInt(rows.getText()), Integer.parseInt(columns.getText()))
+			gridUI.startGrid(Integer.parseInt(rows.getText()), Integer.parseInt(columns.getText()));
 		});
 		controls.getChildren().add(createGridButton);
 	}
@@ -69,7 +87,7 @@ public class ControlPanel {
 	public HBox setupGridSize(){
 		HBox inputBox = new HBox();
 		inputBox.setAlignment(Pos.BASELINE_CENTER);
-		inputBox.setSpacing(5);
+		inputBox.setSpacing(INPUT_BOX_SPACING);
 
 		Label rowsLabel = new Label("Rows: ");
 		rows = new TextField();
@@ -97,12 +115,12 @@ public class ControlPanel {
 	
 	// can use these for creating grid, but maybe call createGrid method
 	// in here so we dont have to use getters?
-	public int getRows() {
-		return Integer.parseInt(rows.getText());
-	}
-	public int getColumns() {
-		return Integer.parseInt(columns.getText());
-	}
+//	public int getRows() {
+//		return Integer.parseInt(rows.getText());
+//	}
+//	public int getColumns() {
+//		return Integer.parseInt(columns.getText());
+//	}
 	
 	
 	// can we create a create grid method in controller with these parameters?

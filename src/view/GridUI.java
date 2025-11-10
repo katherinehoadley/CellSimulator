@@ -2,7 +2,6 @@ package view;
 
 import java.util.Random;
 
-import automata.CellularAutomata;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyCode;
@@ -10,9 +9,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import world.Cell;
+import model.Cell;
+import model.CellularAutomata;
 
-public class GameUI extends BaseUI {
+public class GridUI extends BaseUI {
 
 	private final Color ALIVE_COLOR = Color.AQUA; 
 	private final Color DEAD_COLOR = Color.DARKGREY;
@@ -27,10 +27,18 @@ public class GameUI extends BaseUI {
     private int numRows;
 
     
-    public GameUI() { }
+    public GridUI() { }
     
-    public GameUI(int rows, int cols) {
+    public GridUI(int rows, int cols) {
         setGridDimensions(rows, cols);
+    }
+    
+    
+    public void startGrid (int rows, int columns) {
+    		// TODO johnathan call initializiation.initializeGrid here to get grid and then call drawGrid to draw it.
+    }
+    public void drawGrid(int rows, int columns) {
+    		// TODO johnathan draw visual grid here
     }
     
     

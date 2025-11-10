@@ -6,16 +6,16 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import view.ControlPanel;
-import view.GameUI;
+import view.GridUI;
 
 public class UITest extends Application {
-	private GameUI gameUI;
+	private GridUI gameUI;
 	private ControlPanel panel;
 	private VBox root;
 
 	
 	private void createGrid(int rows, int cols) {
-		gameUI = new GameUI(rows, cols);
+		gameUI = new GridUI(rows, cols);
 		
 		root.getChildren().clear();
 		root.getChildren().addAll(
