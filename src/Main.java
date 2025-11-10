@@ -1,5 +1,5 @@
 //Lance Nelkin
-import view.Initialization;
+import model.Initialization;
 
 public class Main {
     public static void main(String[] args) { 

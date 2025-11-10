@@ -1,8 +1,7 @@
 //Lance Nelkin
 
-package automata;
+package model;
 
-import world.Cell;
 import java.util.List;
 
 public abstract class CellularAutomata {

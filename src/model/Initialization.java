@@ -1,16 +1,12 @@
 //Katherine Hoadley
-package view;
-
-import world.Cell;
-import world.Step;
-import world.StepGameOfLife;
+package model;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import automata.Bacteria;
-import automata.CellularAutomata;
+import controller.Step;
+import controller.StepGameOfLife;
 
 public class Initialization {
 
