@@ -1,6 +1,6 @@
 //Lance Nelkin
 
-package world;
+package model;
 
 public enum Cell {
 
