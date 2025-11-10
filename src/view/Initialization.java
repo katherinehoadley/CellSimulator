@@ -14,50 +14,47 @@ import automata.CellularAutomata;
 
 public class Initialization {
 
+	private final double START_ALIVE_CHANCE = .3;
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);	//lance says this ok. kat disagrees.
     private int[][] grid;
-    private ControlPanel controlPanel;
 
     
-    public Initialization(ControlPanel controlPanel) {
-    	this.controlPanel = controlPanel;
-    }
-
-    //Might be moved to HomeUI?
-
-    public void initializeMap(){
-    	int rows = controlPanel.getRows();
-    	int cols = controlPanel.getColumns();
+    public Initialization() {};
+    
+    //creates a new grid when ui calls this function.
+    //starts a 3x3 grid of potentially alive bacteria
+    //in the center of the grid. the rest is dead.
+    public int[][] initializeGrid(int rows, int cols){
     	
-    	grid = initializeGrid(rows, cols);
-    	
-        new GameUI().setGridDimensions(0, 0);
+    	grid = new int[rows][cols];
+
+        int startRow = (rows / 2) - 1;
+        int endRow = startRow + 3;
+        int startCol = (cols / 2) - 1;
+        int endCol = startCol + 3;
         
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+                if (y >= startRow && y < endRow && x >= startCol && x < endCol) {
+                    double randomValue = Math.random();
+                    if (randomValue < START_ALIVE_CHANCE) {
+                        grid[y][x] = Cell.ALIVE.getDisplayValue();
+                    } else {
+                        grid[y][x] = Cell.DEAD.getDisplayValue();
+                    }
+                } 
+                else {
+                    grid[y][x] = Cell.DEAD.getDisplayValue();
+                }
+            }
+        }
+    	
         CellularAutomata automata = new Bacteria();
-        StepGameOfLife stepper = new StepGameOfLife(grid);
-        
-        GameUI ui = new GameUI(stepper.getGrid());
+        StepGameOfLife step = new StepGameOfLife(grid);
 
-        // Start tick loop (currently its 10 times per second, this can change)
         scheduler.scheduleAtFixedRate(step::update, 0, 100, TimeUnit.MILLISECONDS);
-    }
-    
-    private int[][] initializeGrid(int rows, int cols){
-    	int[][] newGrid = new int[rows][cols];
-    	
-    	for (int y = 0; y < rows; y++) {
-    		for (int x = 0; x < cols; x++) {
-    			double randomValue = Math.random();
-    			
-    			if(randomValue < 0.2) {
-    				newGrid[y][x] = Cell.ALIVE.getDisplayValue();
-    			}
-    			else {
-    				newGrid[y][x] = Cell.DEAD.getDisplayValue();
-    			}
-    		}
-    	}
-    	return newGrid;
+        
+    	return grid;
     }
 
 }
