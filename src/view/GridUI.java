@@ -1,5 +1,6 @@
 package view;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -11,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.Cell;
 import model.CellularAutomata;
+import model.Initialization;
 
 public class GridUI extends BaseUI {
 
@@ -19,9 +21,10 @@ public class GridUI extends BaseUI {
 	private final int CELL_SIZE = 10;
 	private final int SIMULATION_SPEED = 1;
 	
-    private int[][] cells;
-    private Rectangle[][] visualizer;
+    private int[][] grid;
+    private Rectangle[][] visualizer = new Rectangle[][] {};
     private CellularAutomata automata;
+    private Initialization initialization = new Initialization();
     
     private int numCols;
     private int numRows;
@@ -29,29 +32,44 @@ public class GridUI extends BaseUI {
     
     public GridUI() { }
     
-    public GridUI(int rows, int cols) {
-        setGridDimensions(rows, cols);
-    }
+//    public GridUI(int rows, int cols) {
+//        setGridDimensions(rows, cols);
+//    }
     
     
-    public void startGrid (int rows, int columns) {
-    		// TODO johnathan call initializiation.initializeGrid here to get grid and then call drawGrid to draw it.
+    public GridPane startGrid (int rows, int columns) {
+    		grid = initialization.initializeGrid(rows, columns);
+    		setGridDimensions(grid, rows, columns);
+    		updateVisuals();
+    		return render(rows, columns);
     }
-    public void drawGrid(int rows, int columns) {
-    		// TODO johnathan draw visual grid here
-    }
+//    public GridPane drawGrid(int[][] grid, int rows, int columns) {
+//    		for (int y = 0; y < rows; y++) {
+//    			for (int x = 0; x< columns; x++) {
+//    				 int value = grid[y][x];
+//    				 Cell cell = Cell.fromValue(value);
+//    				 if (value == Cell.ALIVE.getDisplayValue()) {
+//    					 this.visualizer[y][x].setFill(ALIVE_COLOR);
+//    				 } else {
+//    	                 this.visualizer[y][x].setFill(DEAD_COLOR);
+//    				 }
+//    			}
+//    		}
+//    		System.out.println("yes it worked");
+//    		return render(rows, columns);
+//    }
     
     
-    private void randomizeCellState(int x, int y) {
-    	Random rand = new Random();
-    			
-		if (rand.nextDouble() < 0.2) { 
-            this.cells[y][x] = Cell.ALIVE.getDisplayValue();
-        } 
-        else {
-            this.cells[y][x] = Cell.DEAD.getDisplayValue();
-        }
-    }
+//    private void randomizeCellState(int x, int y) {
+//    	Random rand = new Random();
+//    			
+//		if (rand.nextDouble() < 0.2) { 
+//            this.cells[y][x] = Cell.ALIVE.getDisplayValue();
+//        } 
+//        else {
+//            this.cells[y][x] = Cell.DEAD.getDisplayValue();
+//        }
+//    }
     
     private Rectangle createCell() {
         Rectangle rect = new Rectangle(CELL_SIZE, CELL_SIZE);
@@ -60,10 +78,7 @@ public class GridUI extends BaseUI {
         return rect;
     }
     
-    private void updateVisuals() {
-        if (this.cells == null || this.visualizer == null) {
-            return; 
-        }
+    public void updateVisuals() {
         
         for (int y = 0; y < numRows; y++) {
             for (int x = 0; x < numCols; x++) {
@@ -71,7 +86,7 @@ public class GridUI extends BaseUI {
                 	continue; 
                 }
                 
-                Cell cellState = Cell.fromValue(this.cells[y][x]);
+                Cell cellState = Cell.fromValue(this.grid[y][x]);
                 
                 if (cellState == Cell.ALIVE) {
                     this.visualizer[y][x].setFill(ALIVE_COLOR);
@@ -84,37 +99,34 @@ public class GridUI extends BaseUI {
     }
     
     
-    public void setGridDimensions(int rows, int cols) {
+    public void setGridDimensions(int[][] grid, int rows, int cols) {
         this.numRows = Math.max(rows, 10); 
         this.numCols = Math.max(cols, 10);
         
-        this.cells = new int[numRows][numCols];
         this.visualizer = new Rectangle[numRows][numCols];
 
         for (int y = 0; y < numRows; y++) {
             for (int x = 0; x < numCols; x++) {
                 Rectangle rect = createCell();
                 this.visualizer[y][x] = rect;
-                randomizeCellState(x, y);
             }
         }
-       
-        updateVisuals(); 
+        updateVisuals();
     }
     
-    public void start() {  
-    	System.out.println("Start pressed (no timer implemented).");
-    }
-    
-    public void pause() { 
-    	System.out.println("Pause pressed (no timer implemented).");
-    }
+//    public void start() {  
+//    	System.out.println("Start pressed (no timer implemented).");
+//    }
+//    
+//    public void pause() { 
+//    	System.out.println("Pause pressed (no timer implemented).");
+//    }
     
     public boolean isRunning() {
         return false;
     }
     
-    public GridPane render() { 
+    private GridPane render(int rows, int columns) { 
     	GridPane gridPane = new GridPane();
         gridPane.setHgap(0);
         gridPane.setVgap(0);
@@ -130,16 +142,18 @@ public class GridUI extends BaseUI {
             }
         }
         
-        updateVisuals(); 
-        
         return gridPane;
     }
     
-    public void redraw() {
-        updateVisuals();
+    public int[][] getGrid() {
+    	return grid;
     }
     
-    public void step() { 
-        System.out.println("Step pressed (no logic implemented yet).");
-    }
+//    public void redraw() {
+//        updateVisuals();
+//    }
+    
+//    public void step() { 
+//        System.out.println("Step pressed (no logic implemented yet).");
+//    }
 }

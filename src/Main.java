@@ -18,6 +18,7 @@ public class Main extends Application {
 		root.getChildren().addAll(
 				controlPanel.setupGridSize(),
 				controlPanel.setupControlButtons()
+				
 				);
 
 		Scene scene = new Scene(root, SCREEN_SIZE, SCREEN_SIZE);
