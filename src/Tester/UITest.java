@@ -19,8 +19,7 @@ public class UITest extends Application {
 		
 		root.getChildren().clear();
 		root.getChildren().addAll(
-			panel.setupGridSize(),
-			panel.setupControlButtons(),
+			panel.setupControlPanel();
 			new Button("Create Grid from Input") {{
 				setOnAction(e -> refreshGrid());
 			}},
