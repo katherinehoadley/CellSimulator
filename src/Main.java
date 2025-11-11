@@ -12,6 +12,8 @@ public class Main extends Application {
 	private final int SPACING = 20;
 
 
+	//TODO - it would be good to move most of this out of main and into an initialization class of some sort..
+
 	public void start(Stage primaryStage) {
 		ControlPanel controlPanel = new ControlPanel();
 

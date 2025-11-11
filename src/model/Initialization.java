@@ -1,12 +1,10 @@
 //Katherine Hoadley
 package model;
 
-import controller.StepGameOfLife;
-
 public class Initialization {
 
 	
-	  private final double START_ALIVE_CHANCE = .3;
+    private final double START_ALIVE_CHANCE = .3;
   	private final int START_INDEX = 0;
 	   
     private int[][] grid;
