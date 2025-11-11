@@ -3,6 +3,7 @@ package view;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import controller.Step;
@@ -27,24 +28,25 @@ public class ControlPanel {
 	private 	HBox buttons = new HBox();
 	private VBox controlPanel = new VBox();
 	private GridPane gridPane;
+	private int bufferPeriod = 100; 
+
 	
 	
 	// Constants
 	private final int TEXT_FIELD_WIDTH = 50;
 	private final int BUTTON_SPACING = 10;
 	private final int INPUT_BOX_SPACING = 15;
-	private final int BUFFER_PERIOD = 100; 
 	private final int GRID_BUTTON_SPACING = 25;
 	private final int TEXT_FONT_SIZE = 20;
 	// Cell simulation logic 
 	private Step stepper = new StepGameOfLife(); // make abstract
 	private GridUI gridUI = new GridUI();
-	
-	// add input for rate maybe?
-	
+		
     
 	// Lance: keeps step running continuously.
 	private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+	private static ScheduledFuture<?> scheduledTask;
+
 
 	/**
 	 * method setUpControlButtons
@@ -58,6 +60,7 @@ public class ControlPanel {
 		createStartButton();
 		createPauseButton();
 		createStepButton();
+		createSlowDownButton();
 		return buttons;
 	}
 	
@@ -76,20 +79,41 @@ public class ControlPanel {
 	/**
 	 * method createStartButton
 	 * creates the start button that starts the simulation and prompts step to start running.
-	 * Uses a scheduled executor to repeatedly call the step method.
 	 */
 	private void createStartButton() {
 		Button startButton = new Button("Start");
 		startButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		startButton.setOnAction(value ->  {
-			// Lance: 
-			Runnable step = () -> {
-				stepper.step(paused, false, gridUI.getGrid());
-				gridUI.updateVisuals();
-			};
-		    scheduler.scheduleAtFixedRate(step, 0, BUFFER_PERIOD, TimeUnit.MILLISECONDS);
+			runSimulation();
 		});
 		buttons.getChildren().add(startButton);
+	}
+	
+	
+	/**
+	 * method runSimulation created by Lance
+	 * Uses a scheduled executor to repeatedly call the step method.
+	 */
+	private void runSimulation() {
+		// Lance: 
+		if (scheduledTask != null && !scheduledTask.isCancelled()) {
+			scheduledTask.cancel(true); 
+		}
+		Runnable step = () -> {
+			stepper.step(paused, false, gridUI.getGrid());
+			gridUI.updateVisuals();
+		};
+		scheduledTask = scheduler.scheduleAtFixedRate(step, 0, bufferPeriod, TimeUnit.MILLISECONDS);
+	}
+	
+	private void createSlowDownButton() {
+		Button slowDownButton = new Button("Slow Down");
+		slowDownButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		slowDownButton.setOnAction(value ->  {
+			bufferPeriod += 100;
+			runSimulation();
+		});
+		buttons.getChildren().add(slowDownButton);
 	}
 	
 	/**
