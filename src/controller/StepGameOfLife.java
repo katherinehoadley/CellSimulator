@@ -25,9 +25,14 @@ public class StepGameOfLife extends Step{
 		
 	@Override
     public void update(int[][] grid){
-		automata.updateGrid(grid);
-		System.out.println("update worked");
-		System.out.println(Arrays.deepToString(grid));
+		int[][] newGrid = automata.updateGrid(grid);
+		
+		for (int y = 0; y < grid.length; y++) {
+	        for (int x = 0; x < grid[y].length; x++) {
+	            grid[y][x] = newGrid[y][x];
+	        }
+	    }
+
     }
 //    public int[][] getGrid(){
 //    	return grid;
