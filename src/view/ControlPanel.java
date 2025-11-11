@@ -64,7 +64,11 @@ public class ControlPanel {
 		Button startButton = new Button("Start");
 		startButton.setOnAction(value ->  {
 			// Lance: 
-			Runnable step = () -> stepper.step(paused, false, gridUI.getGrid());
+			Runnable step = () -> {
+				stepper.step(paused, false, gridUI.getGrid());
+				gridUI.updateVisuals();
+			};
+			
 		    scheduler.scheduleAtFixedRate(step, 0, BUFFER_PERIOD, TimeUnit.MILLISECONDS);
 
 		});

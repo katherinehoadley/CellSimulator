@@ -4,9 +4,9 @@ package model;
 
 public class Initialization {
 
-	private final double START_ALIVE_CHANCE = .3;
+	private final double START_ALIVE_CHANCE = .5;
 	private final int HALF = 2;
-	private final int START_SPAWN_SIZE = 3;
+	private final int START_SPAWN_SIZE = 20;
 	private final int BACK_ONE = 1;
 	private final int LOOP_START_VALUE = 0;
 	

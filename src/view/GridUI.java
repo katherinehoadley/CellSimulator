@@ -90,6 +90,7 @@ public class GridUI extends BaseUI {
                 
                 if (cellState == Cell.ALIVE) {
                     this.visualizer[y][x].setFill(ALIVE_COLOR);
+                    System.out.println(this.visualizer[y][x]);
                 } 
                 else {
                     this.visualizer[y][x].setFill(DEAD_COLOR);
@@ -126,7 +127,7 @@ public class GridUI extends BaseUI {
         return false;
     }
     
-    private GridPane render(int rows, int columns) { 
+    public GridPane render(int rows, int columns) { 
     	GridPane gridPane = new GridPane();
         gridPane.setHgap(0);
         gridPane.setVgap(0);
@@ -134,12 +135,11 @@ public class GridUI extends BaseUI {
 
         for (int y = 0; y < numRows; y++) {
             for (int x = 0; x < numCols; x++) {
-                if (this.visualizer[y][x] != null) {
+//                if (this.visualizer[y][x] != null) {
                 	
                 	// Adds Rectangle to GridPane position
                     gridPane.add(this.visualizer[y][x], x, y);
                 }
-            }
         }
         
         return gridPane;
@@ -148,6 +148,10 @@ public class GridUI extends BaseUI {
     public int[][] getGrid() {
     	return grid;
     }
+//    
+//    public GridPane getGridPane() {
+//    		return gridPane;
+//    }
     
 //    public void redraw() {
 //        updateVisuals();
