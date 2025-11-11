@@ -81,7 +81,7 @@ public abstract class CellularAutomata {
                 // check if it's within the grid, so it doesn't give IndexOutOfBoundsException pain
                 if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
                     Cell neighbor = Cell.fromValue(grid[ny][nx]);
-                    if (neighbor == Cell.ALIVE) {
+                    if (neighbor == Cell.ALIVE || neighbor == Cell.DYING_SOON) {
                         count++;
                     }
                 }
