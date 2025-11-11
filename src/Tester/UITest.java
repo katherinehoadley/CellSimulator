@@ -15,7 +15,7 @@ public class UITest extends Application {
 
 	
 	private void createGrid(int rows, int cols) {
-		gameUI = new GridUI(rows, cols);
+		gameUI = new GridUI();
 		
 		root.getChildren().clear();
 		root.getChildren().addAll(
@@ -24,7 +24,7 @@ public class UITest extends Application {
 			new Button("Create Grid from Input") {{
 				setOnAction(e -> refreshGrid());
 			}},
-			gameUI.render()
+			gameUI.startGrid()
 		);
 	}
 	

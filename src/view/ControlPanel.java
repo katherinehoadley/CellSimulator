@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 public class ControlPanel {
@@ -22,6 +23,7 @@ public class ControlPanel {
 	private TextField rows;
 	private TextField columns;
 	private 	HBox controls = new HBox();
+	private GridPane gridPane;
 	
 	// Constants
 	private final int TEXT_FIELD_WIDTH = 50;
@@ -62,7 +64,7 @@ public class ControlPanel {
 		Button startButton = new Button("Start");
 		startButton.setOnAction(value ->  {
 			// Lance: 
-			Runnable step = () -> stepper.step(paused, false);
+			Runnable step = () -> stepper.step(paused, false, gridUI.getGrid());
 		    scheduler.scheduleAtFixedRate(step, 0, BUFFER_PERIOD, TimeUnit.MILLISECONDS);
 
 		});
@@ -91,7 +93,9 @@ public class ControlPanel {
 	private void createStepButton() {
 		Button stepButton = new Button("Step");
 		stepButton.setOnAction(value ->  {
-			stepper.step(paused, true); 
+			stepper.step(paused, true, gridUI.getGrid()); 
+			System.out.println("step worked");
+			gridUI.updateVisuals();
 		});
 		controls.getChildren().add(stepButton);
 	}
@@ -110,7 +114,8 @@ public class ControlPanel {
 				if (numOfRows <= 0 || numOfColumns <= 0) {
 					throw new NumberFormatException("The number of rows and columns must be positive.");
 				}
-				gridUI.startGrid(numOfRows, numOfColumns);
+				gridPane = gridUI.startGrid(numOfRows, numOfColumns);
+				controls.getChildren().add(gridPane);
 			} catch (NumberFormatException nfe) {
 				showError("Indvalid Input", "Please enter positive integers for the columns and rows");
 			}

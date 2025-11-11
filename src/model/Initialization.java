@@ -29,10 +29,7 @@ public class Initialization {
             }
         }
 
-        CellularAutomata automata = new Bacteria();
-        StepGameOfLife step = new StepGameOfLife(grid);
-
-        return grid;
+    	return grid;
     }
 
 }
