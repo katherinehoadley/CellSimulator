@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class ControlPanel {
 	
@@ -34,11 +35,12 @@ public class ControlPanel {
 	private final int INPUT_BOX_SPACING = 15;
 	private final int BUFFER_PERIOD = 100; 
 	private final int GRID_BUTTON_SPACING = 25;
-	
+	private final int TEXT_FONT_SIZE = 20;
 	// Cell simulation logic 
-	private Step stepper = new StepGameOfLife();
+	private Step stepper = new StepGameOfLife(); // make abstract
 	private GridUI gridUI = new GridUI();
 	
+	// add input for rate maybe?
 	
     
 	// Lance: keeps step running continuously.
@@ -78,6 +80,7 @@ public class ControlPanel {
 	 */
 	private void createStartButton() {
 		Button startButton = new Button("Start");
+		startButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		startButton.setOnAction(value ->  {
 			// Lance: 
 			Runnable step = () -> {
@@ -96,6 +99,7 @@ public class ControlPanel {
 	 */
 	private void createPauseButton() {
 		pauseButton = new Button("Pause");
+		pauseButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		pauseButton.setOnAction(value ->  {
 			pressPause();
 		});
@@ -110,6 +114,7 @@ public class ControlPanel {
 	 */
 	private void createStepButton() {
 		Button stepButton = new Button("Step");
+		stepButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		stepButton.setOnAction(value ->  {
 			stepper.step(paused, true, gridUI.getGrid()); 
 			gridUI.updateVisuals();
@@ -126,6 +131,7 @@ public class ControlPanel {
 	 */
 	private Button createGridButton() {
 		Button createGridButton = new Button("Create Grid From Input");
+		createGridButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		createGridButton.setOnAction(value -> {
 			try {
 				int numOfRows = Integer.parseInt(rows.getText());
@@ -170,10 +176,12 @@ public class ControlPanel {
 		inputBox.setSpacing(INPUT_BOX_SPACING);
 
 		Label rowsLabel = new Label("Rows: ");
+		rowsLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		rows = new TextField();
 		rows.setPrefWidth(TEXT_FIELD_WIDTH);
 
 		Label columnsLabel = new Label("Columns: ");
+		columnsLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		columns = new TextField();
 		columns.setPrefWidth(TEXT_FIELD_WIDTH);
 				
