@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class ControlPanel {
 	
@@ -22,14 +23,17 @@ public class ControlPanel {
 	private boolean paused = false;		
 	private TextField rows;
 	private TextField columns;
-	private 	HBox controls = new HBox();
+	private 	HBox buttons = new HBox();
+	private VBox controlPanel = new VBox();
 	private GridPane gridPane;
+	
 	
 	// Constants
 	private final int TEXT_FIELD_WIDTH = 50;
 	private final int BUTTON_SPACING = 10;
 	private final int INPUT_BOX_SPACING = 15;
 	private final int BUFFER_PERIOD = 100; 
+	private final int GRID_BUTTON_SPACING = 25;
 	
 	// Cell simulation logic 
 	private Step stepper = new StepGameOfLife();
@@ -46,13 +50,25 @@ public class ControlPanel {
 	 * Adds a start, pause, and step button. Adds the grid too.
 	 * @return HBox containing all the buttons. 
 	 */
-	public HBox setupControlButtons(){
-		controls.setAlignment(Pos.BASELINE_CENTER);
-		controls.setSpacing(BUTTON_SPACING);
+	private HBox setupControlButtons(){
+		buttons.setAlignment(Pos.BASELINE_CENTER);
+		buttons.setSpacing(BUTTON_SPACING);
 		createStartButton();
 		createPauseButton();
 		createStepButton();
-		return controls;
+		return buttons;
+	}
+	
+	public VBox setupControlPanel() {
+	    controlPanel.setAlignment(Pos.TOP_CENTER);
+	    controlPanel.setSpacing(GRID_BUTTON_SPACING); 
+
+	    HBox buttonBox = setupControlButtons();
+	    HBox inputBox = setupGridSize();
+
+	    controlPanel.getChildren().addAll(inputBox, buttonBox);
+
+	    return controlPanel;
 	}
 	
 	/**
@@ -68,11 +84,9 @@ public class ControlPanel {
 				stepper.step(paused, false, gridUI.getGrid());
 				gridUI.updateVisuals();
 			};
-			
 		    scheduler.scheduleAtFixedRate(step, 0, BUFFER_PERIOD, TimeUnit.MILLISECONDS);
-
 		});
-		controls.getChildren().add(startButton);
+		buttons.getChildren().add(startButton);
 	}
 	
 	/**
@@ -85,7 +99,7 @@ public class ControlPanel {
 		pauseButton.setOnAction(value ->  {
 			pressPause();
 		});
-		controls.getChildren().add(pauseButton);
+		buttons.getChildren().add(pauseButton);
 	}
 	
 	
@@ -98,11 +112,12 @@ public class ControlPanel {
 		Button stepButton = new Button("Step");
 		stepButton.setOnAction(value ->  {
 			stepper.step(paused, true, gridUI.getGrid()); 
-			System.out.println("step worked");
 			gridUI.updateVisuals();
 		});
-		controls.getChildren().add(stepButton);
+		buttons.getChildren().add(stepButton);
 	}
+	
+	
 	
 	/**
 	 * method createGridButton
@@ -118,8 +133,9 @@ public class ControlPanel {
 				if (numOfRows <= 0 || numOfColumns <= 0) {
 					throw new NumberFormatException("The number of rows and columns must be positive.");
 				}
+				controlPanel.getChildren().remove(gridPane);
 				gridPane = gridUI.startGrid(numOfRows, numOfColumns);
-				controls.getChildren().add(gridPane);
+				controlPanel.getChildren().add(gridPane);
 			} catch (NumberFormatException nfe) {
 				showError("Indvalid Input", "Please enter positive integers for the columns and rows");
 			}
@@ -148,7 +164,7 @@ public class ControlPanel {
      * Adds labeled text fields for rows and columns to an HBox.
 	 * @return the HBox with the text fields. 
 	 */
-	public HBox setupGridSize(){
+	private HBox setupGridSize(){
 		HBox inputBox = new HBox();
 		inputBox.setAlignment(Pos.BASELINE_CENTER);
 		inputBox.setSpacing(INPUT_BOX_SPACING);
