@@ -17,8 +17,8 @@ public abstract class CellularAutomata {
         int[][] newGrid = new int[rows][cols];
 
         // pass 1 to mark what should live or die
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < cols; x++) {
+        for (int y = 1; y < rows - 1; y++) {
+            for (int x = 1; x < cols - 1; x++) {
 
                 int value = grid[y][x];
                 int neighbors = getNeighborCount(grid, x, y);
@@ -47,8 +47,8 @@ public abstract class CellularAutomata {
         }
 
         // pass 2 to update temp cells
-        for (int y = 0; y < rows; y++) {
-            for (int x = 0; x < cols; x++) {
+        for (int y = 1; y < rows - 1; y++) {
+            for (int x = 1; x < cols - 1; x++) {
 
                 Cell cell = Cell.fromValue(newGrid[y][x]);
 
