@@ -6,7 +6,8 @@ public class WindowDimensions {
 	
 	
 	public WindowDimensions() { } 
-	
+
+	//TODO - do we need this class still?
 	
 	public int getHeight() { return this.windowHeight; }
 	public int getWidth() { return this.windowWidth; }

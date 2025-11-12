@@ -3,12 +3,15 @@ package controller;
 
 public abstract class Step {
 
-	public Step() {
-		//constructor, does nothing
-	}
+	public Step() {}
+	
 	public abstract void update(int[][] grid);
 
-//	public abstract int[][] getGrid();
 
-	public abstract void step(boolean isPaused, boolean takeStep, int[][] grid);
+    // Anna Rakes
+    public void step(boolean isPaused, boolean takeStep, int[][] grid){
+		if (!isPaused || takeStep) {
+			update(grid);
+		}
+    }
 }

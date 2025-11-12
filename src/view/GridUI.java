@@ -19,11 +19,9 @@ public class GridUI extends BaseUI {
 	private final Color ALIVE_COLOR = Color.AQUA; 
 	private final Color DEAD_COLOR = Color.DARKGREY;
 	private final int CELL_SIZE = 10;
-	private final int SIMULATION_SPEED = 1;
-	
+
     private int[][] grid;
     private Rectangle[][] visualizer = new Rectangle[][] {};
-    private CellularAutomata automata;
     private Initialization initialization = new Initialization();
     
     private int numCols;
@@ -32,44 +30,12 @@ public class GridUI extends BaseUI {
     
     public GridUI() { }
     
-//    public GridUI(int rows, int cols) {
-//        setGridDimensions(rows, cols);
-//    }
-    
-    
     public GridPane startGrid (int rows, int columns) {
     		grid = initialization.initializeGrid(rows, columns);
     		setGridDimensions(grid, rows, columns);
     		updateVisuals();
     		return render(rows, columns);
     }
-//    public GridPane drawGrid(int[][] grid, int rows, int columns) {
-//    		for (int y = 0; y < rows; y++) {
-//    			for (int x = 0; x< columns; x++) {
-//    				 int value = grid[y][x];
-//    				 Cell cell = Cell.fromValue(value);
-//    				 if (value == Cell.ALIVE.getDisplayValue()) {
-//    					 this.visualizer[y][x].setFill(ALIVE_COLOR);
-//    				 } else {
-//    	                 this.visualizer[y][x].setFill(DEAD_COLOR);
-//    				 }
-//    			}
-//    		}
-//    		System.out.println("yes it worked");
-//    		return render(rows, columns);
-//    }
-    
-    
-//    private void randomizeCellState(int x, int y) {
-//    	Random rand = new Random();
-//    			
-//		if (rand.nextDouble() < 0.2) { 
-//            this.cells[y][x] = Cell.ALIVE.getDisplayValue();
-//        } 
-//        else {
-//            this.cells[y][x] = Cell.DEAD.getDisplayValue();
-//        }
-//    }
     
     private Rectangle createCell() {
         Rectangle rect = new Rectangle(CELL_SIZE, CELL_SIZE);
@@ -115,14 +81,6 @@ public class GridUI extends BaseUI {
         updateVisuals();
     }
     
-//    public void start() {  
-//    	System.out.println("Start pressed (no timer implemented).");
-//    }
-//    
-//    public void pause() { 
-//    	System.out.println("Pause pressed (no timer implemented).");
-//    }
-    
     public boolean isRunning() {
         return false;
     }
@@ -148,16 +106,4 @@ public class GridUI extends BaseUI {
     public int[][] getGrid() {
     	return grid;
     }
-//    
-//    public GridPane getGridPane() {
-//    		return gridPane;
-//    }
-    
-//    public void redraw() {
-//        updateVisuals();
-//    }
-    
-//    public void step() { 
-//        System.out.println("Step pressed (no logic implemented yet).");
-//    }
 }

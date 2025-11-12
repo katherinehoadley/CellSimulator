@@ -2,8 +2,6 @@
 package controller;
 
 
-import java.util.Arrays;
-
 import model.Bacteria;
 import model.CellularAutomata;
 
@@ -13,13 +11,10 @@ public class StepGameOfLife extends Step{
 	
 
     //TODO - this class will update the grid to the next iteration every tick.
-//	private int[][] grid;
 	private CellularAutomata automata = new Bacteria();
 	
-	public StepGameOfLife() {}
 	
-	public StepGameOfLife(int[][] startingGrid) {
-//		this.grid = startingGrid;
+	public StepGameOfLife() {
 		this.automata = new Bacteria();
 	}
 		
@@ -34,16 +29,9 @@ public class StepGameOfLife extends Step{
 	    }
 
     }
-//    public int[][] getGrid(){
-//    	return grid;
-//    }
+
     
-    // Anna Rakes
-    public void step(boolean isPaused, boolean takeStep, int[][] grid){
-		if (!isPaused || takeStep) {
-			update(grid);
-		}
-    }
+
 
 
 }
