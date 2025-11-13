@@ -25,6 +25,7 @@ public class ControlPanel {
 	private boolean paused = false;		
 	private TextField rows;
 	private TextField columns;
+	private TextField aliveDensity;
 	private 	HBox buttons = new HBox();
 	private VBox controlPanel = new VBox();
 	private GridPane gridPane;
@@ -70,8 +71,9 @@ public class ControlPanel {
 
 	    HBox buttonBox = setupControlButtons();
 	    HBox inputBox = setupGridSize();
+	    HBox densityBox = getAliveRateBox();
 
-	    controlPanel.getChildren().addAll(inputBox, buttonBox);
+	    controlPanel.getChildren().addAll(inputBox, densityBox, buttonBox);
 
 	    return controlPanel;
 	}
@@ -160,18 +162,20 @@ public class ControlPanel {
 			try {
 				int numOfRows = Integer.parseInt(rows.getText());
 				int numOfColumns = Integer.parseInt(columns.getText());
+				double densityRate = Double.parseDouble(aliveDensity.getText());
 				if (numOfRows <= 0 || numOfColumns <= 0) {
 					throw new NumberFormatException("The number of rows and columns must be positive.");
 				}
 				controlPanel.getChildren().remove(gridPane);
-				gridPane = gridUI.startGrid(numOfRows, numOfColumns);
+				gridPane = gridUI.startGrid(numOfRows, numOfColumns, densityRate);
 				controlPanel.getChildren().add(gridPane);
 			} catch (NumberFormatException nfe) {
-				showError("Indvalid Input", "Please enter positive integers for the columns and rows");
+				showError("Indvalid Input", "Please enter positive integers for the columns and rows and a rate for the density");
 			}
 		});
 		return createGridButton;
 	}
+	
 	
 	
 	/**
@@ -211,6 +215,20 @@ public class ControlPanel {
 				
 		inputBox.getChildren().addAll(rowsLabel, rows, columnsLabel, columns, createGridButton());
 	
+		return inputBox;
+	}
+	
+	private HBox getAliveRateBox() {
+		HBox inputBox = new HBox();
+		inputBox.setAlignment(Pos.BASELINE_CENTER);
+		inputBox.setSpacing(INPUT_BOX_SPACING);
+		
+		Label rateLabel = new Label ("Alive Density: ");
+		rateLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		aliveDensity = new TextField();
+		aliveDensity.setPrefWidth(TEXT_FIELD_WIDTH);
+		
+		inputBox.getChildren().addAll(rateLabel, aliveDensity);
 		return inputBox;
 	}
 	
