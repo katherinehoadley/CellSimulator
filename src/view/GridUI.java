@@ -14,7 +14,7 @@ import model.Cell;
 import model.CellularAutomata;
 import model.Initialization;
 
-public class GridUI extends BaseUI {
+public class GridUI {
 
 	private final Color ALIVE_COLOR = Color.AQUA; 
 	private final Color DEAD_COLOR = Color.DARKGREY;
