@@ -104,4 +104,11 @@ public class GridUI {
     public int[][] getGrid() {
     	return grid;
     }
+    
+    // Anna
+    public void setGrid(int[][] loadedGrid) {
+        this.grid = loadedGrid;
+        setGridDimensions(loadedGrid, loadedGrid.length, loadedGrid[0].length);
+    }
+  
 }

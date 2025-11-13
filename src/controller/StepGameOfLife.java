@@ -2,6 +2,7 @@
 package controller;
 
 import model.Bacteria;
+import model.CellularAutomata;
 
 public class StepGameOfLife extends Step{
 	
@@ -17,4 +18,5 @@ public class StepGameOfLife extends Step{
             System.arraycopy(newGrid[y], 0, grid[y], 0, grid[y].length);
 	    }
     }
+	
 }
