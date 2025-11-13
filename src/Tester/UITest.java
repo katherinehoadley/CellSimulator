@@ -7,23 +7,25 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import view.ControlPanel;
 import view.GridUI;
+import view.MainScreenUI;
 
 public class UITest extends Application {
 	private GridUI gameUI;
 	private ControlPanel panel;
 	private VBox root;
+	private MainScreenUI mainScreen;
 
 	
 	private void createGrid(int rows, int cols) {
 		gameUI = new GridUI();
-		
+
 		root.getChildren().clear();
 		root.getChildren().addAll(
-			panel.setupControlPanel();
+			panel.setupControlPanel(),
 			new Button("Create Grid from Input") {{
 				setOnAction(e -> refreshGrid());
 			}},
-			gameUI.startGrid()
+			gameUI.startGrid(rows, cols)
 		);
 	}
 	
@@ -47,9 +49,15 @@ public class UITest extends Application {
 		panel = new ControlPanel();
 		root = new VBox();
 		
-		createGrid(20, 20);
+		mainScreen = new MainScreenUI();
+	    root.getChildren().add(mainScreen);
 
-		Scene scene = new Scene(root, 600, 700);
+	    mainScreen.getStartButton().setOnAction(e -> {
+	        mainScreen.hide();
+	        createGrid(20, 20);
+	    });
+	    
+		Scene scene = new Scene(root, 1000, 800);
 		stage.setTitle("Game of Life Test");
 		stage.setScene(scene);
 		stage.show();
