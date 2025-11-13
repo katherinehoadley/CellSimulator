@@ -10,6 +10,8 @@ public class DataStorage {
 
     private final GenericFromHell presetManager;
     private final Path dataPath;
+    private int [][] loadedGrid;
+    private CellularAutomata automata;
 
     public DataStorage() {
         this.presetManager = new GenericFromHell();
@@ -23,12 +25,12 @@ public class DataStorage {
     //TODO - i got so fed up with the Generic class that I fully forgot to test load and save data. This is a
     // tommorow problem because im about to collapse.
 
-    public void saveData(int[][] grid, String preset) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.print("Enter filename to save (without extension): ");
-            String filename = scanner.nextLine().trim();
+    public void saveData(int[][] grid, String preset, String fileName) {
+        try {
+//            System.out.print("Enter filename to save (without extension): ");
+//            String filename = scanner.nextLine().trim();
 
-            Path filePath = Paths.get(String.valueOf(dataPath), filename + ".txt");
+            Path filePath = Paths.get(String.valueOf(dataPath), fileName + ".txt");
 
             try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
                 writer.write("PRESET:" + preset);
@@ -50,27 +52,27 @@ public class DataStorage {
         }
     }
 
-    public void loadData() {
+    public void loadData(String fileName) {
         try {
-            Scanner scanner = new Scanner(System.in);
+//            Scanner scanner = new Scanner(System.in);
+//
+//            File dataDir = new File(String.valueOf(dataPath));
+//            String[] files = dataDir.list((dir, name) -> name.endsWith(".txt"));
+//            if (files == null || files.length == 0) {
+//                System.out.println("No data files found in " + dataPath);
+//                return;
+//            }
+//
+//            System.out.println("Available files:");
+//            for (String f : files) {
+//                System.out.println("- " + f);
+//            }
+//
+//            System.out.print("Enter the file name you want to load: ");
+//            String chosen = scanner.nextLine().trim();
+//            if (!chosen.endsWith(".txt")) chosen += ".txt";
 
-            File dataDir = new File(String.valueOf(dataPath));
-            String[] files = dataDir.list((dir, name) -> name.endsWith(".txt"));
-            if (files == null || files.length == 0) {
-                System.out.println("No data files found in " + dataPath);
-                return;
-            }
-
-            System.out.println("Available files:");
-            for (String f : files) {
-                System.out.println("- " + f);
-            }
-
-            System.out.print("Enter the file name you want to load: ");
-            String chosen = scanner.nextLine().trim();
-            if (!chosen.endsWith(".txt")) chosen += ".txt";
-
-            Path filePath = Paths.get(String.valueOf(dataPath), chosen);
+            Path filePath = Paths.get(String.valueOf(dataPath), fileName);
             if (!Files.exists(filePath)) {
                 System.out.println("File not found: " + filePath.getFileName());
                 return;
@@ -110,17 +112,29 @@ public class DataStorage {
             // Some more processing would need to be done to determine which superclass it falls under so casting
             // doesn't become a problem... basically fix this tomorrow
             Object object = presetManager.getWhatClassThePresetIsFromUsingGenericMagic(preset);
-
-            if (object instanceof CellularAutomata){
-                object = object;
+            if (object instanceof CellularAutomata) {
+                automata = (CellularAutomata) object;
+            } else {
+                automata = null;
             }
 
-            System.out.println("Loaded preset: " + preset);
-            System.out.println("Grid size: " + newGrid.length + "x" + newGrid[0].length);
+            loadedGrid = newGrid;
+            
+
+//            System.out.println("Loaded preset: " + preset);
+//            System.out.println("Grid size: " + newGrid.length + "x" + newGrid[0].length);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public int[][] getLoadedGrid() {
+    	return loadedGrid;
+    }
+    
+    public CellularAutomata getAutomata() {
+    	return automata;
     }
 }
 

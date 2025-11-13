@@ -23,4 +23,10 @@ public abstract class Step {
 	public CellularAutomata getCurrentAutomata(){
 		return automata;
 	}
+	
+
+    // Anna
+    public void setCurrentAutomata(CellularAutomata automata) {
+    		this.automata = automata;
+    }
 }

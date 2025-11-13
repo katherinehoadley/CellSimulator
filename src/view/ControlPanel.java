@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import model.CellularAutomata;
 
 public class ControlPanel {
 	
@@ -27,8 +28,11 @@ public class ControlPanel {
 	private TextField rows;
 	private TextField columns;
 	private TextField aliveDensity;
+	private TextField saveFileNameAs;
+	private TextField fileName;
 	private HBox buttons = new HBox();
 	private VBox controlPanel = new VBox();
+	private HBox loadingButtons = new HBox();
 	private GridPane gridPane;
 	private int bufferPeriod = 100; 
 
@@ -60,8 +64,6 @@ public class ControlPanel {
 	private HBox setupControlButtons(){
 		buttons.setAlignment(Pos.BASELINE_CENTER);
 		buttons.setSpacing(BUTTON_SPACING);
-		createSaveButton();
-		createLoadButton();
 		createStartButton();
 		createPauseButton();
 		createStepButton();
@@ -69,15 +71,28 @@ public class ControlPanel {
 		return buttons;
 	}
 	
+	private HBox setUpLoadingButtons() {
+		loadingButtons.setAlignment(Pos.TOP_CENTER);
+	    loadingButtons.setSpacing(GRID_BUTTON_SPACING); 
+	    
+	    setFileName();
+	    createSaveButton();
+		getSavedFile();
+		createLoadButton();
+	    
+		return loadingButtons;
+	}
+	
 	public VBox setupControlPanel() {
 	    controlPanel.setAlignment(Pos.TOP_CENTER);
 	    controlPanel.setSpacing(GRID_BUTTON_SPACING); 
 
 	    HBox buttonBox = setupControlButtons();
+	    HBox loadingBox = setUpLoadingButtons();
 	    HBox inputBox = setupGridSize();
 	    HBox densityBox = getAliveRateBox();
 
-	    controlPanel.getChildren().addAll(inputBox, densityBox, buttonBox);
+	    controlPanel.getChildren().addAll(inputBox, densityBox, loadingBox, buttonBox);
 
 	    return controlPanel;
 	}
@@ -85,17 +100,29 @@ public class ControlPanel {
 	private void createSaveButton() {
 		Button saveButton = new Button("Save");
 		saveButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-		saveButton.setOnAction(value -> dataStorage.saveData(gridUI.getGrid(), stepper.getCurrentAutomata().getPreset()));
-		buttons.getChildren().add(saveButton);
+		saveButton.setOnAction(value -> dataStorage.saveData(gridUI.getGrid(), stepper.getCurrentAutomata().getPreset(), saveFileNameAs.getText()));
+		loadingButtons.getChildren().add(saveButton);
 	}
 	
 	private void createLoadButton() {
 		Button loadButton = new Button("Load");
 		loadButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		loadButton.setOnAction(value ->  {
-			dataStorage.loadData();
+			dataStorage.loadData(fileName.getText());
+			int[][] grid = dataStorage.getLoadedGrid();
+			CellularAutomata automata = dataStorage.getAutomata();
+			
+			if (grid != null && automata != null) {
+	            stepper.setCurrentAutomata(automata);
+	            if (gridPane != null) controlPanel.getChildren().remove(gridPane);
+	            gridUI.setGrid(grid);
+	            gridPane = gridUI.render(grid.length, grid[0].length);
+	            controlPanel.getChildren().add(gridPane);
+	        } else {
+	            showError("Upload Failed", "Could not load simulation from file.");
+	        }
 		});
-		buttons.getChildren().add(loadButton);
+		loadingButtons.getChildren().add(loadButton);
 	}
 	
 	
@@ -251,6 +278,34 @@ public class ControlPanel {
 		aliveDensity.setPrefWidth(TEXT_FIELD_WIDTH);
 		
 		inputBox.getChildren().addAll(rateLabel, aliveDensity);
+		return inputBox;
+	}
+	
+	private HBox setFileName() {
+		HBox inputBox = new HBox();
+		inputBox.setAlignment(Pos.BASELINE_CENTER);
+		inputBox.setSpacing(INPUT_BOX_SPACING);
+		
+		Label saveName = new Label ("Save file name as: ");
+		saveName.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		saveFileNameAs = new TextField();
+		saveFileNameAs.setPrefWidth(100);
+		
+		loadingButtons.getChildren().addAll(saveName, saveFileNameAs);
+		return inputBox;
+	}
+	
+	private HBox getSavedFile() {
+		HBox inputBox = new HBox();
+		inputBox.setAlignment(Pos.BASELINE_CENTER);
+		inputBox.setSpacing(INPUT_BOX_SPACING);
+		
+		Label retrieveFile = new Label ("Load file name: ");
+		retrieveFile.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		fileName = new TextField();
+		fileName.setPrefWidth(100);
+		
+		loadingButtons.getChildren().addAll(retrieveFile, fileName);
 		return inputBox;
 	}
 	
