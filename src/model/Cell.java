@@ -4,10 +4,10 @@ package model;
 
 public enum Cell {
 
-    DEAD((int) 0),
-    ALIVE((int) 1),
-    SPAWNING_SOON((int) 2),
-    DYING_SOON((int) 3);
+    DEAD(0),
+    ALIVE(1),
+    SPAWNING_SOON(2),
+    DYING_SOON(3);
 
     private final int displayValue;
 

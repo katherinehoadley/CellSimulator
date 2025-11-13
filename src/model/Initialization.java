@@ -1,11 +1,10 @@
 //Katherine Hoadley
 package model;
 
-import controller.StepGameOfLife;
-
 public class Initialization {
 
-	  private final double START_ALIVE_CHANCE = .3;
+	
+    private final double START_ALIVE_CHANCE = .3;
   	private final int START_INDEX = 0;
 	   
     private int[][] grid;
@@ -15,21 +14,24 @@ public class Initialization {
     //creates a new grid when ui calls this function.
     //starts a grid of potentially alive bacteria
     public int[][] initializeGrid(int rows, int cols) {
-        grid = new int[rows][cols];
+    		grid = new int[rows][cols];
 
-        for (int y = START_INDEX; y < rows; y++) {
-            for (int x = START_INDEX; x < cols; x++) {
-                double randomValue = Math.random();
+    		for (int y = START_INDEX; y < rows; y++) {
+    			for (int x = START_INDEX; x < cols; x++) {
+    				double randomValue = Math.random();
 
-                if (randomValue < START_ALIVE_CHANCE) {
-                    grid[y][x] = Cell.ALIVE.getDisplayValue();
-                } else {
-                    grid[y][x] = Cell.DEAD.getDisplayValue();
-                }
-            }
-        }
-
-    	return grid;
+    				if (y == 0 || y == rows - 1 || x == 0 || x == cols - 1) {
+    					grid[y][x] = Cell.DEAD.getDisplayValue(); // always dead
+    				} else {
+    					if (randomValue < START_ALIVE_CHANCE) {
+    						grid[y][x] = Cell.ALIVE.getDisplayValue();
+    					} else {
+    						grid[y][x] = Cell.DEAD.getDisplayValue();
+    					}
+    				}
+    			}
+    		}
+    		return grid;
     }
 
 }
