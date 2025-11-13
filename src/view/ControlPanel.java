@@ -27,7 +27,7 @@ public class ControlPanel {
 	private TextField rows;
 	private TextField columns;
 	private TextField aliveDensity;
-	private 	HBox buttons = new HBox();
+	private HBox buttons = new HBox();
 	private VBox controlPanel = new VBox();
 	private GridPane gridPane;
 	private int bufferPeriod = 100; 
@@ -85,10 +85,7 @@ public class ControlPanel {
 	private void createSaveButton() {
 		Button saveButton = new Button("Save");
 		saveButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-		saveButton.setOnAction(value ->  {
-			dataStorage.saveData(gridUI.getGrid(), "Game of Life Default");
-			
-		});
+		saveButton.setOnAction(value -> dataStorage.saveData(gridUI.getGrid(), stepper.getCurrentAutomata().getPreset()));
 		buttons.getChildren().add(saveButton);
 	}
 	
