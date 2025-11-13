@@ -30,8 +30,8 @@ public class GridUI {
     
     public GridUI() { }
     
-    public GridPane startGrid (int rows, int columns) {
-    		grid = initialization.initializeGrid(rows, columns);
+    public GridPane startGrid (int rows, int columns, double aliveDensity) {
+    		grid = initialization.initializeGrid(rows, columns, aliveDensity);
     		setGridDimensions(grid, rows, columns);
     		updateVisuals();
     		return render(rows, columns);
@@ -87,22 +87,20 @@ public class GridUI {
     
     public GridPane render(int rows, int columns) { 
     	GridPane gridPane = new GridPane();
-        gridPane.setHgap(0);
-        gridPane.setVgap(0);
-        gridPane.setAlignment(Pos.CENTER); 
+    	gridPane.setHgap(0);
+    	gridPane.setVgap(0);
+    	gridPane.setAlignment(Pos.CENTER); 
 
-        for (int y = 0; y < numRows; y++) {
-            for (int x = 0; x < numCols; x++) {
-//                if (this.visualizer[y][x] != null) {
-                	
-                	// Adds Rectangle to GridPane position
-                    gridPane.add(this.visualizer[y][x], x, y);
-                }
-        }
-        
-        return gridPane;
+    	for (int y = 0; y < numRows; y++) {
+    		for (int x = 0; x < numCols; x++) {
+    			// Adds Rectangle to GridPane position
+    			gridPane.add(this.visualizer[y][x], x, y);
+    		}
+    	}
+
+    	return gridPane;
     }
-    
+
     public int[][] getGrid() {
     	return grid;
     }

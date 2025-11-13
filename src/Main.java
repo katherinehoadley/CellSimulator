@@ -1,9 +1,11 @@
 // Anna Rakes
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import view.ControlPanel;
+import view.MainScreenUI;
 
 public class Main extends Application {
 	
@@ -15,12 +17,20 @@ public class Main extends Application {
 	//TODO - it would be good to move most of this out of main and into an initialization class of some sort..
 
 	public void start(Stage primaryStage) {
+		StackPane root = new StackPane();
+		
+		MainScreenUI mainScreen = new MainScreenUI();
 		ControlPanel controlPanel = new ControlPanel();
+		
+		VBox controlPanelUI = controlPanel.setupControlPanel();
+		controlPanelUI.setVisible(false);
+		
+		mainScreen.getStartButton().setOnAction(value -> {
+			mainScreen.hide();
+			controlPanelUI.setVisible(true);
+		});
 
-		VBox root = new VBox(SPACING);
-		root.getChildren().add(
-				controlPanel.setupControlPanel()
-				);
+		root.getChildren().addAll(mainScreen,controlPanelUI);
 
 		Scene scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
 		primaryStage.setTitle("Conway's Game of Life Cell Simulation");
