@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import controller.Step;
 import controller.StepGameOfLife;
+import data.DataStorage;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -42,6 +43,7 @@ public class ControlPanel {
 	// Cell simulation logic 
 	private Step stepper = new StepGameOfLife(); // make abstract
 	private GridUI gridUI = new GridUI();
+	private DataStorage dataStorage = new DataStorage();
 		
     
 	// Lance: keeps step running continuously.
@@ -58,6 +60,8 @@ public class ControlPanel {
 	private HBox setupControlButtons(){
 		buttons.setAlignment(Pos.BASELINE_CENTER);
 		buttons.setSpacing(BUTTON_SPACING);
+		createSaveButton();
+		createLoadButton();
 		createStartButton();
 		createPauseButton();
 		createStepButton();
@@ -77,6 +81,27 @@ public class ControlPanel {
 
 	    return controlPanel;
 	}
+	
+	private void createSaveButton() {
+		Button saveButton = new Button("Save");
+		saveButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		saveButton.setOnAction(value ->  {
+			dataStorage.saveData(gridUI.getGrid(), "Game of Life Default");
+			
+		});
+		buttons.getChildren().add(saveButton);
+	}
+	
+	private void createLoadButton() {
+		Button loadButton = new Button("Load");
+		loadButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		loadButton.setOnAction(value ->  {
+			dataStorage.loadData();
+		});
+		buttons.getChildren().add(loadButton);
+	}
+	
+	
 	
 	/**
 	 * method createStartButton
