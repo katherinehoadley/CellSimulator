@@ -11,8 +11,8 @@ public class DataStorage {
     private final GenericFromHell presetManager;
     private final Path dataPath;
 
-    public DataStorage(GenericFromHell presetManager) {
-        this.presetManager = presetManager;
+    public DataStorage() {
+        this.presetManager = new GenericFromHell();
 
         //this data path should be outside of src, in the directory above that, in a folder called data.
         this.dataPath = Paths.get(System.getProperty("user.dir"), "data");
@@ -123,3 +123,4 @@ public class DataStorage {
         }
     }
 }
+
