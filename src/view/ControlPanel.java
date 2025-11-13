@@ -90,9 +90,8 @@ public class ControlPanel {
 	    HBox buttonBox = setupControlButtons();
 	    HBox loadingBox = setUpLoadingButtons();
 	    HBox inputBox = setupGridSize();
-	    HBox densityBox = getAliveRateBox();
 
-	    controlPanel.getChildren().addAll(inputBox, densityBox, loadingBox, buttonBox);
+	    controlPanel.getChildren().addAll(inputBox, loadingBox, buttonBox);
 
 	    return controlPanel;
 	}
@@ -261,25 +260,30 @@ public class ControlPanel {
 		columnsLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		columns = new TextField();
 		columns.setPrefWidth(TEXT_FIELD_WIDTH);
-				
-		inputBox.getChildren().addAll(rowsLabel, rows, columnsLabel, columns, createGridButton());
-	
-		return inputBox;
-	}
-	
-	private HBox getAliveRateBox() {
-		HBox inputBox = new HBox();
-		inputBox.setAlignment(Pos.BASELINE_CENTER);
-		inputBox.setSpacing(INPUT_BOX_SPACING);
 		
 		Label rateLabel = new Label ("Alive Density: ");
 		rateLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		aliveDensity = new TextField();
 		aliveDensity.setPrefWidth(TEXT_FIELD_WIDTH);
-		
-		inputBox.getChildren().addAll(rateLabel, aliveDensity);
+				
+		inputBox.getChildren().addAll(rowsLabel, rows, columnsLabel, columns, rateLabel, aliveDensity, createGridButton());
+	
 		return inputBox;
 	}
+	
+//	private HBox getAliveRateBox() {
+//		HBox inputBox = new HBox();
+//		inputBox.setAlignment(Pos.BASELINE_CENTER);
+//		inputBox.setSpacing(INPUT_BOX_SPACING);
+//		
+//		Label rateLabel = new Label ("Alive Density: ");
+//		rateLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+//		aliveDensity = new TextField();
+//		aliveDensity.setPrefWidth(TEXT_FIELD_WIDTH);
+//		
+//		inputBox.getChildren().addAll(rateLabel, aliveDensity);
+//		return inputBox;
+//	}
 	
 	private HBox setFileName() {
 		HBox inputBox = new HBox();
