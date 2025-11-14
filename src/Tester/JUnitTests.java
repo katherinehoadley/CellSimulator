@@ -44,7 +44,7 @@ public class JUnitTests {
         assertEquals(Cell.DEAD, Cell.fromValue(99));
     }
 
-    //tests initialization spawn rate is accurate in a 5x5
+    //tests initialization spawn rate is accurate in a 5x5 
     @Test
     public void testSpawnRateIsAccurate() {
         Initialization init = new Initialization();
