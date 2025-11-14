@@ -67,8 +67,8 @@ public class GridUI {
     
     
     public void setGridDimensions(int[][] grid, int rows, int cols) {
-        this.numRows = Math.max(rows, 10); 
-        this.numCols = Math.max(cols, 10);
+        this.numRows = Math.max(rows, 5); 
+        this.numCols = Math.max(cols, 5);
         
         this.visualizer = new Rectangle[numRows][numCols];
 
