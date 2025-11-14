@@ -79,7 +79,7 @@ public class ControlPanel {
 	    createSaveButton();
 		getSavedFile();
 		createLoadButton();
-	    
+		
 		return loadingButtons;
 	}
 	
