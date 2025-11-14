@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import controller.Step;
 import controller.StepGameOfLife;
+import data.DataStorage;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -17,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import model.CellularAutomata;
 
 public class ControlPanel {
 	
@@ -25,8 +27,12 @@ public class ControlPanel {
 	private boolean paused = false;		
 	private TextField rows;
 	private TextField columns;
-	private 	HBox buttons = new HBox();
+	private TextField aliveDensity;
+	private TextField saveFileNameAs;
+	private TextField fileName;
+	private HBox buttons = new HBox();
 	private VBox controlPanel = new VBox();
+	private HBox loadingButtons = new HBox();
 	private GridPane gridPane;
 	private int bufferPeriod = 100; 
 
@@ -41,6 +47,7 @@ public class ControlPanel {
 	// Cell simulation logic 
 	private Step stepper = new StepGameOfLife(); // make abstract
 	private GridUI gridUI = new GridUI();
+	private DataStorage dataStorage = new DataStorage();
 		
     
 	// Lance: keeps step running continuously.
@@ -64,17 +71,60 @@ public class ControlPanel {
 		return buttons;
 	}
 	
+	private HBox setUpLoadingButtons() {
+		loadingButtons.setAlignment(Pos.TOP_CENTER);
+	    loadingButtons.setSpacing(GRID_BUTTON_SPACING); 
+	    
+	    setFileName();
+	    createSaveButton();
+		getSavedFile();
+		createLoadButton();
+	    
+		return loadingButtons;
+	}
+	
 	public VBox setupControlPanel() {
 	    controlPanel.setAlignment(Pos.TOP_CENTER);
 	    controlPanel.setSpacing(GRID_BUTTON_SPACING); 
 
 	    HBox buttonBox = setupControlButtons();
+	    HBox loadingBox = setUpLoadingButtons();
 	    HBox inputBox = setupGridSize();
 
-	    controlPanel.getChildren().addAll(inputBox, buttonBox);
+	    controlPanel.getChildren().addAll(inputBox, loadingBox, buttonBox);
 
 	    return controlPanel;
 	}
+	
+	private void createSaveButton() {
+		Button saveButton = new Button("Save");
+		saveButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		saveButton.setOnAction(value -> dataStorage.saveData(gridUI.getGrid(), stepper.getCurrentAutomata().getPreset(), saveFileNameAs.getText()));
+		loadingButtons.getChildren().add(saveButton);
+	}
+	
+	private void createLoadButton() {
+		Button loadButton = new Button("Load");
+		loadButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		loadButton.setOnAction(value ->  {
+			dataStorage.loadData(fileName.getText());
+			int[][] grid = dataStorage.getLoadedGrid();
+			CellularAutomata automata = dataStorage.getAutomata();
+			
+			if (grid != null && automata != null) {
+	            stepper.setCurrentAutomata(automata);
+	            if (gridPane != null) controlPanel.getChildren().remove(gridPane);
+	            gridUI.setGrid(grid);
+	            gridPane = gridUI.render(grid.length, grid[0].length);
+	            controlPanel.getChildren().add(gridPane);
+	        } else {
+	            showError("Upload Failed", "Could not load simulation from file.");
+	        }
+		});
+		loadingButtons.getChildren().add(loadButton);
+	}
+	
+	
 	
 	/**
 	 * method createStartButton
@@ -160,18 +210,20 @@ public class ControlPanel {
 			try {
 				int numOfRows = Integer.parseInt(rows.getText());
 				int numOfColumns = Integer.parseInt(columns.getText());
+				double densityRate = Double.parseDouble(aliveDensity.getText());
 				if (numOfRows <= 0 || numOfColumns <= 0) {
 					throw new NumberFormatException("The number of rows and columns must be positive.");
 				}
 				controlPanel.getChildren().remove(gridPane);
-				gridPane = gridUI.startGrid(numOfRows, numOfColumns);
+				gridPane = gridUI.startGrid(numOfRows, numOfColumns, densityRate);
 				controlPanel.getChildren().add(gridPane);
 			} catch (NumberFormatException nfe) {
-				showError("Indvalid Input", "Please enter positive integers for the columns and rows");
+				showError("Indvalid Input", "Please enter positive integers for the columns and rows and a rate for the density");
 			}
 		});
 		return createGridButton;
 	}
+	
 	
 	
 	/**
@@ -208,9 +260,56 @@ public class ControlPanel {
 		columnsLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		columns = new TextField();
 		columns.setPrefWidth(TEXT_FIELD_WIDTH);
+		
+		Label rateLabel = new Label ("Alive Density: ");
+		rateLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		aliveDensity = new TextField();
+		aliveDensity.setPrefWidth(TEXT_FIELD_WIDTH);
 				
-		inputBox.getChildren().addAll(rowsLabel, rows, columnsLabel, columns, createGridButton());
+		inputBox.getChildren().addAll(rowsLabel, rows, columnsLabel, columns, rateLabel, aliveDensity, createGridButton());
 	
+		return inputBox;
+	}
+	
+//	private HBox getAliveRateBox() {
+//		HBox inputBox = new HBox();
+//		inputBox.setAlignment(Pos.BASELINE_CENTER);
+//		inputBox.setSpacing(INPUT_BOX_SPACING);
+//		
+//		Label rateLabel = new Label ("Alive Density: ");
+//		rateLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+//		aliveDensity = new TextField();
+//		aliveDensity.setPrefWidth(TEXT_FIELD_WIDTH);
+//		
+//		inputBox.getChildren().addAll(rateLabel, aliveDensity);
+//		return inputBox;
+//	}
+	
+	private HBox setFileName() {
+		HBox inputBox = new HBox();
+		inputBox.setAlignment(Pos.BASELINE_CENTER);
+		inputBox.setSpacing(INPUT_BOX_SPACING);
+		
+		Label saveName = new Label ("Save file name as: ");
+		saveName.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		saveFileNameAs = new TextField();
+		saveFileNameAs.setPrefWidth(100);
+		
+		loadingButtons.getChildren().addAll(saveName, saveFileNameAs);
+		return inputBox;
+	}
+	
+	private HBox getSavedFile() {
+		HBox inputBox = new HBox();
+		inputBox.setAlignment(Pos.BASELINE_CENTER);
+		inputBox.setSpacing(INPUT_BOX_SPACING);
+		
+		Label retrieveFile = new Label ("Load file name: ");
+		retrieveFile.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		fileName = new TextField();
+		fileName.setPrefWidth(100);
+		
+		loadingButtons.getChildren().addAll(retrieveFile, fileName);
 		return inputBox;
 	}
 	

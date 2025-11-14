@@ -2,14 +2,14 @@
 
 package model;
 
+import data.GamePreset;
+
 import java.util.List;
 
-public abstract class CellularAutomata {
+public abstract class CellularAutomata implements GamePreset {
 
     protected List<Integer> livableNeighborCount;
     protected List<Integer> spawnableNeighborCount;
-
-    public CellularAutomata() {}
 
     public int[][] updateGrid(int[][] grid) {
         int rows = grid.length;
@@ -17,8 +17,8 @@ public abstract class CellularAutomata {
         int[][] newGrid = new int[rows][cols];
 
         // pass 1 to mark what should live or die
-        for (int y = 1; y < rows - 1; y++) {
-            for (int x = 1; x < cols - 1; x++) {
+        for (int y = 1; y < rows-1; y++) {
+            for (int x = 1; x < cols-1; x++) {
 
                 int value = grid[y][x];
                 int neighbors = getNeighborCount(grid, x, y);
@@ -47,8 +47,8 @@ public abstract class CellularAutomata {
         }
 
         // pass 2 to update temp cells
-        for (int y = 1; y < rows - 1; y++) {
-            for (int x = 1; x < cols - 1; x++) {
+        for (int y = 1; y < rows-1; y++) {
+            for (int x = 1; x < cols-1; x++) {
 
                 Cell cell = Cell.fromValue(newGrid[y][x]);
 
@@ -65,22 +65,20 @@ public abstract class CellularAutomata {
     }
 
     public int getNeighborCount(int[][] grid, int x, int y) {
-        //TODO - probably should rename these because directionX and directionY, and newX and newY
-        // being shortened that much is bad for a clean code grade
         int rows = grid.length;
         int cols = grid[0].length;
         int count = 0;
 
         // Check all 8 neighbors (MOOSE neighborhood)
-        for (int dy = -1; dy <= 1; dy++) {
-            for (int dx = -1; dx <= 1; dx++) {
-                if (dx == 0 && dy == 0) continue; // skip self
-                int nx = x + dx;
-                int ny = y + dy;
+        for (int directionY = -1; directionY <= 1; directionY++) {
+            for (int directionX = -1; directionX <= 1; directionX++) {
+                if (directionX == 0 && directionY == 0) continue; // skip self
+                int newX = x + directionX;
+                int newY = y + directionY;
 
                 // check if it's within the grid, so it doesn't give IndexOutOfBoundsException pain
-                if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
-                    Cell neighbor = Cell.fromValue(grid[ny][nx]);
+                if (newX >= 0 && newX < cols && newY >= 0 && newY < rows) {
+                    Cell neighbor = Cell.fromValue(grid[newY][newX]);
                     if (neighbor == Cell.ALIVE || neighbor == Cell.DYING_SOON) {
                         count++;
                     }
