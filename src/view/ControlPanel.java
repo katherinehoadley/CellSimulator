@@ -44,6 +44,8 @@ public class ControlPanel {
 	private final int INPUT_BOX_SPACING = 15;
 	private final int GRID_BUTTON_SPACING = 25;
 	private final int TEXT_FONT_SIZE = 20;
+	private static final int MIN_BUFFER_PERIOD = 50;
+	
 	// Cell simulation logic 
 	private Step stepper = new StepGameOfLife(); // make abstract
 	private GridUI gridUI = new GridUI();
@@ -68,6 +70,7 @@ public class ControlPanel {
 		createPauseButton();
 		createStepButton();
 		createSlowDownButton();
+		createSpeedUpButton();
 		return buttons;
 	}
 	
@@ -164,6 +167,23 @@ public class ControlPanel {
 			runSimulation();
 		});
 		buttons.getChildren().add(slowDownButton);
+	}
+	
+	//Katherine Hoadley
+	//Speeds up the simulation by lowering buffer period. has a limit so that it doesn't break animation
+	private void createSpeedUpButton() {
+	    Button speedUpButton = new Button("Speed Up");
+	    speedUpButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+	    speedUpButton.setOnAction(value -> {
+
+	    	if (bufferPeriod - 100 >= MIN_BUFFER_PERIOD) {
+	            bufferPeriod -= 100;
+	            runSimulation();
+	        }
+
+	    });
+
+	    buttons.getChildren().add(speedUpButton);
 	}
 	
 	/**
