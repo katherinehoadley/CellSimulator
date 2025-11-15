@@ -211,14 +211,14 @@ public class ControlPanel {
 				int numOfRows = Integer.parseInt(rows.getText());
 				int numOfColumns = Integer.parseInt(columns.getText());
 				double densityRate = Double.parseDouble(aliveDensity.getText());
-				if (numOfRows <= 0 || numOfColumns <= 0) {
-					throw new NumberFormatException("The number of rows and columns must be positive.");
+				if (numOfRows <= 4 || numOfColumns <= 4 || densityRate < 0 || densityRate > 1) {
+					throw new NumberFormatException("The number of rows and columns must be positive and density rate must be between 0 and 1.");
 				}
 				controlPanel.getChildren().remove(gridPane);
 				gridPane = gridUI.startGrid(numOfRows, numOfColumns, densityRate);
 				controlPanel.getChildren().add(gridPane);
 			} catch (NumberFormatException nfe) {
-				showError("Indvalid Input", "Please enter positive integers for the columns and rows and a rate for the density");
+				showError("Indvalid Input", "Please enter positive integers 5 or greater for the columns and rows and a rate between 0 and 1 for the density");
 			}
 		});
 		return createGridButton;
