@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import model.CellularAutomata;
+import model.InitializationGameOfLife;
 
 public class ControlPanel {
 	
@@ -48,7 +49,7 @@ public class ControlPanel {
 	
 	// Cell simulation logic 
 	private Step stepper = new StepGameOfLife(); // make abstract
-	private GridUI gridUI = new GridUI();
+	GridUI gridUI = new GridUI(new InitializationGameOfLife());	//TODO change this when we have new game options
 	private DataStorage dataStorage = new DataStorage();
 		
     
