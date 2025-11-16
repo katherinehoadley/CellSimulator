@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import model.CellularAutomata;
+import model.GamePreset;
 import model.InitializationGameOfLife;
 
 public class ControlPanel {
@@ -113,7 +114,7 @@ public class ControlPanel {
 		loadButton.setOnAction(value ->  {
 			dataStorage.loadData(fileName.getText());
 			int[][] grid = dataStorage.getLoadedGrid();
-			CellularAutomata automata = dataStorage.getAutomata();
+			GamePreset automata = dataStorage.getAutomata();
 			
 			if (grid != null && automata != null) {
 	            stepper.setCurrentAutomata(automata);

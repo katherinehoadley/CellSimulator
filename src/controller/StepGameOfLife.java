@@ -1,4 +1,5 @@
 //Katherine Hoadley
+
 package controller;
 
 import model.Bacteria;
@@ -9,7 +10,9 @@ public class StepGameOfLife extends Step{
 	public StepGameOfLife() {
 		this.automata = new Bacteria();
 	}
-		
+
+	//TODO - I smell duplicated code :)
+
 	@Override
     public void update(int[][] grid){
 		int[][] newGrid = automata.updateGrid(grid);
@@ -18,5 +21,4 @@ public class StepGameOfLife extends Step{
             System.arraycopy(newGrid[y], 0, grid[y], 0, grid[y].length);
 	    }
     }
-	
 }

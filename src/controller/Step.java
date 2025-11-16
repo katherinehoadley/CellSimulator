@@ -1,11 +1,11 @@
 //Katherine Hoadley
 package controller;
 
-import model.CellularAutomata;
+import model.GamePreset;
 
 public abstract class Step {
 
-	protected CellularAutomata automata;
+	protected GamePreset automata;
 
 	public Step() {}
 	
@@ -19,14 +19,13 @@ public abstract class Step {
 		}
     }
 
-	//TODO - this needs to become Object instead of CellularAutomata at some point
-	public CellularAutomata getCurrentAutomata(){
+	public GamePreset getCurrentAutomata(){
 		return automata;
 	}
 	
 
     // Anna
-    public void setCurrentAutomata(CellularAutomata automata) {
+    public void setCurrentAutomata(GamePreset automata) {
     		this.automata = automata;
     }
 }
