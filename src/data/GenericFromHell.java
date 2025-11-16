@@ -7,7 +7,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import model.CellularAutomata;
+import model.GameOfLife;
 import model.GamePreset;
 
 public class GenericFromHell {
@@ -39,7 +39,7 @@ public class GenericFromHell {
     //This searches for every class that implements the GamePreset interface 
     private void discoverPresets() {
         try {
-            String basePackage = CellularAutomata.class.getPackage().getName();
+            String basePackage = GameOfLife.class.getPackage().getName();
             String path = basePackage.replace('.', '/');
             
             Enumeration<URL> resources = Thread.currentThread().getContextClassLoader().getResources(path);

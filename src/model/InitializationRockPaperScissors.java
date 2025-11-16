@@ -1,6 +1,6 @@
 package model;
 
-public class InitializationRPS {
+public class InitializationRockPaperScissors {
 
     //TODO - normally I make a folder for each inheritance structure so we wouldn't mix up GamePresets
     // and initialization but if it looks bad in eclipse then ok fine.
