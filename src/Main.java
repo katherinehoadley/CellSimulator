@@ -25,10 +25,18 @@ public class Main extends Application {
 		VBox controlPanelUI = controlPanel.setupControlPanel();
 		controlPanelUI.setVisible(false);
 		
-		mainScreen.getStartButton().setOnAction(value -> {
+		mainScreen.getGameOfLifeButton().setOnAction(value -> {
+			controlPanel.setSimulationChoice("GameOfLife");
 			mainScreen.hide();
 			controlPanelUI.setVisible(true);
 		});
+		
+		mainScreen.RPSButton().setOnAction(value -> {
+			controlPanel.setSimulationChoice("RockPaperScissors");
+			mainScreen.hide();
+			controlPanelUI.setVisible(true);
+		});
+
 
 		root.getChildren().addAll(mainScreen,controlPanelUI);
 

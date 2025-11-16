@@ -11,7 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.Cell;
-import model.CellularAutomata;
+import model.GameOfLife;
 import model.Initialization;
 
 public class GridUI {

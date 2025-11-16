@@ -3,7 +3,9 @@ package model;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class RockPaperScissorsAutomata extends GamePreset{
+public class RockPaperScissors extends GamePreset{
+	
+	public RockPaperScissors() {}
 
     @Override
     public int[][] updateGrid(int[][] grid) {
@@ -91,6 +93,6 @@ public class RockPaperScissorsAutomata extends GamePreset{
 
     @Override
     public String getPreset() {
-        return "RPS";
+        return "RockPaperScissors";
     }
 }

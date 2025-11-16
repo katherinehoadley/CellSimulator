@@ -4,10 +4,21 @@ package model;
 
 import java.util.List;
 
-public abstract class CellularAutomata extends GamePreset {
+public class GameOfLife extends GamePreset {
 
     protected List<Integer> livableNeighborCount;
     protected List<Integer> spawnableNeighborCount;
+    
+    public GameOfLife() {
+    	this.livableNeighborCount = List.of(2,3);
+    	this.spawnableNeighborCount = List.of(3);
+    }
+    
+    public GameOfLife(List<Integer> livable, List<Integer> spawnable) {
+    	this.livableNeighborCount = livable;
+    	this.spawnableNeighborCount = spawnable;
+    }
+
 
     @Override
     public int[][] updateGrid(int[][] grid) {
@@ -63,6 +74,10 @@ public abstract class CellularAutomata extends GamePreset {
             }
         }
         return count;
+    }
+    
+    public String getPreset() {
+    	return "Bacteria";
     }
 }
 
