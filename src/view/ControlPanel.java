@@ -18,54 +18,52 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import model.GameOfLife;
 import model.GamePreset;
 import model.Initialization;
 import model.InitializationFactory;
-import model.InitializationGameOfLife;
 import model.PresetFactory;
 
-public class ControlPanel {
+public abstract class ControlPanel {
 	
 	// UI Components and current game state
-		private Button pauseButton;
-		private boolean paused = false;		
-		private TextField rows;
-		private TextField columns;
-		private TextField aliveDensity;
-		private TextField threshold;
-		private TextField saveFileNameAs;
-		private TextField fileName;
-		private HBox buttons = new HBox();
-		private VBox controlPanel = new VBox();
-		private HBox loadingButtons = new HBox();
-		private GridPane gridPane;
-		private int bufferPeriod = 100; 
-		private String simulationChoice = "GameOfLife";
+		protected Button pauseButton;
+		protected boolean paused = false;		
+		protected TextField rows;
+		protected TextField columns;
+//		protected TextField aliveDensity;
+//		protected TextField threshold;
+		protected TextField additionalRequirementValue;
+		protected TextField saveFileNameAs;
+		protected TextField fileName;
+		protected HBox buttons = new HBox();
+		protected VBox controlPanel = new VBox();
+		protected HBox loadingButtons = new HBox();
+		protected GridPane gridPane;
+		protected int bufferPeriod = 100; 
+		protected String simulationChoice = "GameOfLife";
 
 		
-		
 		// Constants
-		private final int TEXT_FIELD_WIDTH = 50;
-		private final int BUTTON_SPACING = 10;
-		private final int INPUT_BOX_SPACING = 15;
-		private final int GRID_BUTTON_SPACING = 25;
-		private final int TEXT_FONT_SIZE = 20;
-		private static final int MIN_BUFFER_PERIOD = 50;
+		protected final int TEXT_FIELD_WIDTH = 50;
+		protected final int BUTTON_SPACING = 10;
+		protected final int INPUT_BOX_SPACING = 15;
+		protected final int GRID_BUTTON_SPACING = 25;
+		protected final int TEXT_FONT_SIZE = 20;
+		protected static final int MIN_BUFFER_PERIOD = 50;
 		
 		// Cell simulation logic 
-		private Step stepper;
-		GridUI gridUI = new GridUI();	//TODO change this when we have new game options
-		private DataStorage dataStorage = new DataStorage();
-		private PresetFactory presetFactory = new PresetFactory();
-		private GamePreset preset;
-		private Initialization initialization;
-		private InitializationFactory initFactory = new InitializationFactory();
+		protected Step stepper;
+		protected GridUI gridUI = new GridUI();	
+		protected DataStorage dataStorage = new DataStorage();
+		protected PresetFactory presetFactory = new PresetFactory();
+		protected GamePreset preset;
+		protected Initialization initialization;
+		protected InitializationFactory initFactory = new InitializationFactory();
 			
 	    
 		// Lance: keeps step running continuously.
-		private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-		private static ScheduledFuture<?> scheduledTask;
+		protected static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+		protected static ScheduledFuture<?> scheduledTask;
 
 
 		/**
@@ -74,7 +72,7 @@ public class ControlPanel {
 		 * Adds a start, pause, and step button. Adds the grid too.
 		 * @return HBox containing all the buttons. 
 		 */
-		private HBox setupControlButtons(){
+		protected HBox setupControlButtons(){
 			buttons.setAlignment(Pos.BASELINE_CENTER);
 			buttons.setSpacing(BUTTON_SPACING);
 			createStartButton();
@@ -85,7 +83,7 @@ public class ControlPanel {
 			return buttons;
 		}
 		
-		private HBox setUpLoadingButtons() {
+		protected HBox setUpLoadingButtons() {
 			loadingButtons.setAlignment(Pos.TOP_CENTER);
 		    loadingButtons.setSpacing(GRID_BUTTON_SPACING); 
 		    
@@ -103,21 +101,21 @@ public class ControlPanel {
 
 		    HBox buttonBox = setupControlButtons();
 		    HBox loadingBox = setUpLoadingButtons();
-		    HBox inputBox = setupGridSize();
+		    HBox inputBox = setUpGridSize();
 
 		    controlPanel.getChildren().addAll(inputBox, loadingBox, buttonBox);
 
 		    return controlPanel;
 		}
 		
-		private void createSaveButton() {
+		protected void createSaveButton() {
 			Button saveButton = new Button("Save");
 			saveButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 			saveButton.setOnAction(value -> dataStorage.saveData(gridUI.getGrid(), simulationChoice, saveFileNameAs.getText()));
 			loadingButtons.getChildren().add(saveButton);
 		}
 		
-		private void createLoadButton() {
+		protected void createLoadButton() {
 			Button loadButton = new Button("Load");
 			loadButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 			loadButton.setOnAction(value ->  {
@@ -155,7 +153,7 @@ public class ControlPanel {
 		 * method createStartButton
 		 * creates the start button that starts the simulation and prompts step to start running.
 		 */
-		private void createStartButton() {
+		protected void createStartButton() {
 			Button startButton = new Button("Start");
 			startButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 			startButton.setOnAction(value ->  {
@@ -169,7 +167,7 @@ public class ControlPanel {
 		 * method runSimulation created by Lance
 		 * Uses a scheduled executor to repeatedly call the step method.
 		 */
-		private void runSimulation() {
+		protected void runSimulation() {
 			// Lance: 
 			if (scheduledTask != null && !scheduledTask.isCancelled()) {
 				scheduledTask.cancel(true); 
@@ -181,7 +179,7 @@ public class ControlPanel {
 			scheduledTask = scheduler.scheduleAtFixedRate(step, 0, bufferPeriod, TimeUnit.MILLISECONDS);
 		}
 		
-		private void createSlowDownButton() {
+		protected void createSlowDownButton() {
 			Button slowDownButton = new Button("Slow Down");
 			slowDownButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 			slowDownButton.setOnAction(value ->  {
@@ -193,7 +191,7 @@ public class ControlPanel {
 		
 		//Katherine Hoadley
 		//Speeds up the simulation by lowering buffer period. has a limit so that it doesn't break animation
-		private void createSpeedUpButton() {
+		protected void createSpeedUpButton() {
 		    Button speedUpButton = new Button("Speed Up");
 		    speedUpButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		    speedUpButton.setOnAction(value -> {
@@ -213,7 +211,7 @@ public class ControlPanel {
 		 * Creates the pause button which stops the simulation. 
 		 * 	Updates the pause button to say resume. 
 		 */
-		private void createPauseButton() {
+		protected void createPauseButton() {
 			pauseButton = new Button("Pause");
 			pauseButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 			pauseButton.setOnAction(value ->  {
@@ -228,7 +226,7 @@ public class ControlPanel {
 		 * Creates the step button which manually takes one individual step 
 		 * instead of using the scheduled executor. 
 		 */
-		private void createStepButton() {
+		protected void createStepButton() {
 			Button stepButton = new Button("Step");
 			stepButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 			stepButton.setOnAction(value ->  {
@@ -241,55 +239,25 @@ public class ControlPanel {
 		
 		
 		/**
-		 * method createGridButton
-		 * creates the button that allows you to generate the grid based on
-		 * input from the text field. Shows an error if the input is not an integer.
-		 */
-		private Button createGridButton() {
-			Button createGridButton = new Button("Create Grid From Input");
-			createGridButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-			createGridButton.setOnAction(value -> {
-				try {
-					int numOfRows = Integer.parseInt(rows.getText());
-					int numOfColumns = Integer.parseInt(columns.getText());
-					double densityRate = Double.parseDouble(aliveDensity.getText());
-					if (numOfRows <= 4 || numOfColumns <= 4 || densityRate < 0 || densityRate > 1) {
-						throw new NumberFormatException("The number of rows and columns must be positive and density rate must be between 0 and 1.");
-					}
-					controlPanel.getChildren().remove(gridPane);
-					gridPane = gridUI.startGrid(numOfRows, numOfColumns, densityRate);
-					controlPanel.getChildren().add(gridPane);
-					stepper.setCurrentPreset(preset);
-				} catch (NumberFormatException nfe) {
-					showError("Indvalid Input", "Please enter positive integers 5 or greater for the columns and rows and a rate between 0 and 1 for the density");
-				}
-			});
-			return createGridButton;
-		}
-		
-		
-		
-		/**
 		 * method showError
 		 * @param title: name at top of error box
 		 * @param message: the error problem inside the error box. 
 		 * Displays an error alert with the given title and message.
 		 */
-		private void showError(String title, String message) {
+		protected void showError(String title, String message) {
 		    Alert alert = new Alert(Alert.AlertType.ERROR);
 		    alert.setTitle(title);
 		    alert.setContentText(message);
 		    alert.showAndWait();
 		}
 
-		
 		/**
 		 * method setUpGridSize
 		 * Sets up the input fields for specifying grid size.
 	     * Adds labeled text fields for rows and columns to an HBox.
 		 * @return the HBox with the text fields. 
 		 */
-		private HBox setupGridSize(){
+		protected HBox setUpGridSize(){
 			HBox inputBox = new HBox();
 			inputBox.setAlignment(Pos.BASELINE_CENTER);
 			inputBox.setSpacing(INPUT_BOX_SPACING);
@@ -304,45 +272,29 @@ public class ControlPanel {
 			columns = new TextField();
 			columns.setPrefWidth(TEXT_FIELD_WIDTH);
 			
-			HashMap<String, Label> thirdVariable = new HashMap<>();
-			HashMap<String, TextField> thirdVariableTextTypes = new HashMap<>();
-			
-			thirdVariable.put("GameOfLife", createDensityBox());
-			thirdVariable.put("RockPaperScissors", createThresholdBox());
-			thirdVariableTextTypes.put("GameOfLife", aliveDensity);
-			thirdVariableTextTypes.put("RockPaperScissors", threshold);
-			
-			Label thirdLabel = thirdVariable.get(simulationChoice);
-			TextField thirdVariableText = thirdVariableTextTypes.get(simulationChoice);
+			HBox additionalRequirementBox = createAdditionalRequirementsBox();
 					
-			inputBox.getChildren().addAll(rowsLabel, rows, columnsLabel, columns, thirdLabel, thirdVariableText, createGridButton());
+			inputBox.getChildren().addAll(rowsLabel, rows, columnsLabel, columns, additionalRequirementBox, createGridButton());
 		
 			return inputBox;
 		}
 		
-		private Label createDensityBox() {
-			Label rateLabel = new Label ("Alive Density: ");
-			rateLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-			aliveDensity = new TextField();
-			aliveDensity.setPrefWidth(TEXT_FIELD_WIDTH);
-			return rateLabel;
+		protected abstract HBox createAdditionalRequirementsBox();
+		
+		protected Button createGridButton() {
+			Button createGridButton = new Button("Create Grid From Input");
+			createGridButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+			createGridButton.setOnAction(value -> {
+				createGrid();
+			});
+			return createGridButton;
 		}
 		
-		private Label createThresholdBox() {
-			Label thresholdLabel = new Label ("Threshold: ");
-			thresholdLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-			threshold = new TextField();
-			threshold.setPrefWidth(TEXT_FIELD_WIDTH);
-			return thresholdLabel;
-		}
+		protected abstract void createGrid();
 		
 		
 		
-		
-		
-		
-		
-		private HBox setFileName() {
+		protected HBox setFileName() {
 			HBox inputBox = new HBox();
 			inputBox.setAlignment(Pos.BASELINE_CENTER);
 			inputBox.setSpacing(INPUT_BOX_SPACING);
@@ -356,7 +308,7 @@ public class ControlPanel {
 			return inputBox;
 		}
 		
-		private HBox getSavedFile() {
+		protected HBox getSavedFile() {
 			HBox inputBox = new HBox();
 			inputBox.setAlignment(Pos.BASELINE_CENTER);
 			inputBox.setSpacing(INPUT_BOX_SPACING);
@@ -375,7 +327,7 @@ public class ControlPanel {
 		 * method pressPause
 		 * changes the state of the simulation. 
 		 */
-		private void pressPause(){
+		protected void pressPause(){
 			this.paused = !this.paused;
 			if(this.paused){
 				pauseButton.setText("Resume");
