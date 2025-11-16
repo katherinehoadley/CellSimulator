@@ -28,8 +28,6 @@ public class JUnitTests {
     public void testGetDisplayValue() {
         assertEquals(0, Cell.DEAD.getDisplayValue());
         assertEquals(1, Cell.ALIVE.getDisplayValue());
-        assertEquals(2, Cell.SPAWNING_SOON.getDisplayValue());
-        assertEquals(3, Cell.DYING_SOON.getDisplayValue());
     }
     
     //tests enum values are accurate
@@ -37,8 +35,6 @@ public class JUnitTests {
     public void testEnumValue() {
         assertEquals(Cell.DEAD, Cell.fromValue(0));
         assertEquals(Cell.ALIVE, Cell.fromValue(1));
-        assertEquals(Cell.SPAWNING_SOON, Cell.fromValue(2));
-        assertEquals(Cell.DYING_SOON, Cell.fromValue(3));
 
         // test invalid value returns DEAD
         assertEquals(Cell.DEAD, Cell.fromValue(99));

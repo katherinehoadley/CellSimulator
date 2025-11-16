@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import model.CellularAutomata;
+import model.GamePreset;
 
 public class GenericFromHell {
     public GenericFromHell() {
@@ -20,14 +21,14 @@ public class GenericFromHell {
     
     //This generic is needed because I cant use static and I needed a
     //way to reverse lookup the interface's method output for getPreset.
-    public Object getWhatClassThePresetIsFromUsingGenericMagic(String name) {
+    public GamePreset getWhatClassThePresetIsFromUsingGenericMagic(String name) {
         Class<?> clazz = presets.get(name);
         if (clazz == null) {
             System.out.println("class is null: " + name);
             return null;
         }
         try {
-            return clazz.getDeclaredConstructor().newInstance();
+            return (GamePreset) clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -77,9 +78,9 @@ public class GenericFromHell {
                 String className = packageName + "." + file.getName().substring(0, file.getName().length() - 6);
                 try {
                     Class<?> clazz = Class.forName(className);
-                    if (!Modifier.isAbstract(clazz.getModifiers()) && GamePreset.class.isAssignableFrom(clazz)) {
+                    if (!Modifier.isAbstract(clazz.getModifiers()) && model.GamePreset.class.isAssignableFrom(clazz)) {
 
-                        GamePreset instance = (GamePreset) clazz.getDeclaredConstructor().newInstance();
+                        model.GamePreset instance = (model.GamePreset) clazz.getDeclaredConstructor().newInstance();
                         String presetName = instance.getPreset();
 
                         //cache preset so I dont need to call this again until new object of generic is made
