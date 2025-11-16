@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import model.CellularAutomata;
+import model.InitializationGameOfLife;
 
 public class ControlPanel {
 	
@@ -44,9 +45,11 @@ public class ControlPanel {
 	private final int INPUT_BOX_SPACING = 15;
 	private final int GRID_BUTTON_SPACING = 25;
 	private final int TEXT_FONT_SIZE = 20;
+	private static final int MIN_BUFFER_PERIOD = 50;
+	
 	// Cell simulation logic 
 	private Step stepper = new StepGameOfLife(); // make abstract
-	private GridUI gridUI = new GridUI();
+	GridUI gridUI = new GridUI(new InitializationGameOfLife());	//TODO change this when we have new game options
 	private DataStorage dataStorage = new DataStorage();
 		
     
@@ -68,6 +71,7 @@ public class ControlPanel {
 		createPauseButton();
 		createStepButton();
 		createSlowDownButton();
+		createSpeedUpButton();
 		return buttons;
 	}
 	
@@ -79,7 +83,7 @@ public class ControlPanel {
 	    createSaveButton();
 		getSavedFile();
 		createLoadButton();
-	    
+		
 		return loadingButtons;
 	}
 	
@@ -166,6 +170,23 @@ public class ControlPanel {
 		buttons.getChildren().add(slowDownButton);
 	}
 	
+	//Katherine Hoadley
+	//Speeds up the simulation by lowering buffer period. has a limit so that it doesn't break animation
+	private void createSpeedUpButton() {
+	    Button speedUpButton = new Button("Speed Up");
+	    speedUpButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+	    speedUpButton.setOnAction(value -> {
+
+	    	if (bufferPeriod - 100 >= MIN_BUFFER_PERIOD) {
+	            bufferPeriod -= 100;
+	            runSimulation();
+	        }
+
+	    });
+
+	    buttons.getChildren().add(speedUpButton);
+	}
+	
 	/**
 	 * method createPauseButton
 	 * Creates the pause button which stops the simulation. 
@@ -211,14 +232,14 @@ public class ControlPanel {
 				int numOfRows = Integer.parseInt(rows.getText());
 				int numOfColumns = Integer.parseInt(columns.getText());
 				double densityRate = Double.parseDouble(aliveDensity.getText());
-				if (numOfRows <= 0 || numOfColumns <= 0) {
-					throw new NumberFormatException("The number of rows and columns must be positive.");
+				if (numOfRows <= 4 || numOfColumns <= 4 || densityRate < 0 || densityRate > 1) {
+					throw new NumberFormatException("The number of rows and columns must be positive and density rate must be between 0 and 1.");
 				}
 				controlPanel.getChildren().remove(gridPane);
 				gridPane = gridUI.startGrid(numOfRows, numOfColumns, densityRate);
 				controlPanel.getChildren().add(gridPane);
 			} catch (NumberFormatException nfe) {
-				showError("Indvalid Input", "Please enter positive integers for the columns and rows and a rate for the density");
+				showError("Indvalid Input", "Please enter positive integers 5 or greater for the columns and rows and a rate between 0 and 1 for the density");
 			}
 		});
 		return createGridButton;

@@ -22,13 +22,17 @@ public class GridUI {
 
     private int[][] grid;
     private Rectangle[][] visualizer = new Rectangle[][] {};
-    private Initialization initialization = new Initialization();
+    private Initialization initialization;
     
     private int numCols;
     private int numRows;
 
     
     public GridUI() { }
+    
+    public GridUI(Initialization initialization) {
+        this.initialization = initialization;
+    }
     
     public GridPane startGrid (int rows, int columns, double aliveDensity) {
     		grid = initialization.initializeGrid(rows, columns, aliveDensity);
@@ -66,9 +70,9 @@ public class GridUI {
     }
     
     
-    public void setGridDimensions(int[][] grid, int rows, int cols) {
-        this.numRows = Math.max(rows, 10); 
-        this.numCols = Math.max(cols, 10);
+    public void setGridDimensions(int[][] grid, int rows, int cols) { 
+        this.numRows = Math.max(rows, 5); 
+        this.numCols = Math.max(cols, 5);
         
         this.visualizer = new Rectangle[numRows][numCols];
 
