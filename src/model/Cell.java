@@ -6,8 +6,9 @@ public enum Cell {
 
     DEAD(0),
     ALIVE(1),
-    SPAWNING_SOON(2),
-    DYING_SOON(3);
+    ROCK(6),
+    PAPER(7),
+    SCISSORS(8);
 
     private final int displayValue;
 

@@ -1,6 +1,8 @@
+// Johnathan Meeks
 package view;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -11,11 +13,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.Cell;
-import model.CellularAutomata;
+import model.GameOfLife;
 import model.Initialization;
 
 public class GridUI {
-
 	private final Color ALIVE_COLOR = Color.AQUA; 
 	private final Color DEAD_COLOR = Color.DARKGREY;
 	private final int CELL_SIZE = 10;
@@ -48,8 +49,12 @@ public class GridUI {
         return rect;
     }
     
+    
     public void updateVisuals() {
-        
+        HashMap<Cell, Color> map = new HashMap<>();
+        map.put(Cell.ALIVE, ALIVE_COLOR);
+        map.put(Cell.DEAD, DEAD_COLOR);
+    	
         for (int y = 0; y < numRows; y++) {
             for (int x = 0; x < numCols; x++) {
                 if (this.visualizer[y][x] == null) {
@@ -57,14 +62,7 @@ public class GridUI {
                 }
                 
                 Cell cellState = Cell.fromValue(this.grid[y][x]);
-                
-                if (cellState == Cell.ALIVE) {
-                    this.visualizer[y][x].setFill(ALIVE_COLOR);
-                    System.out.println(this.visualizer[y][x]);
-                } 
-                else {
-                    this.visualizer[y][x].setFill(DEAD_COLOR);
-                }
+                this.visualizer[y][x].setFill(map.get(cellState));
             }
         }
     }
@@ -85,19 +83,17 @@ public class GridUI {
         updateVisuals();
     }
     
-    public boolean isRunning() {
-        return false;
-    }
-    
     public GridPane render(int rows, int columns) { 
     	GridPane gridPane = new GridPane();
     	gridPane.setHgap(0);
     	gridPane.setVgap(0);
     	gridPane.setAlignment(Pos.CENTER); 
 
+    	/**
+    	 * Loop through and add rectangle objects to the gridPane (visualize the simulator).
+    	 */
     	for (int y = 0; y < numRows; y++) {
     		for (int x = 0; x < numCols; x++) {
-    			// Adds Rectangle to GridPane position
     			gridPane.add(this.visualizer[y][x], x, y);
     		}
     	}
