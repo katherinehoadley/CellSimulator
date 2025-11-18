@@ -1,5 +1,3 @@
-// Anna Rakes
-
 package model;
 
 import java.lang.reflect.Constructor;
@@ -41,7 +39,7 @@ private Initialization initialization;
 			System.err.println("The method or constructor threw an exception.");
 			e.printStackTrace();
 		}
-		System.out.println("I am unable to create the simulation.  Returning null.");
+		System.out.println("I am unable to create the Search.  Returning null.");
 		return null;
 	}
 
