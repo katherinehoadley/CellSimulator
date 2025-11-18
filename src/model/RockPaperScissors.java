@@ -4,8 +4,15 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class RockPaperScissors extends GamePreset{
-	
-	public RockPaperScissors() {}
+
+    public RockPaperScissors() {}
+    private int threshold = 3;
+
+
+    public int[][] updateGrid(int[][] grid, int threshold) {
+        this.threshold = threshold;
+        return updateGrid(grid);
+    }
 
     @Override
     public int[][] updateGrid(int[][] grid) {
@@ -18,32 +25,27 @@ public class RockPaperScissors extends GamePreset{
             for (int x = 1; x < cols-1; x++) {
 
                 int originalValue = grid[y][x];
-                newGrid[y][x] = updateCell(grid, x, y, originalValue);
+                newGrid[y][x] = updateCell(grid, x, y, originalValue, threshold);
             }
         }
 
         return newGrid;
     }
 
-    public int updateCell(int[][] grid, int x, int y, int originalValue) {
+    public int updateCell(int[][] grid, int x, int y, int originalValue, int threshold) {
         int rows = grid.length;
         int cols = grid[0].length;
 
-        //made a map to be more clean since it was looking ugly
-        //TODO - might need optimization because this makes a whole new Map every cell check.
-        // This is a LOT of GC overhead and object creation destruction stuff but I will just
-        // hope that it is fine. If its not, this is becoming static final (constant)
-        Map<Cell, Integer> counts = new EnumMap<>(Cell.class);
-        counts.put(Cell.ROCK, 0);
-        counts.put(Cell.PAPER, 0);
-        counts.put(Cell.SCISSORS, 0);
+        //this is a good replacement for Maps
+        Cell center = Cell.fromValue(originalValue);
+        Cell superior = getSuperior(center);
+        
+        int superiorCount = 0;
 
         //RPS core loop logic. Check 3x3 of neighbors and find out which Cell type theres most of.
         for (int directionY = -1; directionY <= 1; directionY++) {
             for (int directionX = -1; directionX <= 1; directionX++) {
-
-                //TODO - should this skip the center cell or not?
-//                if (directionX == 0 && directionY == 0) continue;
+                if (directionX == 0 && directionY == 0) continue;
 
                 int newX = x + directionX;
                 int newY = y + directionY;
@@ -53,42 +55,27 @@ public class RockPaperScissors extends GamePreset{
 
                     Cell neighbor = Cell.fromValue(grid[newY][newX]);
 
-                    if (counts.containsKey(neighbor)) {
-                        counts.put(neighbor, counts.get(neighbor) + 1);
+                    if (neighbor == superior) {
+                        superiorCount++;
                     }
                 }
             }
         }
-
-        Cell winner = getWinningCell(counts);
-        if (winner == null) {
-            return originalValue; // tie
+        
+        if (superiorCount >= threshold) {
+            return superior.getDisplayValue();
         }
 
-        return winner.getDisplayValue();
+        return originalValue;
     }
 
-    private Cell getWinningCell(Map<Cell, Integer> counts) {
-        int maxCount = -1;
-        Cell maxCell = null;
-        boolean tie = false;
-
-        for (Map.Entry<Cell, Integer> entry : counts.entrySet()) {
-            int count = entry.getValue();
-            if (count > maxCount) {
-                maxCount = count;
-                maxCell = entry.getKey();
-                tie = false;
-            } else if (count == maxCount) {
-                tie = true;
-            }
-        }
-
-        if (tie) {
-            return null;
-        }
-
-        return maxCell;
+    private Cell getSuperior(Cell center) {
+        return switch (center) {
+            case ROCK -> Cell.PAPER;
+            case PAPER -> Cell.SCISSORS;
+            case SCISSORS -> Cell.ROCK;
+            default -> Cell.DEAD;
+        };
     }
 
     @Override
