@@ -7,6 +7,6 @@ public abstract class Initialization {
     public Initialization() {};
     
     //abstract to initialize grid
-    public abstract int[][] initializeGrid(int rows, int cols, double startAliveChance);
+    public abstract int[][] initializeGrid(int rows, int cols, double thirdVariable);
 
 }

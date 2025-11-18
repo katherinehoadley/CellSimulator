@@ -6,7 +6,7 @@ public class InitializationRockPaperScissors extends Initialization{
 	private double TRANSITION_ROWS_PROPORTION = .3;
 	
 	@Override
-	public int[][] initializeGrid(int rows, int cols, double startAliveChance) {
+	public int[][] initializeGrid(int rows, int cols, double thirdVariable) {
 	    int[][] grid = new int[rows][cols];
 	
 	    int usableRows = rows - 2;
