@@ -11,8 +11,8 @@ public class RPSTest extends Application {
 
     @Override
     public void start(Stage stage) {
-        int rows = 50;
-        int cols = 50;
+        int rows = 10;
+        int cols = 10;
 
         GridUI gridUI = new GridUI(new InitializationRockPaperScissors());
         Scene scene = new Scene(gridUI.startGrid(rows, cols, 1.0));

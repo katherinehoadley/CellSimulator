@@ -1,10 +1,15 @@
+//Katherine Hoadley
+//This class initializes the rock paper scissors game by separating the three into their own sections
 package model;
 
 public class InitializationRockPaperScissors extends Initialization{
 
-	private double ROCK_SCISSORS_PROPORTION = .4;
+	//fields
+	private double ROCK_SCISSORS_PROPORTION = .5;
 	private double TRANSITION_ROWS_PROPORTION = .3;
 	
+	//Initialize grid calculates the exact regions that each cell type is supposed to go in.
+	//It then fills the grid with the correct cell type.
 	@Override
 	public int[][] initializeGrid(int rows, int cols, double thirdVariable) {
 	    int[][] grid = new int[rows][cols];
