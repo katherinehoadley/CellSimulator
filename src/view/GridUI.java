@@ -39,8 +39,8 @@ public class GridUI {
         this.initialization = initialization;
     }
     
-    public GridPane startGrid (int rows, int columns, double aliveDensity) {
-    		grid = initialization.initializeGrid(rows, columns, aliveDensity);
+    public GridPane startGrid (int rows, int columns, double thirdVariable) {
+    		grid = initialization.initializeGrid(rows, columns, thirdVariable);
     		setGridDimensions(grid, rows, columns);
     		updateVisuals();
     		return render(rows, columns);
