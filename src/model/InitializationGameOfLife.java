@@ -2,9 +2,6 @@
 package model;
 
 public class InitializationGameOfLife extends Initialization {
-
-	
-  	private final int START_INDEX = 0;
 	   
     private int[][] grid;
 
@@ -16,8 +13,8 @@ public class InitializationGameOfLife extends Initialization {
     public int[][] initializeGrid(int rows, int cols, double startAliveChance) {
     		grid = new int[rows][cols];
 
-    		for (int y = START_INDEX; y < rows; y++) {
-    			for (int x = START_INDEX; x < cols; x++) {
+    		for (int y = 0; y < rows; y++) {
+    			for (int x = 0; x < cols; x++) {
     				double randomValue = Math.random();
 
     				if (y == 0 || y == rows - 1 || x == 0 || x == cols - 1) {
