@@ -19,6 +19,10 @@ import model.Initialization;
 public class GridUI {
 	private final Color ALIVE_COLOR = Color.AQUA; 
 	private final Color DEAD_COLOR = Color.DARKGREY;
+	private final Color ROCK_COLOR = Color.RED;
+	private final Color PAPER_COLOR = Color.WHITE;
+	private final Color SCISSORS_COLOR = Color.BLUE;
+
 	private final int CELL_SIZE = 10;
 
     private int[][] grid;
@@ -54,6 +58,9 @@ public class GridUI {
         HashMap<Cell, Color> map = new HashMap<>();
         map.put(Cell.ALIVE, ALIVE_COLOR);
         map.put(Cell.DEAD, DEAD_COLOR);
+        map.put(Cell.ROCK, ROCK_COLOR);
+        map.put(Cell.PAPER, PAPER_COLOR);
+        map.put(Cell.SCISSORS, SCISSORS_COLOR);
     	
         for (int y = 0; y < numRows; y++) {
             for (int x = 0; x < numCols; x++) {
