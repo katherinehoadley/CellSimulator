@@ -4,7 +4,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import view.ControlPanel;
 import view.GameOfLifeControls;
 import view.MainScreenUI;
 import view.RockPaperScissorsControls;
@@ -13,7 +12,6 @@ public class Main extends Application {
 	
 	private final int SCREEN_WIDTH = 1000;
 	private final int SCREEN_HEIGHT = 800;
-	private final int SPACING = 20;
 
 
 	//TODO - it would be good to move most of this out of main and into an initialization class of some sort..
