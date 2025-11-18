@@ -6,4 +6,7 @@ public abstract class GamePreset {
 
     public abstract String getPreset();
     public abstract int[][] updateGrid(int[][] grid);
+    
+    // Anna Rakes:
+    public void configure(int thirdVariable) {}
 }
