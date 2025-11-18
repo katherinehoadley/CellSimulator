@@ -142,6 +142,9 @@ public abstract class ControlPanel {
 			
 			this.initialization = initFactory.getInitialization("Initialization"+choice);
 			
+			System.out.println("Preset: " + preset);
+			System.out.println("Initialization: " + initialization);
+			
 			stepper = new Step(preset);
 			stepper.setCurrentPreset(preset);
 			gridUI = new GridUI(initialization);
