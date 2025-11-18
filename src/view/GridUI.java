@@ -13,24 +13,39 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.Cell;
-import model.CellularAutomata;
+import model.GameOfLife;
 import model.Initialization;
 
 public class GridUI {
 	private final Color ALIVE_COLOR = Color.AQUA; 
 	private final Color DEAD_COLOR = Color.DARKGREY;
+	private final Color ROCK_COLOR = Color.RED;
+	private final Color PAPER_COLOR = Color.WHITE;
+	private final Color SCISSORS_COLOR = Color.BLUE;
+
 	private final int CELL_SIZE = 10;
 
     private int[][] grid;
     private Rectangle[][] visualizer = new Rectangle[][] {};
-    private Initialization initialization = new Initialization();
+    private Initialization initialization;
+    
     private int numCols;
     private int numRows;
 
     
     public GridUI() { }
     
-
+    public GridUI(Initialization initialization) {
+        this.initialization = initialization;
+    }
+    
+    public GridPane startGrid (int rows, int columns, double aliveDensity) {
+    		grid = initialization.initializeGrid(rows, columns, aliveDensity);
+    		setGridDimensions(grid, rows, columns);
+    		updateVisuals();
+    		return render(rows, columns);
+    }
+    
     private Rectangle createCell() {
         Rectangle rect = new Rectangle(CELL_SIZE, CELL_SIZE);
         rect.setStroke(Color.GRAY);
@@ -43,6 +58,9 @@ public class GridUI {
         HashMap<Cell, Color> map = new HashMap<>();
         map.put(Cell.ALIVE, ALIVE_COLOR);
         map.put(Cell.DEAD, DEAD_COLOR);
+        map.put(Cell.ROCK, ROCK_COLOR);
+        map.put(Cell.PAPER, PAPER_COLOR);
+        map.put(Cell.SCISSORS, SCISSORS_COLOR);
     	
         for (int y = 0; y < numRows; y++) {
             for (int x = 0; x < numCols; x++) {
@@ -57,17 +75,9 @@ public class GridUI {
     }
     
     
-    public GridPane startGrid (int rows, int columns, double aliveDensity) {
-		grid = initialization.initializeGrid(rows, columns, aliveDensity);
-		setGridDimensions(grid, rows, columns);
-		updateVisuals();
-		return render(rows, columns);
-    }
-
-    
-    public void setGridDimensions(int[][] grid, int rows, int cols) {
-        this.numRows = Math.max(rows, 10); 
-        this.numCols = Math.max(cols, 10);
+    public void setGridDimensions(int[][] grid, int rows, int cols) { 
+        this.numRows = Math.max(rows, 5); 
+        this.numCols = Math.max(cols, 5);
         
         this.visualizer = new Rectangle[numRows][numCols];
 

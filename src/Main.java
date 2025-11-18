@@ -5,7 +5,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import view.ControlPanel;
+import view.GameOfLifeControls;
 import view.MainScreenUI;
+import view.RockPaperScissorsControls;
 
 public class Main extends Application {
 	
@@ -20,17 +22,29 @@ public class Main extends Application {
 		StackPane root = new StackPane();
 		
 		MainScreenUI mainScreen = new MainScreenUI();
-		ControlPanel controlPanel = new ControlPanel();
-		
-		VBox controlPanelUI = controlPanel.setupControlPanel();
-		controlPanelUI.setVisible(false);
-		
-		mainScreen.getStartButton().setOnAction(value -> {
-			mainScreen.hide();
-			controlPanelUI.setVisible(true);
+		GameOfLifeControls gameOfLifeControls = new GameOfLifeControls();
+		VBox gameOfLifePanel = gameOfLifeControls.setupControlPanel();
+		gameOfLifePanel.setVisible(false);
+
+		RockPaperScissorsControls rpsControls = new RockPaperScissorsControls();
+		VBox rpsPanel = rpsControls.setupControlPanel();
+		rpsPanel.setVisible(false);
+
+		root.getChildren().addAll(mainScreen, gameOfLifePanel, rpsPanel);
+
+		mainScreen.getGameOfLifeButton().setOnAction(e -> {
+		    gameOfLifeControls.setSimulationChoice("GameOfLife");
+		    mainScreen.setVisible(false);
+		    gameOfLifePanel.setVisible(true);
 		});
 
-		root.getChildren().addAll(mainScreen,controlPanelUI);
+		mainScreen.RPSButton().setOnAction(e -> {
+		    rpsControls.setSimulationChoice("RockPaperScissors");
+		    mainScreen.setVisible(false);
+		    rpsPanel.setVisible(true);
+		});
+
+
 
 		Scene scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
 		primaryStage.setTitle("Conway's Game of Life Cell Simulation");

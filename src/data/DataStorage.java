@@ -1,6 +1,6 @@
 package data;
 
-import model.CellularAutomata;
+import model.GamePreset;
 
 import java.io.*;
 import java.nio.file.*;
@@ -11,7 +11,7 @@ public class DataStorage {
     private final GenericFromHell presetManager;
     private final Path dataPath;
     private int [][] loadedGrid;
-    private CellularAutomata automata;
+    private GamePreset automata;
 
     public DataStorage() {
         this.presetManager = new GenericFromHell();
@@ -19,11 +19,8 @@ public class DataStorage {
         //this data path should be outside of src, in the directory above that, in a folder called data.
         this.dataPath = Paths.get(System.getProperty("user.dir"), "data");
         File dataDir = dataPath.toFile();
-        if (!dataDir.exists()) dataDir.mkdirs(); //ignore useless output of mkdirs because screw yu
+        if (!dataDir.exists()) dataDir.mkdirs();
     }
-
-    //TODO - i got so fed up with the Generic class that I fully forgot to test load and save data. This is a
-    // tommorow problem because im about to collapse.
 
     public void saveData(int[][] grid, String preset, String fileName) {
         try {
@@ -88,41 +85,29 @@ public class DataStorage {
             // line 1 is preset
             String preset = lines.get(0).replace("PRESET:", "").trim();
 
-            //TODO - the code within these lines is AI. This is untested and probably broken in
-            // at least one way. I just did not want to deal with printing the object 2D array
-            // instead of the data in a digestible manner again.
-            ////////////////////////////////////////////
             List<int[]> rows = new ArrayList<>();
+
             for (int i = 1; i < lines.size(); i++) {
+
                 String line = lines.get(i).trim();
                 if (line.isEmpty()) continue;
+
                 String[] parts = line.split(" ");
                 int[] row = new int[parts.length];
+
                 for (int j = 0; j < parts.length; j++) {
                     row[j] = Integer.parseInt(parts[j]);
                 }
+
                 rows.add(row);
             }
-            ////////////////////////////////////////////
 
             //somehow works?
             int[][] newGrid = rows.toArray(new int[0][]);
 
-            //TODO - for future compatibility, this may not extend CellularAutomata, but rather it will extend Object.
-            // Some more processing would need to be done to determine which superclass it falls under so casting
-            // doesn't become a problem... basically fix this tomorrow
-            Object object = presetManager.getWhatClassThePresetIsFromUsingGenericMagic(preset);
-            if (object instanceof CellularAutomata) {
-                automata = (CellularAutomata) object;
-            } else {
-                automata = null;
-            }
+            automata = presetManager.getWhatClassThePresetIsFromUsingGenericMagic(preset);
 
             loadedGrid = newGrid;
-            
-
-//            System.out.println("Loaded preset: " + preset);
-//            System.out.println("Grid size: " + newGrid.length + "x" + newGrid[0].length);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -133,7 +118,7 @@ public class DataStorage {
     	return loadedGrid;
     }
     
-    public CellularAutomata getAutomata() {
+    public GamePreset getAutomata() {
     	return automata;
     }
 }

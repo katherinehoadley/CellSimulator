@@ -2,65 +2,53 @@
 
 package model;
 
-import data.GamePreset;
-
 import java.util.List;
 
-public abstract class CellularAutomata implements GamePreset {
+public class GameOfLife extends GamePreset {
 
     protected List<Integer> livableNeighborCount;
     protected List<Integer> spawnableNeighborCount;
+    
+    public GameOfLife() {
+    	this.livableNeighborCount = List.of(2,3);
+    	this.spawnableNeighborCount = List.of(3);
+    }
+    
+    public GameOfLife(List<Integer> livable, List<Integer> spawnable) {
+    	this.livableNeighborCount = livable;
+    	this.spawnableNeighborCount = spawnable;
+    }
 
+
+    @Override
     public int[][] updateGrid(int[][] grid) {
         int rows = grid.length;
         int cols = grid[0].length;
         int[][] newGrid = new int[rows][cols];
 
-        // pass 1 to mark what should live or die
-        for (int y = 1; y < rows-1; y++) {
-            for (int x = 1; x < cols-1; x++) {
+        for (int y = 1; y < rows - 1; y++) {
+            for (int x = 1; x < cols - 1; x++) {
 
-                int value = grid[y][x];
+                Cell cell = Cell.fromValue(grid[y][x]);
                 int neighbors = getNeighborCount(grid, x, y);
-                Cell cell = Cell.fromValue(value);
 
-                //TODO - ugly and shannon would kill us so maybe make prettier soon...
+                //This else if chain will never grow, so it's ok.
                 if (cell == Cell.ALIVE) {
-                    if (!livableNeighborCount.contains(neighbors)) {
-                        newGrid[y][x] = Cell.DYING_SOON.getDisplayValue();
-                    } else {
-                        newGrid[y][x] = Cell.ALIVE.getDisplayValue();
-                    }
+                    // dies unless neighbor count is in livable list
+                    newGrid[y][x] = livableNeighborCount.contains(neighbors)
+                            ? Cell.ALIVE.getDisplayValue() : Cell.DEAD.getDisplayValue();
 
                 } else if (cell == Cell.DEAD) {
-                    if (spawnableNeighborCount.contains(neighbors)) {
-                        newGrid[y][x] = Cell.SPAWNING_SOON.getDisplayValue();
-                    } else {
-                        newGrid[y][x] = Cell.DEAD.getDisplayValue();
-                    }
+                    // spawns if in spawnable list
+                    newGrid[y][x] = spawnableNeighborCount.contains(neighbors)
+                            ? Cell.ALIVE.getDisplayValue() : Cell.DEAD.getDisplayValue();
 
                 } else {
                     // carry over value from original grid if it's not DEAD or ALIVE
-                    newGrid[y][x] = value;
+                    newGrid[y][x] = grid[y][x];
                 }
             }
         }
-
-        // pass 2 to update temp cells
-        for (int y = 1; y < rows-1; y++) {
-            for (int x = 1; x < cols-1; x++) {
-
-                Cell cell = Cell.fromValue(newGrid[y][x]);
-
-                if (cell == Cell.DYING_SOON) {
-                    newGrid[y][x] = Cell.DEAD.getDisplayValue();
-
-                } else if (cell == Cell.SPAWNING_SOON) {
-                    newGrid[y][x] = Cell.ALIVE.getDisplayValue();
-                }
-            }
-        }
-
         return newGrid;
     }
 
@@ -79,7 +67,7 @@ public abstract class CellularAutomata implements GamePreset {
                 // check if it's within the grid, so it doesn't give IndexOutOfBoundsException pain
                 if (newX >= 0 && newX < cols && newY >= 0 && newY < rows) {
                     Cell neighbor = Cell.fromValue(grid[newY][newX]);
-                    if (neighbor == Cell.ALIVE || neighbor == Cell.DYING_SOON) {
+                    if (neighbor == Cell.ALIVE) {
                         count++;
                     }
                 }
@@ -87,4 +75,9 @@ public abstract class CellularAutomata implements GamePreset {
         }
         return count;
     }
+    
+    public String getPreset() {
+    	return "Bacteria";
+    }
 }
+

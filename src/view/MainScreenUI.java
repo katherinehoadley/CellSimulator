@@ -8,6 +8,9 @@ import javafx.scene.layout.VBox;
 public class MainScreenUI extends VBox {
 	private Label titleLabel;
 	private Button startButton;
+	private Button gameOfLifeButton;
+	private Button rockPaperScissorsButton;
+	private String selectedSimulation;
 	
 	
 	public MainScreenUI() {
@@ -25,17 +28,35 @@ public class MainScreenUI extends VBox {
 		titleLabel = new Label("Game of Life");
 		titleLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: white;");
 
-		startButton = new Button("Start");
-		startButton.setStyle("-fx-font-size: 20px; -fx-padding: 10 30 10 30;");
-		startButton.setOnAction(e -> hide());
+		gameOfLifeButton = new Button("Game of Life");
+        gameOfLifeButton.setStyle("-fx-font-size: 20px; -fx-padding: 10 30 10 30;");
+        gameOfLifeButton.setOnAction(e -> selectedSimulation = "GameOfLife");
 
-		this.getChildren().addAll(titleLabel, startButton);
+        rockPaperScissorsButton = new Button("Rock Paper Scissors");
+        rockPaperScissorsButton.setStyle("-fx-font-size: 20px; -fx-padding: 10 30 10 30;");
+        rockPaperScissorsButton.setOnAction(e -> selectedSimulation = "RockPaperScissors");
+
+
+		this.getChildren().addAll(titleLabel, gameOfLifeButton, rockPaperScissorsButton);
 	}
 
 	
 	public Button getStartButton() {
         return startButton;
     }
+	
+	public String getSelectedSimulation() {
+        return selectedSimulation;
+    }
+	
+	public Button getGameOfLifeButton() {
+		return gameOfLifeButton;
+	}
+	
+	public Button RPSButton() {
+		return rockPaperScissorsButton;
+	}
+
 	
 	public void show() {
 		this.setVisible(true);

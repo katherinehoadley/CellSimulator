@@ -1,16 +1,18 @@
 //Katherine Hoadley
 package controller;
 
-import model.CellularAutomata;
+import model.GamePreset;
 
-public abstract class Step {
+public class Step {
 
-	protected CellularAutomata automata;
-
-	public Step() {}
+//	protected GamePreset automata;
 	
-	public abstract void update(int[][] grid);
+	private GamePreset preset;
 
+	public Step(GamePreset preset) {
+		this.preset = preset;
+	}
+	
 
     // Anna Rakes
     public void step(boolean isPaused, boolean takeStep, int[][] grid){
@@ -19,14 +21,21 @@ public abstract class Step {
 		}
     }
 
-	//TODO - this needs to become Object instead of CellularAutomata at some point
-	public CellularAutomata getCurrentAutomata(){
-		return automata;
+	public GamePreset getCurrentPreset(){
+		return preset;
 	}
 	
 
     // Anna
-    public void setCurrentAutomata(CellularAutomata automata) {
-    		this.automata = automata;
+    public void setCurrentPreset(GamePreset preset) {
+    		this.preset = preset;
+    }
+    
+    public void update(int[][] grid){
+		int[][] newGrid = preset.updateGrid(grid);
+		
+		for (int y = 0; y < grid.length; y++) {
+            System.arraycopy(newGrid[y], 0, grid[y], 0, grid[y].length);
+	    }
     }
 }
