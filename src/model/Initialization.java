@@ -2,11 +2,11 @@
 package model;
 
 public abstract class Initialization {
-	
-	//constructor
-    public Initialization() {};
     
-    //abstract to initialize grid
+	//fields
+    protected int[][] grid;
+
+    //initialize grid method
     public abstract int[][] initializeGrid(int rows, int cols, double thirdVariable);
 
 }
