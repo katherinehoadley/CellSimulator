@@ -1,3 +1,4 @@
+// Anna Rakes
 package view;
 
 import javafx.geometry.Pos;
@@ -9,7 +10,7 @@ import javafx.scene.text.Font;
 
 public class RockPaperScissorsControls extends ControlPanel {
 	
-	protected double thresholdNumber;
+	protected int thresholdNumber;
 	
 	
 	@Override
@@ -33,14 +34,18 @@ public class RockPaperScissorsControls extends ControlPanel {
 		try {
 			int numOfRows = Integer.parseInt(rows.getText());
 			int numOfColumns = Integer.parseInt(columns.getText());
-			thresholdNumber = Double.parseDouble(additionalRequirementValue.getText());
+			thresholdNumber = Integer.parseInt(additionalRequirementValue.getText());
 			if (numOfRows <= 4 || numOfColumns <= 4 || thresholdNumber < 1 || thresholdNumber > 8) {
 				throw new NumberFormatException("The number of rows and columns must be positive and threshold must be between 1 and 8.");
 			}
+			stepper.setCurrentPreset(preset);
 			controlPanel.getChildren().remove(gridPane);
 			gridPane = gridUI.startGrid(numOfRows, numOfColumns, thresholdNumber);
 			controlPanel.getChildren().add(gridPane);
-			stepper.setCurrentPreset(preset);
+			preset.configure(thresholdNumber);
+			
+			
+			
 		} catch (NumberFormatException nfe) {
 			showError("Indvalid Input", "Please enter positive integers 5 or greater for the columns and rows and a threshold between 1 and 8");
 		}
