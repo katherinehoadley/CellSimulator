@@ -1,11 +1,6 @@
 // Anna Rakes
 package view;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
 import controller.Step;
 import data.DataStorage;
 import javafx.geometry.Pos;
@@ -38,7 +33,7 @@ public abstract class ControlPanel {
 		protected VBox controlPanel = new VBox();
 		protected HBox loadingButtons = new HBox();
 		protected GridPane gridPane;
-		protected int bufferPeriod = 100; 
+//		protected int bufferPeriod = 100; 
 		protected String simulationChoice = "GameOfLife";
 
 		
@@ -48,7 +43,7 @@ public abstract class ControlPanel {
 		protected final int INPUT_BOX_SPACING = 15;
 		protected final int GRID_BUTTON_SPACING = 25;
 		protected final int TEXT_FONT_SIZE = 20;
-		protected static final int MIN_BUFFER_PERIOD = 50;
+//		protected static final int MIN_BUFFER_PERIOD = 50;
 		
 		// Cell simulation logic 
 		protected Step stepper;
@@ -58,11 +53,12 @@ public abstract class ControlPanel {
 		protected GamePreset preset;
 		protected Initialization initialization;
 		protected InitializationFactory initFactory = new InitializationFactory();
+		protected SimulationController simulationController = new SimulationController();
 			
 	    
-		// Lance: keeps step running continuously.
-		protected static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-		protected static ScheduledFuture<?> scheduledTask;
+//		// Lance: keeps step running continuously.
+//		protected static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+//		protected static ScheduledFuture<?> scheduledTask;
 
 
 		/**
@@ -171,21 +167,25 @@ public abstract class ControlPanel {
 		 */
 		protected void runSimulation() {
 			// Lance: 
-			if (scheduledTask != null && !scheduledTask.isCancelled()) {
-				scheduledTask.cancel(true); 
-			}
+//			if (scheduledTask != null && !scheduledTask.isCancelled()) {
+//				scheduledTask.cancel(true); 
+//			}
+			simulationController.stopSimulation();
 			Runnable step = () -> {
 				stepper.step(paused, false, gridUI.getGrid());
 				gridUI.updateVisuals();
 			};
-			scheduledTask = scheduler.scheduleAtFixedRate(step, 0, bufferPeriod, TimeUnit.MILLISECONDS);
+			simulationController.startSimulation(step);
+			
+//			scheduledTask = scheduler.scheduleAtFixedRate(step, 0, bufferPeriod, TimeUnit.MILLISECONDS);
 		}
 		
 		protected void createSlowDownButton() {
 			Button slowDownButton = new Button("Slow Down");
 			slowDownButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 			slowDownButton.setOnAction(value ->  {
-				bufferPeriod += 100;
+//				bufferPeriod += 100;
+				simulationController.slowDownSimSpeed();
 				runSimulation();
 			});
 			buttons.getChildren().add(slowDownButton);
@@ -198,8 +198,8 @@ public abstract class ControlPanel {
 		    speedUpButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 		    speedUpButton.setOnAction(value -> {
 
-		    	if (bufferPeriod - 100 >= MIN_BUFFER_PERIOD) {
-		            bufferPeriod -= 100;
+		    	if (simulationController.checkLimitForSimSpeed()) {
+		            simulationController.speedUpSim();
 		            runSimulation();
 		        }
 
