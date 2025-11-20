@@ -1,8 +1,5 @@
 package model;
 
-import java.util.EnumMap;
-import java.util.Map;
-
 public class RockPaperScissors extends GamePreset{
 
     public RockPaperScissors() {}
@@ -15,10 +12,10 @@ public class RockPaperScissors extends GamePreset{
     }
 
 
-    public int[][] updateGrid(int[][] grid, int threshold) {
-        this.threshold = threshold;
-        return updateGrid(grid);
-    }
+//    public int[][] updateGrid(int[][] grid, int threshold) {
+//        this.threshold = threshold;
+//        return updateGrid(grid);
+//    }
 
     @Override
     public int[][] updateGrid(int[][] grid) {
@@ -31,14 +28,14 @@ public class RockPaperScissors extends GamePreset{
             for (int x = 1; x < cols-1; x++) {
 
                 int originalValue = grid[y][x];
-                newGrid[y][x] = updateCell(grid, x, y, originalValue, threshold);
+                newGrid[y][x] = updateCell(grid, x, y, originalValue);
             }
         }
 
         return newGrid;
     }
 
-    public int updateCell(int[][] grid, int x, int y, int originalValue, int threshold) {
+    public int updateCell(int[][] grid, int x, int y, int originalValue) {
         int rows = grid.length;
         int cols = grid[0].length;
 
