@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class WildFire extends GamePreset {
-
+  
     private final ArrayList<TimePos> timeBurnMap = new ArrayList<>();
     private record TimePos(int time, int x, int y){}
 
@@ -58,7 +58,7 @@ public class WildFire extends GamePreset {
 
                     Cell neighbor = Cell.fromValue(grid[newY][newX]);
 
-                    if (neighbor == Cell.ALIVE) {
+                    if (neighbor == Cell.ALIVE_TREE) {
 
                         //If its above the spread chance, turn the neighbor into a burning tree.
                         if (random.nextDouble() >= spreadChance) {

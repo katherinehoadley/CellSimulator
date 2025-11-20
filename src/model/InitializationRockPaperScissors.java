@@ -7,12 +7,12 @@ import java.util.Random;
 public class InitializationRockPaperScissors extends Initialization{
 
 	//fields
-	private double ROCK_SCISSORS_PROPORTION = .5;
+	private double ROCK_SCISSORS_PROPORTION = .5;  
 	private double TRANSITION_ROWS_PROPORTION = .3;
 
 	//Initialize grid calculates the exact regions that each cell type is supposed to go in.
 	//It then fills the grid with the correct cell type.
-	public int[][] initializeGrid(int rows, int cols, double thirdVariable) {
+	public int[][] initializeGrid(int rows, int cols, double thirdVariable, int fourthVariable) {
 		grid = new int[rows][cols];
 
 	    int usableRows = rows - 2;
