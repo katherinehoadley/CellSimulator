@@ -2,18 +2,19 @@
 //This class initializes the rock paper scissors game by separating the three into their own sections
 package model;
 
+import java.util.Random;
+
 public class InitializationRockPaperScissors extends Initialization{
 
 	//fields
 	private double ROCK_SCISSORS_PROPORTION = .5;
 	private double TRANSITION_ROWS_PROPORTION = .3;
-	
+
 	//Initialize grid calculates the exact regions that each cell type is supposed to go in.
 	//It then fills the grid with the correct cell type.
-	@Override
 	public int[][] initializeGrid(int rows, int cols, double thirdVariable) {
-	    int[][] grid = new int[rows][cols];
-	
+		grid = new int[rows][cols];
+
 	    int usableRows = rows - 2;
 	    int usableCols = cols - 2;
 	
@@ -66,31 +67,31 @@ public class InitializationRockPaperScissors extends Initialization{
 	    return grid;
 	}
 
-	//    @Override
-//    public int[][] initializeGrid(int rows, int cols, double thirdVariable) {
-//        int[][] grid = new int[rows][cols];
-//
-//        Random random = new Random();
-//        
-//        for (int y = 0; y < rows; y++) {
-//            for (int x = 0; x < cols; x++) {
-//                if (y == 0 || y == rows - 1 || x == 0 || x == cols - 1) {
-//                    grid[y][x] = Cell.DEAD.getDisplayValue();
-//                    continue;
-//                }
-//                int number = random.nextInt(10);
-//                
-//                if (number < 3){
-//                    grid[y][x] = Cell.ROCK.getDisplayValue();
-//                } else if (number < 6){
-//                    grid[y][x] = Cell.PAPER.getDisplayValue();
-//                } else {
-//                    grid[y][x] = Cell.SCISSORS.getDisplayValue();
-//                }
-//            }
-//        }
-//        return grid;
-//    }
+	//this class is not actually used, it is just for fun
+    public int[][] randomInitializeGrid(int rows, int cols, double thirdVariable) {
+        int[][] grid = new int[rows][cols];
+
+        Random random = new Random();
+        
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+                if (y == 0 || y == rows - 1 || x == 0 || x == cols - 1) {
+                    grid[y][x] = Cell.DEAD.getDisplayValue();
+                    continue;
+                }
+                int number = random.nextInt(10);
+                
+                if (number < 3){
+                    grid[y][x] = Cell.ROCK.getDisplayValue();
+                } else if (number < 6){
+                    grid[y][x] = Cell.PAPER.getDisplayValue();
+                } else {
+                    grid[y][x] = Cell.SCISSORS.getDisplayValue();
+                }
+            }
+        }
+        return grid;
+    }
 
 
 }
