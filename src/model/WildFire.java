@@ -58,7 +58,7 @@ public class WildFire extends GamePreset {
 
                     Cell neighbor = Cell.fromValue(grid[newY][newX]);
 
-                    if (neighbor == Cell.ALIVE) {
+                    if (neighbor == Cell.ALIVE_TREE) {
 
                         //If its above the spread chance, turn the neighbor into a burning tree.
                         if (random.nextDouble() >= spreadChance) {

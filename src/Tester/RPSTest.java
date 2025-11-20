@@ -15,7 +15,7 @@ public class RPSTest extends Application {
         int cols = 10;
 
         GridUI gridUI = new GridUI(new InitializationRockPaperScissors());
-        Scene scene = new Scene(gridUI.startGrid(rows, cols, 1.0));
+        Scene scene = new Scene(gridUI.startGrid(rows, cols, 1.0, 1));
 
         stage.setTitle("RPS Initialization Test");
         stage.setScene(scene);

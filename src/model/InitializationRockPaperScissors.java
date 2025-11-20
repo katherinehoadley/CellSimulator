@@ -12,7 +12,7 @@ public class InitializationRockPaperScissors extends Initialization{
 
 	//Initialize grid calculates the exact regions that each cell type is supposed to go in.
 	//It then fills the grid with the correct cell type.
-	public int[][] initializeGrid(int rows, int cols, double thirdVariable) {
+	public int[][] initializeGrid(int rows, int cols, double thirdVariable, int fourthVariable) {
 		grid = new int[rows][cols];
 
 	    int usableRows = rows - 2;

@@ -22,6 +22,11 @@ public class GridUI {
 	private final Color ROCK_COLOR = Color.RED;
 	private final Color PAPER_COLOR = Color.WHITE;
 	private final Color SCISSORS_COLOR = Color.BLUE;
+	private final Color ALIVE_TREE_COLOR = Color.GREEN;
+	private final Color BURNING_TREE_COLOR = Color.rgb(242, 90, 19);
+	private final Color DEAD_TREE_COLOR = Color.rgb(97, 85, 72);
+	private final Color GROUND_COLOR = Color.OLIVE;
+
 
 	private final int CELL_SIZE = 10;
 
@@ -39,8 +44,8 @@ public class GridUI {
         this.initialization = initialization;
     }
     
-    public GridPane startGrid (int rows, int columns, double thirdVariable) {
-    		grid = initialization.initializeGrid(rows, columns, thirdVariable);
+    public GridPane startGrid (int rows, int columns, double thirdVariable, int fourthVariable) {
+    		grid = initialization.initializeGrid(rows, columns, thirdVariable, fourthVariable);
     		setGridDimensions(grid, rows, columns);
     		updateVisuals();
     		return render(rows, columns);
@@ -61,6 +66,12 @@ public class GridUI {
         map.put(Cell.ROCK, ROCK_COLOR);
         map.put(Cell.PAPER, PAPER_COLOR);
         map.put(Cell.SCISSORS, SCISSORS_COLOR);
+        map.put(Cell.ALIVE_TREE, ALIVE_TREE_COLOR);
+        map.put(Cell.BURNING_TREE, BURNING_TREE_COLOR);
+        map.put(Cell.DEAD_TREE, DEAD_TREE_COLOR);
+        map.put(Cell.GROUND, GROUND_COLOR);
+
+
     	
         for (int y = 0; y < numRows; y++) {
             for (int x = 0; x < numCols; x++) {
