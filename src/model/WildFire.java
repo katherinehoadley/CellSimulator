@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class WildFire extends GamePreset {
- 
+  
     private final ArrayList<TimePos> timeBurnMap = new ArrayList<>();
     private record TimePos(int time, int x, int y){}
 

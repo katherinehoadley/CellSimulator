@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import model.InitializationWildfire;
 import view.GridUI;
 
-public class WFTest extends Application { 
+public class WFTest extends Application {  
 
     @Override
     public void start(Stage stage) {

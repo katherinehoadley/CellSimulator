@@ -5,7 +5,7 @@ public class InitializationGameOfLife extends Initialization {
 	   
 
     public InitializationGameOfLife() {};
-     
+      
     //creates a new grid when ui calls this function.
     //starts a grid of potentially alive bacteria
     public int[][] initializeGrid(int rows, int cols, double startAliveChance, int fourthVariable) {

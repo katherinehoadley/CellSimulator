@@ -16,7 +16,7 @@ public class InitializationWildfire extends Initialization{
 				if (y == 0 || y == rows - 1 || x == 0 || x == cols - 1) {
 					grid[y][x] = Cell.DEAD_TREE.getDisplayValue(); 
 					continue;
-				}
+				} 
 				if (Math.random() < treeDensity) {
 	                   grid[y][x] = Cell.ALIVE_TREE.getDisplayValue();
 	                   treeCells.add(new int[]{y, x});

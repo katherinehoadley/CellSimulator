@@ -7,7 +7,7 @@ import java.util.Random;
 public class InitializationRockPaperScissors extends Initialization{
 
 	//fields
-	private double ROCK_SCISSORS_PROPORTION = .5; 
+	private double ROCK_SCISSORS_PROPORTION = .5;  
 	private double TRANSITION_ROWS_PROPORTION = .3;
 
 	//Initialize grid calculates the exact regions that each cell type is supposed to go in.
