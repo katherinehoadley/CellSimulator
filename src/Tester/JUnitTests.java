@@ -14,7 +14,7 @@ public class JUnitTests {
 	private Initialization getInitializationGOL() {
 		return new InitializationGameOfLife();
 	}
-	
+	 
 	private Initialization getInitializationRPS() {
 		return new InitializationRockPaperScissors();
 	}

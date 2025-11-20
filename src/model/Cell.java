@@ -10,7 +10,7 @@ public enum Cell {
     BURNING_TREE(3),
     DEAD_TREE(4),
     GROUND(5),
-    ROCK(6),
+    ROCK(6), 
     PAPER(7),
     SCISSORS(8);
 

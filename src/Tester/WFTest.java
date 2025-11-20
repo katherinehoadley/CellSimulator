@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import model.InitializationWildfire;
 import view.GridUI;
 
-public class WFTest extends Application {
+public class WFTest extends Application { 
 
     @Override
     public void start(Stage stage) {
@@ -20,7 +20,7 @@ public class WFTest extends Application {
         stage.setTitle("Wildfire Initialization Test");
         stage.setScene(scene);
         stage.show();
-    }
+    } 
 
     public static void main(String[] args) {
         launch(args);

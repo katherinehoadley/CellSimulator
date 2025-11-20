@@ -16,7 +16,7 @@ import model.Cell;
 import model.GameOfLife;
 import model.Initialization;
 
-public class GridUI {
+public class GridUI { 
 	private final Color ALIVE_COLOR = Color.AQUA; 
 	private final Color DEAD_COLOR = Color.DARKGREY;
 	private final Color ROCK_COLOR = Color.RED;

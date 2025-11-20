@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class InitializationWildfire extends Initialization{
-
+ 
 	@Override
 	public int[][] initializeGrid(int rows, int cols, double treeDensity, int spawnBurnChance) {
 		grid = new int[rows][cols];
