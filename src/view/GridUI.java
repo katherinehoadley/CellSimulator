@@ -1,19 +1,12 @@
 // Johnathan Meeks
 package view;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Random;
-
-import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.Cell;
-import model.GameOfLife;
 import model.Initialization;
 
 public class GridUI { 
