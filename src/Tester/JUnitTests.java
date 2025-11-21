@@ -14,7 +14,7 @@ public class JUnitTests {
 	private Initialization getInitializationGOL() {
 		return new InitializationGameOfLife();
 	}
-	
+	  
 	private Initialization getInitializationRPS() {
 		return new InitializationRockPaperScissors();
 	}
@@ -26,7 +26,7 @@ public class JUnitTests {
         int rows = 6;
         int cols = 8;
 
-        int[][] grid = init.initializeGrid(rows, cols, .3);
+        int[][] grid = init.initializeGrid(rows, cols, .3, 1);
 
         assertNotNull(grid, "Grid should not be null");
         assertEquals(rows, grid.length, "Grid should have the correct number of rows");
@@ -58,7 +58,7 @@ public class JUnitTests {
         int cols = 5;
         double aliveRate = .3;
 
-        int[][] grid = init.initializeGrid(rows, cols, aliveRate);
+        int[][] grid = init.initializeGrid(rows, cols, aliveRate, 1);
         
         int aliveCount = 0;
         
@@ -80,7 +80,7 @@ public class JUnitTests {
         Initialization init = getInitializationRPS();
         int rows = 50;
         int cols = 50;
-        int[][] grid = init.initializeGrid(rows, cols, 1);
+        int[][] grid = init.initializeGrid(rows, cols, 1, 1);
         
         int rockCount = 0;
         int paperCount = 0;
