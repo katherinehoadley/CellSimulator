@@ -40,7 +40,7 @@ public class RockPaperScissorsControls extends ControlPanel {
 			}
 			stepper.setCurrentPreset(preset);
 			controlPanel.getChildren().remove(gridPane);
-			gridPane = gridUI.startGrid(numOfRows, numOfColumns, thresholdNumber);
+			gridPane = gridUI.startGrid(numOfRows, numOfColumns, thresholdNumber, -1);
 			controlPanel.getChildren().add(gridPane);
 			preset.configure(thresholdNumber);
 			
