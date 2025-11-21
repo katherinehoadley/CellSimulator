@@ -1,4 +1,6 @@
 //Katherine Hoadley
+//this class initializes the game of life game mode by randomly spawning in alive cells with
+// alive rate given by user input
 package model;
 
 public class InitializationGameOfLife extends Initialization {
@@ -7,7 +9,7 @@ public class InitializationGameOfLife extends Initialization {
     public InitializationGameOfLife() {};
       
     //creates a new grid when ui calls this function.
-    //starts a grid of potentially alive bacteria
+    //starts a grid of potentially alive bacteria based on the startAliveChance given by user
     public int[][] initializeGrid(int rows, int cols, double startAliveChance, int fourthVariable) {
     		grid = new int[rows][cols];
 
