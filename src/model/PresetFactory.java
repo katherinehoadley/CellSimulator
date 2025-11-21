@@ -10,9 +10,9 @@ public class PresetFactory {
 
 	public GamePreset makeSimulation(String searchName) {
 		try {
-			Class theClass = Class.forName("model."+searchName);			
+			Class<?> theClass = Class.forName("model."+searchName);			
 
-			Constructor theConstructor = theClass.getConstructor();
+			Constructor<?> theConstructor = theClass.getConstructor();
 
 			return (GamePreset) theConstructor.newInstance();
 
@@ -41,5 +41,4 @@ public class PresetFactory {
 		System.out.println("I am unable to create the Search.  Returning null.");
 		return null;
 	}
-
 }

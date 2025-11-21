@@ -10,11 +10,9 @@ private Initialization initialization;
 	
 	public Initialization getInitialization(String initializationType) {
 		try {
-			Class theClass = Class.forName("model."+ initializationType);
+			Class<?> theClass = Class.forName("model."+ initializationType);
 			
-			
-			
-			Constructor theConstructor = theClass.getConstructor();
+			Constructor<?> theConstructor = theClass.getConstructor();
 			
 			return (Initialization) theConstructor.newInstance();
 			
@@ -43,6 +41,4 @@ private Initialization initialization;
 		System.out.println("I am unable to create the Search.  Returning null.");
 		return null;
 	}
-
-
 }
