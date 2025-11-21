@@ -22,29 +22,23 @@ public abstract class ControlPanel {
 	// UI Components and current game state
 		protected Button pauseButton;
 		protected boolean paused = false;		
-		protected TextField rows;
-		protected TextField columns;
-//		protected TextField aliveDensity;
-//		protected TextField threshold;
-		protected TextField additionalRequirementValue;
 		protected TextField saveFileNameAs;
 		protected TextField fileName;
 		protected HBox buttons = new HBox();
 		protected VBox controlPanel = new VBox();
 		protected HBox loadingButtons = new HBox();
 		protected GridPane gridPane;
-//		protected int bufferPeriod = 100; 
 		protected String simulationChoice = "GameOfLife";
-
 		
-		// Constants
-		protected final int TEXT_FIELD_WIDTH = 50;
-		protected final int BUTTON_SPACING = 10;
-		protected final int INPUT_BOX_SPACING = 15;
-		protected final int GRID_BUTTON_SPACING = 25;
 		protected final int TEXT_FONT_SIZE = 20;
-//		protected static final int MIN_BUFFER_PERIOD = 50;
-		
+		protected final int INPUT_BOX_SPACING = 15;
+
+
+
+		// Constants
+		protected final int BUTTON_SPACING = 10;
+		protected final int GRID_BUTTON_SPACING = 25;
+
 		// Cell simulation logic 
 		protected Step stepper;
 		protected GridUI gridUI = new GridUI();	
@@ -54,12 +48,11 @@ public abstract class ControlPanel {
 		protected Initialization initialization;
 		protected InitializationFactory initFactory = new InitializationFactory();
 		protected SimulationController simulationController = new SimulationController();
-			
-	    
-//		// Lance: keeps step running continuously.
-//		protected static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-//		protected static ScheduledFuture<?> scheduledTask;
+		protected UserInputPanel userInputPanel;
 
+		
+		
+		protected abstract void createGrid();
 
 		/**
 		 * method setUpControlButtons
@@ -90,13 +83,13 @@ public abstract class ControlPanel {
 			return loadingButtons;
 		}
 		
-		public VBox setupControlPanel() {
+		public VBox setupControlPanel() {			
 		    controlPanel.setAlignment(Pos.TOP_CENTER);
 		    controlPanel.setSpacing(GRID_BUTTON_SPACING); 
 
 		    HBox buttonBox = setupControlButtons();
 		    HBox loadingBox = setUpLoadingButtons();
-		    HBox inputBox = setUpGridSize();
+		    HBox inputBox = userInputPanel.createBox();
 
 		    controlPanel.getChildren().addAll(inputBox, loadingBox, buttonBox);
 
@@ -134,6 +127,7 @@ public abstract class ControlPanel {
 		public void setSimulationChoice(String choice) {
 			this.simulationChoice = choice;
 			this.preset = presetFactory.makeSimulation(choice);
+			userInputPanel = new UserInputPanel(this, preset);
 			
 			this.initialization = initFactory.getInitialization("Initialization"+choice);
 			
@@ -144,8 +138,6 @@ public abstract class ControlPanel {
 			stepper.setCurrentPreset(preset);
 			gridUI = new GridUI(initialization);
 		}
-		
-		
 		
 		/**
 		 * method createStartButton
@@ -159,7 +151,6 @@ public abstract class ControlPanel {
 			});
 			buttons.getChildren().add(startButton);
 		}
-		
 		
 		/**
 		 * method runSimulation created by Lance
@@ -222,7 +213,6 @@ public abstract class ControlPanel {
 			buttons.getChildren().add(pauseButton);
 		}
 		
-		
 		/**
 		 * method createStepButton
 		 * Creates the step button which manually takes one individual step 
@@ -238,8 +228,7 @@ public abstract class ControlPanel {
 			buttons.getChildren().add(stepButton);
 		}
 		
-		
-		
+			
 		/**
 		 * method showError
 		 * @param title: name at top of error box
@@ -253,49 +242,6 @@ public abstract class ControlPanel {
 		    alert.showAndWait();
 		}
 
-		/**
-		 * method setUpGridSize
-		 * Sets up the input fields for specifying grid size.
-	     * Adds labeled text fields for rows and columns to an HBox.
-		 * @return the HBox with the text fields. 
-		 */
-		protected HBox setUpGridSize(){
-			HBox inputBox = new HBox();
-			inputBox.setAlignment(Pos.BASELINE_CENTER);
-			inputBox.setSpacing(INPUT_BOX_SPACING);
-
-			Label rowsLabel = new Label("Rows: ");
-			rowsLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-			rows = new TextField();
-			rows.setPrefWidth(TEXT_FIELD_WIDTH);
-
-			Label columnsLabel = new Label("Columns: ");
-			columnsLabel.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-			columns = new TextField();
-			columns.setPrefWidth(TEXT_FIELD_WIDTH);
-			
-			HBox additionalRequirementBox = createAdditionalRequirementsBox();
-					
-			inputBox.getChildren().addAll(rowsLabel, rows, columnsLabel, columns, additionalRequirementBox, createGridButton());
-		
-			return inputBox;
-		}
-		
-		protected abstract HBox createAdditionalRequirementsBox();
-		
-		protected Button createGridButton() {
-			Button createGridButton = new Button("Create Grid From Input");
-			createGridButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-			createGridButton.setOnAction(value -> {
-				createGrid();
-			});
-			return createGridButton;
-		}
-		
-		protected abstract void createGrid();
-		
-		
-		
 		protected HBox setFileName() {
 			HBox inputBox = new HBox();
 			inputBox.setAlignment(Pos.BASELINE_CENTER);
@@ -324,7 +270,6 @@ public abstract class ControlPanel {
 			return inputBox;
 		}
 		
-		
 		/**
 		 * method pressPause
 		 * changes the state of the simulation. 
@@ -339,7 +284,3 @@ public abstract class ControlPanel {
 			}
 		}
 	}
-
-
-
-

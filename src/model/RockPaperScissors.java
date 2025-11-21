@@ -85,4 +85,10 @@ public class RockPaperScissors extends GamePreset{
     public String getPreset() {
         return "RockPaperScissors";
     }
+    
+    // Anna:
+    @Override
+    public String getThirdVariableLabel() {
+    	return "Threshold";
+    }
 }

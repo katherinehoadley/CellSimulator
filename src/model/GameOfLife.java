@@ -79,5 +79,11 @@ public class GameOfLife extends GamePreset {
     public String getPreset() {
     	return "Bacteria";
     }
+    
+    // Anna:
+    @Override
+    public String getThirdVariableLabel() {
+    	return "Alive Density";
+    }
 }
 

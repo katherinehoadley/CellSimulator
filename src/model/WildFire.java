@@ -94,4 +94,10 @@ public class WildFire extends GamePreset {
     public String getPreset() {
         return "WildFire";
     }
+    
+    // Anna:
+    @Override
+    public String getThirdVariableLabel() {
+    	return "Wildfire";
+    }
 }

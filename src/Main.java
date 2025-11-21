@@ -21,23 +21,23 @@ public class Main extends Application {
 		
 		MainScreenUI mainScreen = new MainScreenUI();
 		GameOfLifeControls gameOfLifeControls = new GameOfLifeControls();
+		gameOfLifeControls.setSimulationChoice("GameOfLife");
 		VBox gameOfLifePanel = gameOfLifeControls.setupControlPanel();
 		gameOfLifePanel.setVisible(false);
 
 		RockPaperScissorsControls rpsControls = new RockPaperScissorsControls();
+		rpsControls.setSimulationChoice("RockPaperScissors");
 		VBox rpsPanel = rpsControls.setupControlPanel();
 		rpsPanel.setVisible(false);
 
 		root.getChildren().addAll(mainScreen, gameOfLifePanel, rpsPanel);
 
 		mainScreen.getGameOfLifeButton().setOnAction(e -> {
-		    gameOfLifeControls.setSimulationChoice("GameOfLife");
 		    mainScreen.setVisible(false);
 		    gameOfLifePanel.setVisible(true);
 		});
 
 		mainScreen.RPSButton().setOnAction(e -> {
-		    rpsControls.setSimulationChoice("RockPaperScissors");
 		    mainScreen.setVisible(false);
 		    rpsPanel.setVisible(true);
 		});
