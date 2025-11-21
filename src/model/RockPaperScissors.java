@@ -11,12 +11,6 @@ public class RockPaperScissors extends GamePreset{
     		this.threshold = threshold;
     }
 
-
-//    public int[][] updateGrid(int[][] grid, int threshold) {
-//        this.threshold = threshold;
-//        return updateGrid(grid);
-//    }
-
     @Override
     public int[][] updateGrid(int[][] grid) {
         int rows = grid.length;
