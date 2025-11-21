@@ -13,10 +13,7 @@ public class RockPaperScissors extends GamePreset{
 
     @Override
     public int[][] updateGrid(int[][] grid) {
-        int rows = grid.length;
-        int cols = grid[0].length;
-        int[][] newGrid = new int[rows][cols];
-
+        super.updateGrid(grid);
         //loop over every cell in the grid
         for (int y = 1; y < rows-1; y++) {
             for (int x = 1; x < cols-1; x++) {
