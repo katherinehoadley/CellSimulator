@@ -1,5 +1,5 @@
 //Katherine Hoadley
-//This class initializes the rock paper scissors game by separating the three into their own sections
+//This class initializes the rock paper scissors game by separating the three into their own equally sized sections
 package model;
 
 import java.util.Random;
@@ -67,7 +67,9 @@ public class InitializationRockPaperScissors extends Initialization{
 	    return grid;
 	}
 
-	//this class is not actually used, it is just for fun
+	
+	//this class is not actually used, it is just for fun.
+	//shows how simulation would run if RPS spawned randomly
     public int[][] randomInitializeGrid(int rows, int cols, double thirdVariable) {
         int[][] grid = new int[rows][cols];
 
