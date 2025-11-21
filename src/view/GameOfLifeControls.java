@@ -25,7 +25,7 @@ public class GameOfLifeControls extends ControlPanel {
 				throw new NumberFormatException("The number of rows and columns must be positive and density rate must be between 0 and 1.");
 			}
 			controlPanel.getChildren().remove(gridPane);
-			gridPane = gridUI.startGrid(numOfRows, numOfColumns, densityRate);
+			gridPane = gridUI.startGrid(numOfRows, numOfColumns, densityRate, -1);
 			controlPanel.getChildren().add(gridPane);
 			stepper.setCurrentPreset(preset);
 		} catch (NumberFormatException nfe) {
