@@ -5,8 +5,10 @@ import java.util.Collections;
 
 public class InitializationWildfire extends Initialization{
  
+	//initializes the grid by making the edge cells dead trees, randomly spawning live trees
+	//based on the density given, and then randomly putting the burning trees in the grid 
 	@Override
-	public int[][] initializeGrid(int rows, int cols, double treeDensity, int spawnBurnChance) {
+	public int[][] initializeGrid(int rows, int cols, double treeDensity, int burningTrees) {
 		grid = new int[rows][cols];
         ArrayList<int[]> treeCells = new ArrayList<>();
 		
@@ -27,13 +29,13 @@ public class InitializationWildfire extends Initialization{
 	            }
 			}
 			
-		    if (spawnBurnChance > treeCells.size()) {
-		        spawnBurnChance = treeCells.size();
+		    if (burningTrees > treeCells.size()) {
+		        burningTrees = treeCells.size();
 		    }
 		        
 		    Collections.shuffle(treeCells);
 		        
-		    for (int i = 0; i < spawnBurnChance; i++) {
+		    for (int i = 0; i < burningTrees; i++) {
 		        int[] pos = treeCells.get(i);
 		        int y = pos[0];
 		        int x = pos[1];

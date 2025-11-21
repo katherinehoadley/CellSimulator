@@ -11,11 +11,11 @@ public class WFTest extends Application {
 
     @Override
     public void start(Stage stage) {
-        int rows = 50;
-        int cols = 50;
+        int rows = 30;
+        int cols = 30;
 
         GridUI gridUI = new GridUI(new InitializationWildfire());
-        Scene scene = new Scene(gridUI.startGrid(rows, cols, .5, 15));
+        Scene scene = new Scene(gridUI.startGrid(rows, cols, .5, 10));
 
         stage.setTitle("Wildfire Initialization Test");
         stage.setScene(scene);

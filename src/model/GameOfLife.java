@@ -8,51 +8,32 @@ public class GameOfLife extends GamePreset {
 
     protected List<Integer> livableNeighborCount;
     protected List<Integer> spawnableNeighborCount;
-    
+
     public GameOfLife() {
-    	this.livableNeighborCount = List.of(2,3);
-    	this.spawnableNeighborCount = List.of(3);
+        this.livableNeighborCount = List.of(2,3);
+        this.spawnableNeighborCount = List.of(3);
     }
-    
+
     public GameOfLife(List<Integer> livable, List<Integer> spawnable) {
-    	this.livableNeighborCount = livable;
-    	this.spawnableNeighborCount = spawnable;
+        this.livableNeighborCount = livable;
+        this.spawnableNeighborCount = spawnable;
     }
 
 
     @Override
     public int[][] updateGrid(int[][] grid) {
-        int rows = grid.length;
-        int cols = grid[0].length;
-        int[][] newGrid = new int[rows][cols];
-
+        super.updateGrid(grid);
         for (int y = 1; y < rows - 1; y++) {
             for (int x = 1; x < cols - 1; x++) {
 
                 Cell cell = Cell.fromValue(grid[y][x]);
-                int neighbors = getNeighborCount(grid, x, y);
-
-                //This else if chain will never grow, so it's ok.
-                if (cell == Cell.ALIVE) {
-                    // dies unless neighbor count is in livable list
-                    newGrid[y][x] = livableNeighborCount.contains(neighbors)
-                            ? Cell.ALIVE.getDisplayValue() : Cell.DEAD.getDisplayValue();
-
-                } else if (cell == Cell.DEAD) {
-                    // spawns if in spawnable list
-                    newGrid[y][x] = spawnableNeighborCount.contains(neighbors)
-                            ? Cell.ALIVE.getDisplayValue() : Cell.DEAD.getDisplayValue();
-
-                } else {
-                    // carry over value from original grid if it's not DEAD or ALIVE
-                    newGrid[y][x] = grid[y][x];
-                }
+                newGrid[y][x] = updateCell(grid, x, y, cell);
             }
         }
         return newGrid;
     }
 
-    public int getNeighborCount(int[][] grid, int x, int y) {
+    public int updateCell(int[][] grid, int x, int y, Cell cell) {
         int rows = grid.length;
         int cols = grid[0].length;
         int count = 0;
@@ -73,11 +54,26 @@ public class GameOfLife extends GamePreset {
                 }
             }
         }
-        return count;
+
+        //This else if chain will never grow, so it's ok.
+        if (cell == Cell.ALIVE) {
+            // dies unless neighbor count is in livable list
+            return livableNeighborCount.contains(count)
+                    ? Cell.ALIVE.getDisplayValue() : Cell.DEAD.getDisplayValue();
+
+        } else if (cell == Cell.DEAD) {
+            // spawns if in spawnable list
+            return spawnableNeighborCount.contains(count)
+                    ? Cell.ALIVE.getDisplayValue() : Cell.DEAD.getDisplayValue();
+
+        } else {
+            // carry over value from original grid if it's not DEAD or ALIVE
+            return grid[y][x];
+        }
     }
-    
+
     public String getPreset() {
-    	return "Bacteria";
+        return "Bacteria";
     }
     
     // Anna:
@@ -86,4 +82,3 @@ public class GameOfLife extends GamePreset {
     	return "Alive Density";
     }
 }
-

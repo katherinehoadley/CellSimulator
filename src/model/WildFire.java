@@ -14,10 +14,7 @@ public class WildFire extends GamePreset {
 
     @Override
     public int[][] updateGrid(int[][] grid) {
-        int rows = grid.length;
-        int cols = grid[0].length;
-        int[][] newGrid = new int[rows][cols];
-
+        super.updateGrid(grid);
         updateBurningTrees(newGrid);
 
         //loop over every cell in the grid

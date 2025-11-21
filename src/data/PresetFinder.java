@@ -10,8 +10,8 @@ import java.util.*;
 import model.GameOfLife;
 import model.GamePreset;
 
-public class GenericFromHell {
-    public GenericFromHell() {
+public class PresetFinder {
+    public PresetFinder() {
         discoverPresets();
     }
 
@@ -78,9 +78,9 @@ public class GenericFromHell {
                 String className = packageName + "." + file.getName().substring(0, file.getName().length() - 6);
                 try {
                     Class<?> clazz = Class.forName(className);
-                    if (!Modifier.isAbstract(clazz.getModifiers()) && model.GamePreset.class.isAssignableFrom(clazz)) {
+                    if (!Modifier.isAbstract(clazz.getModifiers()) && GamePreset.class.isAssignableFrom(clazz)) {
 
-                        model.GamePreset instance = (model.GamePreset) clazz.getDeclaredConstructor().newInstance();
+                        GamePreset instance = (GamePreset) clazz.getDeclaredConstructor().newInstance();
                         String presetName = instance.getPreset();
 
                         //cache preset so I dont need to call this again until new object of generic is made

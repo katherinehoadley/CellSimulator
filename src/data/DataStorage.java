@@ -8,13 +8,13 @@ import java.util.*;
 
 public class DataStorage {
 
-    private final GenericFromHell presetManager;
+    private final PresetFinder presetManager;
     private final Path dataPath;
     private int [][] loadedGrid;
     private GamePreset automata;
 
     public DataStorage() {
-        this.presetManager = new GenericFromHell();
+        this.presetManager = new PresetFinder();
 
         //this data path should be outside of src, in the directory above that, in a folder called data.
         this.dataPath = Paths.get(System.getProperty("user.dir"), "data");
@@ -24,9 +24,6 @@ public class DataStorage {
 
     public void saveData(int[][] grid, String preset, String fileName) {
         try {
-//            System.out.print("Enter filename to save (without extension): ");
-//            String filename = scanner.nextLine().trim();
-
             Path filePath = Paths.get(String.valueOf(dataPath), fileName + ".txt");
 
             try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
@@ -51,24 +48,6 @@ public class DataStorage {
 
     public void loadData(String fileName) {
         try {
-//            Scanner scanner = new Scanner(System.in);
-//
-//            File dataDir = new File(String.valueOf(dataPath));
-//            String[] files = dataDir.list((dir, name) -> name.endsWith(".txt"));
-//            if (files == null || files.length == 0) {
-//                System.out.println("No data files found in " + dataPath);
-//                return;
-//            }
-//
-//            System.out.println("Available files:");
-//            for (String f : files) {
-//                System.out.println("- " + f);
-//            }
-//
-//            System.out.print("Enter the file name you want to load: ");
-//            String chosen = scanner.nextLine().trim();
-//            if (!chosen.endsWith(".txt")) chosen += ".txt";
-
             Path filePath = Paths.get(String.valueOf(dataPath), fileName);
             if (!Files.exists(filePath)) {
                 System.out.println("File not found: " + filePath.getFileName());
