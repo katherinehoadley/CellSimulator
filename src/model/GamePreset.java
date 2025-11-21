@@ -5,7 +5,18 @@ public abstract class GamePreset {
 	public GamePreset() {}
 
     public abstract String getPreset();
-    public abstract int[][] updateGrid(int[][] grid);
+   
+    protected int rows;
+    protected int cols;
+    protected int[][] newGrid;
+    
+    
+    public int[][] updateGrid(int[][] grid){
+        this.rows = grid.length;
+        this.cols = grid[0].length;
+        this.newGrid = new int[rows][cols];
+        return newGrid;
+    }
     
     // Anna Rakes:
     public void configure(int thirdVariable) {}
