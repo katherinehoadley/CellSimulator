@@ -10,6 +10,7 @@ public class MainScreenUI extends VBox {
 	private Button startButton;
 	private Button gameOfLifeButton;
 	private Button rockPaperScissorsButton;
+	private Button wildfireButton;
 	private String selectedSimulation;
 	
 	
@@ -35,9 +36,14 @@ public class MainScreenUI extends VBox {
         rockPaperScissorsButton = new Button("Rock Paper Scissors");
         rockPaperScissorsButton.setStyle("-fx-font-size: 20px; -fx-padding: 10 30 10 30;");
         rockPaperScissorsButton.setOnAction(e -> selectedSimulation = "RockPaperScissors");
+        
+        wildfireButton = new Button("Wildfire");
+        wildfireButton.setStyle("-fx-font-size: 20px; -fx-padding: 10 30 10 30;");
+        wildfireButton.setOnAction(e -> selectedSimulation = "Wildfire");
 
 
-		this.getChildren().addAll(titleLabel, gameOfLifeButton, rockPaperScissorsButton);
+
+		this.getChildren().addAll(titleLabel, gameOfLifeButton, rockPaperScissorsButton, wildfireButton);
 	}
 
 	
@@ -57,6 +63,9 @@ public class MainScreenUI extends VBox {
 		return rockPaperScissorsButton;
 	}
 
+	public Button getWildfireButton() {
+		return wildfireButton;
+	}
 	
 	public void show() {
 		this.setVisible(true);
