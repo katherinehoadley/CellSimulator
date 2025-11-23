@@ -10,6 +10,7 @@ private Initialization initialization;
 	
 	public Initialization getInitialization(String initializationType) {
 		try {
+
 			Class<?> theClass = Class.forName("model."+ initializationType);
 			
 			Constructor<?> theConstructor = theClass.getConstructor();
