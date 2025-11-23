@@ -8,6 +8,7 @@ import model.Cell;
 import model.Initialization;
 import model.InitializationGameOfLife;
 import model.InitializationRockPaperScissors;
+import model.InitializationWildfire;
 
 public class JUnitTests {
 	
@@ -17,6 +18,10 @@ public class JUnitTests {
 	  
 	private Initialization getInitializationRPS() {
 		return new InitializationRockPaperScissors();
+	}
+	
+	private Initialization getInitializationWF() {
+		return new InitializationWildfire();
 	}
 	
 	//tests that the initialization actually works with correct number of rows/columns
@@ -105,5 +110,59 @@ public class JUnitTests {
         System.out.println((.03*rockCount));
         assertTrue(rockCount == scissorsCount && (paperCount - rockCount) <= (.03*rockCount));
     }
+    
+    //ensures the assigned burning trees amount is the same as the actual value of burning trees
+    @Test
+    public void wildfireBurningTreeCount() {
+    	Initialization init = getInitializationWF();
+    	int rows = 50;
+    	int cols = 50;
+    	int assignedBurningTrees = 10;
+        int[][] grid = init.initializeGrid(rows, cols, 1.0, assignedBurningTrees);
+        int burningTreeCount = 0;
+        
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (grid[r][c] == Cell.BURNING_TREE.getDisplayValue()) {
+                	burningTreeCount++;
+                }
+            }
+        }
+        
+        assertEquals(burningTreeCount, assignedBurningTrees);
+    }
+    
+
+    //ensures that when too many burning trees are inputed, the burning tree count defaults
+    //to the maxed-out value of available tree cells.
+    @Test
+    public void wildfireBurningTreeOver() {
+    	Initialization init = getInitializationWF();
+    	int rows = 20;
+    	int cols = 20;
+    	int assignedBurningTrees = 400;
+        int[][] grid = init.initializeGrid(rows, cols, 1.0, assignedBurningTrees);
+        int burningTreeCount = 0;
+        int aliveTreeCount = 0;
+        
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (grid[r][c] == Cell.BURNING_TREE.getDisplayValue()) {
+                	burningTreeCount++;
+                }
+                if (grid[r][c] == Cell.ALIVE_TREE.getDisplayValue()) {
+                	aliveTreeCount++;
+                }
+            }
+        
+        }
+        
+        System.out.println("Burning: " + burningTreeCount);
+        System.out.println("Alive: " + aliveTreeCount);
+
+        assertTrue(burningTreeCount > aliveTreeCount && aliveTreeCount == 0);
+      
+    }
+    
 
 }
