@@ -23,11 +23,20 @@ public class Main extends Application {
 		GameOfLifeControls gameOfLifeControls = new GameOfLifeControls();
 		gameOfLifeControls.setSimulationChoice("GameOfLife");
 		VBox gameOfLifePanel = gameOfLifeControls.setupControlPanel();
+		gameOfLifeControls.setOnBackToMenu(() -> {
+		    gameOfLifePanel.setVisible(false);
+		    mainScreen.show();
+		});
 		gameOfLifePanel.setVisible(false);
+		
 
 		RockPaperScissorsControls rpsControls = new RockPaperScissorsControls();
 		rpsControls.setSimulationChoice("RockPaperScissors");
 		VBox rpsPanel = rpsControls.setupControlPanel();
+		rpsControls.setOnBackToMenu(() -> {
+		    rpsPanel.setVisible(false);
+		    mainScreen.show();
+		});
 		rpsPanel.setVisible(false);
 
 		root.getChildren().addAll(mainScreen, gameOfLifePanel, rpsPanel);

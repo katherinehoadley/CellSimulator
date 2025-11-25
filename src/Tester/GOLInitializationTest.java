@@ -1,4 +1,5 @@
 // Katherine Hoadley
+//tests the initialization of game of life
 package Tester;
 
 import javafx.application.Application;
@@ -7,9 +8,8 @@ import javafx.stage.Stage;
 import model.InitializationGameOfLife;
 import view.GridUI;
 
-public class GOLTest extends Application {
+public class GOLInitializationTest extends Application {
 
-    @Override
     public void start(Stage stage) {
         int rows = 40;
         int cols = 40;

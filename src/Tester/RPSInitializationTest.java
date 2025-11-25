@@ -1,4 +1,5 @@
 // Katherine Hoadley
+//tests the initialization of rock paper scissors
 package Tester;
 
 import javafx.application.Application;
@@ -7,9 +8,8 @@ import javafx.stage.Stage;
 import model.InitializationRockPaperScissors;
 import view.GridUI;
 
-public class RPSTest extends Application {
+public class RPSInitializationTest extends Application {
 
-    @Override
     public void start(Stage stage) {
         int rows = 10;
         int cols = 10;

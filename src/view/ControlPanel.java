@@ -29,6 +29,8 @@ public abstract class ControlPanel {
 		protected HBox loadingButtons = new HBox();
 		protected GridPane gridPane;
 		protected String simulationChoice = "GameOfLife";
+		protected Runnable onBackToMenu;
+
 		
 		protected final int TEXT_FONT_SIZE = 20;
 		protected final int INPUT_BOX_SPACING = 15;
@@ -68,6 +70,7 @@ public abstract class ControlPanel {
 			createStepButton();
 			createSlowDownButton();
 			createSpeedUpButton();
+			createBackButton();
 			return buttons;
 		}
 		
@@ -282,5 +285,38 @@ public abstract class ControlPanel {
 			else{
 				pauseButton.setText("Pause");
 			}
+		}
+		
+		//Kat Hoadley
+		//this function creates a back button that allows the user to return to the main screen
+		protected void createBackButton() {
+
+		    Button backButton = new Button("Back");
+		    backButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+
+		    backButton.setOnAction(e -> {
+		        simulationController.stopSimulation();
+
+		        // Hide simulation UI
+		        this.controlPanel.setVisible(false);
+		        this.controlPanel.setManaged(false);
+
+		        if (gridPane != null) {
+		            gridPane.setVisible(false);
+		            gridPane.setManaged(false);
+		        }
+
+		        if (onBackToMenu != null) {
+		            onBackToMenu.run();
+		        }
+		    });
+
+		    buttons.getChildren().add(backButton);
+		}
+		
+		//Kat Hoadley
+		//sets the callback so control panel can reference mainscreen without tight coupling
+		public void setOnBackToMenu(Runnable callback) {
+		    this.onBackToMenu = callback;
 		}
 	}

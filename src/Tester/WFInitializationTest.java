@@ -1,4 +1,5 @@
 // Katherine Hoadley
+//tests the initialization of wildfire
 package Tester;
 
 import javafx.application.Application;
@@ -7,15 +8,16 @@ import javafx.stage.Stage;
 import model.InitializationWildfire;
 import view.GridUI;
 
-public class WFTest extends Application {  
+public class WFInitializationTest extends Application {  
 
-    @Override
     public void start(Stage stage) {
         int rows = 30;
         int cols = 30;
+        double treeDensity = .5;
+        int burningTrees = 10;
 
         GridUI gridUI = new GridUI(new InitializationWildfire());
-        Scene scene = new Scene(gridUI.startGrid(rows, cols, .5, 10));
+        Scene scene = new Scene(gridUI.startGrid(rows, cols, treeDensity, burningTrees));
 
         stage.setTitle("Wildfire Initialization Test");
         stage.setScene(scene);
