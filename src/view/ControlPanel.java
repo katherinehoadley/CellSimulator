@@ -51,9 +51,11 @@ public abstract class ControlPanel {
 	protected int numOfRows;
 	protected int numOfColumns;
 
-
+	// each subclass (different simulation types), determine what parameters are involved in
+	// creating the grid
 	protected abstract void createGrid();
 
+	// Reads the number of rows and columns from the user input panel
 	protected void updateGridDimensionsFromInput() {
 		numOfRows = userInputPanel.getRows();
 		numOfColumns = userInputPanel.getColumns();
@@ -62,7 +64,7 @@ public abstract class ControlPanel {
 	/**
 	 * method setUpControlButtons
 	 * Sets up all the control buttons shown on the screen to control the simulation. 
-	 * Adds a start, pause, and step button. Adds the grid too.
+	 * Adds a start, pause, speed up, and slow down button.
 	 * @return HBox containing all the buttons. 
 	 */
 	protected HBox setupControlButtons(){
@@ -77,18 +79,27 @@ public abstract class ControlPanel {
 		return buttons;
 	}
 
+	/**
+	 * method setUpLoadingButtons
+	 * creates and arranges the buttons used for loading or saving the simulation.
+	 * @return
+	 */
 	protected HBox setUpLoadingButtons() {
 		loadingButtons.setAlignment(Pos.TOP_CENTER);
 		loadingButtons.setSpacing(GRID_BUTTON_SPACING); 
-
 		setFileName();
 		createSaveButton();
 		getSavedFile();
 		createLoadButton();
-
 		return loadingButtons;
 	}
 
+	/**
+	 * method setUpControlPanel
+	 * builds the entire control panel with the input fields, loading/saving buttons, 
+	 * and control buttons. 
+	 * @return the entire control panel
+	 */
 	public VBox setupControlPanel() {			
 		controlPanel.setAlignment(Pos.TOP_CENTER);
 		controlPanel.setSpacing(GRID_BUTTON_SPACING); 
@@ -98,10 +109,10 @@ public abstract class ControlPanel {
 		HBox inputBox = userInputPanel.createBox();
 
 		controlPanel.getChildren().addAll(inputBox, loadingBox, buttonBox);
-
 		return controlPanel;
 	}
 
+	// create the button that holds the functionality for saving a grid. 
 	protected void createSaveButton() {
 		Button saveButton = new Button("Save");
 		saveButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
@@ -109,6 +120,7 @@ public abstract class ControlPanel {
 		loadingButtons.getChildren().add(saveButton);
 	}
 
+	// create the button that holds the functionality for loading an existing grid.
 	protected void createLoadButton() {
 		Button loadButton = new Button("Load");
 		loadButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
@@ -130,6 +142,14 @@ public abstract class ControlPanel {
 		loadingButtons.getChildren().add(loadButton);
 	}
 
+	/**
+	 * method createRespectivGrid
+	 * create a new grid with given input parameters for its setup, based on respective simulation.
+	 * @param rows
+	 * @param cols
+	 * @param thirdValue
+	 * @param fourthValue
+	 */
 	protected void createRespectiveGrid(int rows, int cols, double thirdValue, int fourthValue) {
 		controlPanel.getChildren().remove(gridPane);
 		gridPane = gridUI.startGrid(rows, cols, thirdValue, fourthValue);
@@ -137,6 +157,12 @@ public abstract class ControlPanel {
 		stepper.setCurrentPreset(preset);
 	}
 
+	/**
+	 * method setSimulationChoice
+	 * based on the user input, use the factories to determine the correct
+	 * simulation initialization and preset. 
+	 * @param choice
+	 */
 	public void setSimulationChoice(String choice) {
 		this.simulationChoice = choice;
 		this.preset = presetFactory.makeSimulation(choice);
@@ -166,7 +192,7 @@ public abstract class ControlPanel {
 
 	/**
 	 * method runSimulation created by Lance
-	 * Uses a scheduled executor to repeatedly call the step method.
+	 * starts the simulation loop, repeatedly stepping through the simulation.
 	 */
 	protected void runSimulation() {
 		simulationController.stopSimulation();
@@ -177,6 +203,10 @@ public abstract class ControlPanel {
 		simulationController.startSimulation(step);
 	}
 
+	/**
+	 * method createSlowDownButton
+	 * creates a slow down button that prompts the simulation to slow its speed.
+	 */
 	protected void createSlowDownButton() {
 		Button slowDownButton = new Button("Slow Down");
 		slowDownButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
@@ -245,6 +275,8 @@ public abstract class ControlPanel {
 		alert.showAndWait();
 	}
 
+	// creates an input box and label so user can input text for saving the grid
+	// as a specified file name. 
 	protected HBox setFileName() {
 		HBox inputBox = new HBox();
 		inputBox.setAlignment(Pos.BASELINE_CENTER);
@@ -259,6 +291,8 @@ public abstract class ControlPanel {
 		return inputBox;
 	}
 
+	// creates an input box and label so user can input text for retrieving name of existing
+	// saved grid file. 
 	protected HBox getSavedFile() {
 		HBox inputBox = new HBox();
 		inputBox.setAlignment(Pos.BASELINE_CENTER);
