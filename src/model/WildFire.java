@@ -95,6 +95,11 @@ public class WildFire extends GamePreset {
     // Anna:
     @Override
     public String getThirdVariableLabel() {
-    	return "Wildfire";
+    	return "Tree Density";
+    }
+    
+    @Override
+    public String getFourthVariableLabel() {
+    	return "Burning Trees";
     }
 }

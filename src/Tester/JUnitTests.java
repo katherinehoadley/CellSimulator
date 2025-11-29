@@ -8,7 +8,7 @@ import model.Cell;
 import model.Initialization;
 import model.InitializationGameOfLife;
 import model.InitializationRockPaperScissors;
-import model.InitializationWildfire;
+import model.InitializationWildFire;
 
 public class JUnitTests {
 	
@@ -21,7 +21,7 @@ public class JUnitTests {
 	}
 	
 	private Initialization getInitializationWF() {
-		return new InitializationWildfire();
+		return new InitializationWildFire();
 	}
 	
 	//tests that the initialization actually works with correct number of rows/columns
