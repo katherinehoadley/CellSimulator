@@ -11,20 +11,13 @@ public class RockPaperScissorsControls extends ControlPanel {
 	@Override
 	protected void createGrid() {
 		try {
-			int numOfRows = userInputPanel.getRows();
-			int numOfColumns = userInputPanel.getColumns();
+			updateGridDimensionsFromInput();
 			thresholdNumber = (int)userInputPanel.getThirdValue();
 			if (numOfRows <= 4 || numOfColumns <= 4 || thresholdNumber < 1 || thresholdNumber > 8) {
 				throw new NumberFormatException("The number of rows and columns must be positive and threshold must be between 1 and 8.");
 			}
-			stepper.setCurrentPreset(preset);
-			controlPanel.getChildren().remove(gridPane);
-			gridPane = gridUI.startGrid(numOfRows, numOfColumns, thresholdNumber, -1);
-			controlPanel.getChildren().add(gridPane);
+			rebuildGrid(numOfRows, numOfColumns, thresholdNumber);
 			preset.configure(thresholdNumber);
-			
-			
-			
 		} catch (NumberFormatException nfe) {
 			showError("Indvalid Input", "Please enter positive integers 5 or greater for the columns and rows and a threshold between 1 and 8");
 		}
@@ -45,8 +38,4 @@ public class RockPaperScissorsControls extends ControlPanel {
 		});
 		buttons.getChildren().add(stepButton);
 	}
-
-
-
-
 }

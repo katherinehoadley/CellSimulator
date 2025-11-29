@@ -13,9 +13,6 @@ public class Main extends Application {
 	private final int SCREEN_WIDTH = 1000;
 	private final int SCREEN_HEIGHT = 800;
 
-
-	//TODO - it would be good to move most of this out of main and into an initialization class of some sort..
-
 	public void start(Stage primaryStage) {
 		StackPane root = new StackPane();
 		

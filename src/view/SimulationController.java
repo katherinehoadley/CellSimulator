@@ -7,13 +7,13 @@ import java.util.concurrent.TimeUnit;
 
 public class SimulationController {
 	
-	protected int bufferPeriod = 100; 
+	private int bufferPeriod = 100; 
 
-	protected static final int MIN_BUFFER_PERIOD = 50;
+	private static final int MIN_BUFFER_PERIOD = 50;
 	
 	// Lance: keeps step running continuously.
-	protected static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-	protected static ScheduledFuture<?> scheduledTask;
+	private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+	private static ScheduledFuture<?> scheduledTask;
 	
 	
 	public void startSimulation(Runnable step) {

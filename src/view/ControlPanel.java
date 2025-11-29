@@ -28,18 +28,15 @@ public abstract class ControlPanel {
 		protected VBox controlPanel = new VBox();
 		protected HBox loadingButtons = new HBox();
 		protected GridPane gridPane;
-		protected String simulationChoice = "GameOfLife";
+		protected String simulationChoice = "GameOfLife"; // default simulation choice so its not null.
 		protected Runnable onBackToMenu;
-
-		
-		protected final int TEXT_FONT_SIZE = 20;
-		protected final int INPUT_BOX_SPACING = 15;
-
 
 
 		// Constants
 		protected final int BUTTON_SPACING = 10;
 		protected final int GRID_BUTTON_SPACING = 25;
+		protected final int TEXT_FONT_SIZE = 20;
+		protected final int INPUT_BOX_SPACING = 15;
 
 		// Cell simulation logic 
 		protected Step stepper;
@@ -51,10 +48,16 @@ public abstract class ControlPanel {
 		protected InitializationFactory initFactory = new InitializationFactory();
 		protected SimulationController simulationController = new SimulationController();
 		protected UserInputPanel userInputPanel;
+		protected int numOfRows;
+		protected int numOfColumns;
 
 		
-		
 		protected abstract void createGrid();
+		
+		protected void updateGridDimensionsFromInput() {
+		    numOfRows = userInputPanel.getRows();
+		    numOfColumns = userInputPanel.getColumns();
+		}
 
 		/**
 		 * method setUpControlButtons
@@ -127,11 +130,17 @@ public abstract class ControlPanel {
 			loadingButtons.getChildren().add(loadButton);
 		}
 		
+		protected void rebuildGrid(int rows, int cols, double thirdValue) {
+		    controlPanel.getChildren().remove(gridPane);
+		    gridPane = gridUI.startGrid(rows, cols, thirdValue, -1);
+		    controlPanel.getChildren().add(gridPane);
+		    stepper.setCurrentPreset(preset);
+		}
+		
 		public void setSimulationChoice(String choice) {
 			this.simulationChoice = choice;
 			this.preset = presetFactory.makeSimulation(choice);
 			userInputPanel = new UserInputPanel(this, preset);
-			
 			this.initialization = initFactory.getInitialization("Initialization"+choice);
 			
 			System.out.println("Preset: " + preset);
@@ -160,25 +169,18 @@ public abstract class ControlPanel {
 		 * Uses a scheduled executor to repeatedly call the step method.
 		 */
 		protected void runSimulation() {
-			// Lance: 
-//			if (scheduledTask != null && !scheduledTask.isCancelled()) {
-//				scheduledTask.cancel(true); 
-//			}
 			simulationController.stopSimulation();
 			Runnable step = () -> {
 				stepper.step(paused, false, gridUI.getGrid());
 				gridUI.updateVisuals();
 			};
 			simulationController.startSimulation(step);
-			
-//			scheduledTask = scheduler.scheduleAtFixedRate(step, 0, bufferPeriod, TimeUnit.MILLISECONDS);
 		}
 		
 		protected void createSlowDownButton() {
 			Button slowDownButton = new Button("Slow Down");
 			slowDownButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
 			slowDownButton.setOnAction(value ->  {
-//				bufferPeriod += 100;
 				simulationController.slowDownSimSpeed();
 				runSimulation();
 			});
@@ -196,9 +198,7 @@ public abstract class ControlPanel {
 		            simulationController.speedUpSim();
 		            runSimulation();
 		        }
-
 		    });
-
 		    buttons.getChildren().add(speedUpButton);
 		}
 		
