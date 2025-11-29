@@ -6,11 +6,15 @@ import java.lang.reflect.InvocationTargetException;
 
 public class InitializationFactory {
 	
-private Initialization initialization;
-	
+	/**
+	 * method getInitialization
+	 * @param initializationType
+	 * creates an Initialization object based on the given type name. 
+	 * uses reflection to load a class by name and call its no argument constructor.
+	 * @return a new Initialization object
+	 */
 	public Initialization getInitialization(String initializationType) {
 		try {
-
 			Class<?> theClass = Class.forName("model."+ initializationType);
 			
 			Constructor<?> theConstructor = theClass.getConstructor();

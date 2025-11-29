@@ -5,7 +5,7 @@ package Tester;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.InitializationWildfire;
+import model.InitializationWildFire;
 import view.GridUI;
 
 public class WFInitializationTest extends Application {  
@@ -16,7 +16,7 @@ public class WFInitializationTest extends Application {
         double treeDensity = .5;
         int burningTrees = 10;
 
-        GridUI gridUI = new GridUI(new InitializationWildfire());
+        GridUI gridUI = new GridUI(new InitializationWildFire());
         Scene scene = new Scene(gridUI.startGrid(rows, cols, treeDensity, burningTrees));
 
         stage.setTitle("Wildfire Initialization Test");
