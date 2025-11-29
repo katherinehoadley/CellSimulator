@@ -1,3 +1,4 @@
+// Author: Anna Rakes
 package view;
 
 public class WildfireControls extends ControlPanel {
