@@ -8,6 +8,12 @@ import model.Cell;
 
 public class InitializationRockPaperScissors extends Initialization{
 
+	
+	//constructor
+	public InitializationRockPaperScissors(int rows, int cols, double thirdVariable, int fourthVariable) {
+		initializeGrid(rows,cols, thirdVariable, fourthVariable);
+	};
+	
 	//fields
 	private double ROCK_SCISSORS_PROPORTION = .5;  
 	private double TRANSITION_ROWS_PROPORTION = .3;
