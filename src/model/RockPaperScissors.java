@@ -5,6 +5,7 @@ public class RockPaperScissors extends GamePreset{
     public RockPaperScissors() {}
     private int threshold = 3;
     
+    
     // Anna Rakes:
     @Override
     public void configure(int threshold) {

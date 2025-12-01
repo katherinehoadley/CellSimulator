@@ -7,11 +7,15 @@ import java.util.Random;
 import model.Cell;
 
 public class InitializationRockPaperScissors extends Initialization{
+	
+	double rows;
+	double cols;
 
 	
 	//constructor
-	public InitializationRockPaperScissors(int rows, int cols, double thirdVariable, int fourthVariable) {
-		initializeGrid(rows,cols, thirdVariable, fourthVariable);
+	public InitializationRockPaperScissors(double[] values ) {
+		this.rows = values[1];
+		this.cols = values[0];
 	};
 	
 	//fields
@@ -20,11 +24,11 @@ public class InitializationRockPaperScissors extends Initialization{
 
 	//Initialize grid calculates the exact regions that each cell type is supposed to go in.
 	//It then fills the grid with the correct cell type.
-	public int[][] initializeGrid(int rows, int cols, double thirdVariable, int fourthVariable) {
-		grid = new int[rows][cols];
+	public int[][] initializeGrid( ) {
+		grid = new int[(int)rows][(int)cols];
 
-	    int usableRows = rows - 2;
-	    int usableCols = cols - 2;
+	    int usableRows = (int)rows - 2;
+	    int usableCols = (int)cols - 2;
 	
 	    int topRows = (int) (usableRows * ROCK_SCISSORS_PROPORTION);
 	    int transitionRows = (int) (usableRows * TRANSITION_ROWS_PROPORTION);
@@ -78,8 +82,8 @@ public class InitializationRockPaperScissors extends Initialization{
 	
 	//this class is not actually used, it is just for fun.
 	//shows how simulation would run if RPS spawned randomly
-    public int[][] randomInitializeGrid(int rows, int cols, double thirdVariable) {
-        int[][] grid = new int[rows][cols];
+    public int[][] randomInitializeGrid() {
+        int[][] grid = new int[(int)rows][(int)cols];
 
         Random random = new Random();
         

@@ -16,7 +16,11 @@ public class GameOfLifeControls extends ControlPanel {
 			if (numOfRows <= 4 || numOfColumns <= 4 || densityRate < 0 || densityRate > 1) {
 				throw new NumberFormatException("The number of rows and columns must be positive and density rate must be between 0 and 1.");
 			}
-			createRespectiveGrid(numOfRows, numOfColumns, densityRate, -1);
+			values = new double[3];
+			values[0] = numOfColumns;
+			values[1] = numOfRows;
+			values[2] = densityRate;
+			createRespectiveGrid(values);
 		} catch (NumberFormatException nfe) {
 			showError("Indvalid Input", "Please enter positive integers 5 or greater for the columns and rows and a rate between 0 and 1 for the density");
 		}
