@@ -7,6 +7,11 @@ import model.Cell;
 
 public class InitializationWildFire extends Initialization{
 	 
+	//constructor
+	public InitializationWildFire(int rows, int cols, double treeDensity, int burningTrees) {
+		initializeGrid(rows, cols, treeDensity, burningTrees);
+	}
+	
 	//initializes the grid by making the edge cells dead trees, randomly spawning live trees
 	//based on the density given, and then randomly putting the burning trees in the grid 
 	@Override

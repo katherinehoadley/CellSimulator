@@ -8,7 +8,9 @@ import model.Cell;
 public class InitializationGameOfLife extends Initialization {
 	   
 
-    public InitializationGameOfLife() {};
+    public InitializationGameOfLife(int rows, int cols, double startAliveChance, int fourthVariable) {
+    	initializeGrid(rows, cols, startAliveChance, fourthVariable);
+    };
       
     //creates a new grid when ui calls this function.
     //starts a grid of potentially alive bacteria based on the startAliveChance given by user
