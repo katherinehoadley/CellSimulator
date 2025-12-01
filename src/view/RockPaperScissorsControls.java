@@ -18,7 +18,11 @@ public class RockPaperScissorsControls extends ControlPanel {
 			if (numOfRows <= 4 || numOfColumns <= 4 || thresholdNumber < 1 || thresholdNumber > 8) {
 				throw new NumberFormatException("The number of rows and columns must be positive and threshold must be between 1 and 8.");
 			}
-			createRespectiveGrid(numOfRows, numOfColumns, thresholdNumber, -1);
+			values = new double[3];
+			values[0] = numOfColumns;
+			values[1] = numOfRows;
+			values[2] = thresholdNumber;
+			createRespectiveGrid(values);
 			preset.configure(thresholdNumber);
 		} catch (NumberFormatException nfe) {
 			showError("Indvalid Input", "Please enter positive integers 5 or greater for the columns and rows and a threshold between 1 and 8");

@@ -8,6 +8,6 @@ public abstract class Initialization {
     protected int[][] grid;
   
     //initialize grid method
-    public abstract int[][] initializeGrid(int rows, int cols, double thirdVariable, int fourthVariable);
+    public abstract int[][] initializeGrid();
 
 }
