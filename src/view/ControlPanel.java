@@ -1,6 +1,8 @@
 // Anna Rakes
 package view;
 
+import controller.Initialization;
+import controller.InitializationFactory;
 import controller.Step;
 import data.DataStorage;
 import javafx.geometry.Pos;
@@ -13,8 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import model.GamePreset;
-import model.Initialization;
-import model.InitializationFactory;
 import model.PresetFactory;
 
 public abstract class ControlPanel {

@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import controller.Initialization;
+import controller.InitializationFactory;
+import controller.TestInitializationClass;
 import model.GamePreset;
-import model.Initialization;
-import model.InitializationFactory;
 import model.PresetFactory;
-import model.TestInitializationClass;
 import model.TestPresetClass;
 
 class FactoryTesters {

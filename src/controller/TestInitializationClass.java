@@ -1,7 +1,7 @@
 // Author: Anna Rakes
 // This class is solely used for testing the initialization factory.
 
-package model;
+package controller;
 
 public class TestInitializationClass extends Initialization {
 

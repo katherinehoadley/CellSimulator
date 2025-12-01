@@ -4,11 +4,11 @@ package Tester;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import controller.Initialization;
+import controller.InitializationGameOfLife;
+import controller.InitializationRockPaperScissors;
+import controller.InitializationWildFire;
 import model.Cell;
-import model.Initialization;
-import model.InitializationGameOfLife;
-import model.InitializationRockPaperScissors;
-import model.InitializationWildFire;
 
 public class JUnitTests {
 	

@@ -2,12 +2,13 @@
 package view;
 
 import java.util.HashMap;
+
+import controller.Initialization;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.Cell;
-import model.Initialization;
 
 public class GridUI {  
 	private final Color ALIVE_COLOR = Color.AQUA; 
