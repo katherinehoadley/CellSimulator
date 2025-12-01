@@ -2,10 +2,10 @@
 //tests the initialization of wildfire
 package Tester;
 
+import controller.InitializationWildFire;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.InitializationWildFire;
 import view.GridUI;
 
 public class WFInitializationTest extends Application {  

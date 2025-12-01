@@ -1,7 +1,9 @@
 //Katherine Hoadley
 //this class initializes the game of life game mode by randomly spawning in alive cells with
 // alive rate given by user input
-package model;
+package controller;
+
+import model.Cell;
 
 public class InitializationGameOfLife extends Initialization {
 	   

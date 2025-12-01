@@ -1,8 +1,10 @@
 //Katherine Hoadley
 //This class initializes the rock paper scissors game by separating the three into their own equally sized sections
-package model;
+package controller;
 
 import java.util.Random;
+
+import model.Cell;
 
 public class InitializationRockPaperScissors extends Initialization{
 
