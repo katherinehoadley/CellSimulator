@@ -4,6 +4,8 @@
 package controller;
 
 public class TestInitializationClass extends Initialization {
+	
+	public TestInitializationClass(double[] args) {}
 
 	@Override
 	public int[][] initializeGrid() {
