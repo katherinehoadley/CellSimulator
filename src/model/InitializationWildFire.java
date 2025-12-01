@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class InitializationWildfire extends Initialization{
+public class InitializationWildFire extends Initialization{
 	 
 	//initializes the grid by making the edge cells dead trees, randomly spawning live trees
 	//based on the density given, and then randomly putting the burning trees in the grid 

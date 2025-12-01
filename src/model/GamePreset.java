@@ -23,5 +23,10 @@ public abstract class GamePreset {
     
     // Anna Rakes: 
     public abstract String getThirdVariableLabel();
+    
+    // Anna Rakes
+    public String getFourthVariableLabel() {
+    		return "";
+    }
 
 }

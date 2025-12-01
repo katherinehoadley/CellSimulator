@@ -6,8 +6,13 @@ import java.lang.reflect.InvocationTargetException;
 
 public class PresetFactory {
 	
-	private GamePreset preset;
-
+	/**
+	 * method makeSimulation
+	 * @param searchName
+	 * creates an GamePreset object based on the given class name. 
+	 * uses reflection to load a class by name and call its no argument constructor.
+	 * @return a new GamePreset object.
+	 */
 	public GamePreset makeSimulation(String searchName) {
 		try {
 			Class<?> theClass = Class.forName("model."+searchName);			
