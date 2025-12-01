@@ -1,5 +1,5 @@
 // Anna Rakes
-package model;
+package controller;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -15,7 +15,7 @@ public class InitializationFactory {
 	 */
 	public Initialization getInitialization(String initializationType) {
 		try {
-			Class<?> theClass = Class.forName("model."+ initializationType);
+			Class<?> theClass = Class.forName("controller."+ initializationType);
 			
 			Constructor<?> theConstructor = theClass.getConstructor();
 			

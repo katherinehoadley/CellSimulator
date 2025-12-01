@@ -2,10 +2,10 @@
 //tests the initialization of game of life
 package Tester;
 
+import controller.InitializationGameOfLife;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.InitializationGameOfLife;
 import view.GridUI;
 
 public class GOLInitializationTest extends Application {

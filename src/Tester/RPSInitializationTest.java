@@ -2,10 +2,10 @@
 //tests the initialization of rock paper scissors
 package Tester;
 
+import controller.InitializationRockPaperScissors;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.InitializationRockPaperScissors;
 import view.GridUI;
 
 public class RPSInitializationTest extends Application {

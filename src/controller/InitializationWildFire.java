@@ -1,7 +1,9 @@
-package model;
+package controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import model.Cell;
 
 public class InitializationWildFire extends Initialization{
 	 
