@@ -10,7 +10,7 @@ public class InitializationFactory {
 	 * method getInitialization
 	 * @param initializationType
 	 * creates an Initialization object based on the given type name. 
-	 * uses reflection to load a class by name and call its no argument constructor.
+	 * uses reflection to load a class by name and call its constructor based on the number of arguments it receives.
 	 * @return a new Initialization object
 	 */
 	public Initialization getInitialization(String initializationType, double[] args) {

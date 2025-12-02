@@ -26,7 +26,7 @@ public abstract class ControlPanel {
 	protected VBox controlPanel = new VBox();
 	protected HBox loadingButtons = new HBox();
 	protected GridPane gridPane;
-	protected String simulationChoice = "GameOfLife"; // default simulation choice so its not null.
+	protected String simulationChoice = "GameOfLife"; // default simulation choice so its not null when game starts.
 	protected Runnable onBackToMenu;
 
 
@@ -117,26 +117,34 @@ public abstract class ControlPanel {
 		loadingButtons.getChildren().add(saveButton);
 	}
 
-	// create the button that holds the functionality for loading an existing grid.
+	// create the load button, set its style, and assign the click handler.
 	protected void createLoadButton() {
 		Button loadButton = new Button("Load");
 		loadButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-		loadButton.setOnAction(value ->  {
-			dataStorage.loadData(fileName.getText());
-			int[][] grid = dataStorage.getLoadedGrid();
-			GamePreset preset = dataStorage.getAutomata();
-
-			if (grid != null && preset != null) {
-				stepper.setCurrentPreset(preset);
-				if (gridPane != null) controlPanel.getChildren().remove(gridPane);
-				gridUI.setGrid(grid);
-				gridPane = gridUI.render(grid.length, grid[0].length);
-				controlPanel.getChildren().add(gridPane);
-			} else {
-				showError("Upload Failed", "Could not load simulation from file.");
-			}
-		});
+		loadButton.setOnAction(value ->
+			handleLoadButtonClicked());
 		loadingButtons.getChildren().add(loadButton);
+	}
+
+	/**
+	 * handles the logic that is executed when the load button is clicked.
+	 * loads simulation data from the file name input and updates the UI with the
+	 * loaded grid and preset.
+	 */
+	protected void handleLoadButtonClicked() {
+		dataStorage.loadData(fileName.getText());
+		int[][] grid = dataStorage.getLoadedGrid();
+		GamePreset preset = dataStorage.getAutomata();
+
+		if (grid != null && preset != null) {
+			stepper.setCurrentPreset(preset);
+			if (gridPane != null) controlPanel.getChildren().remove(gridPane);
+			gridUI.setGrid(grid);
+			gridPane = gridUI.render(grid.length, grid[0].length);
+			controlPanel.getChildren().add(gridPane);
+		} else {
+			showError("Upload Failed", "Could not load simulation from file.");
+		}
 	}
 
 	/**
