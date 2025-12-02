@@ -2,7 +2,6 @@
 //tests the initialization of game of life
 package Tester;
 
-import controller.InitializationGameOfLife;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,8 +14,9 @@ public class GOLInitializationTest extends Application {
         int cols = 40;
         double startAliveChance = .3;
 
-        GridUI gridUI = new GridUI(new InitializationGameOfLife());
-        Scene scene = new Scene(gridUI.startGrid(rows, cols, startAliveChance, 1) );
+        double[] values = { cols, rows, startAliveChance };
+        GridUI gridUI = new GridUI();
+        Scene scene = new Scene(gridUI.startGrid("GameOfLife", values));
 
         stage.setTitle("GOL Initialization Test");
         stage.setScene(scene);
