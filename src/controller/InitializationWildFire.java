@@ -6,18 +6,25 @@ import java.util.Collections;
 import model.Cell;
 
 public class InitializationWildFire extends Initialization{
+	
+	double rows;
+	double cols;
+	double treeDensity;
+	double burningTrees;
 	 
 	//constructor
-	public InitializationWildFire(int rows, int cols, double treeDensity, int burningTrees) {
-		initializeGrid(rows, cols, treeDensity, burningTrees);
+	public InitializationWildFire(double[] values) {
+		this.rows = values[1];
+		this.cols = values[0];
+		this.treeDensity = values[2];
+		this.burningTrees = values[3];
 	}
 	
 	//initializes the grid by making the edge cells dead trees, randomly spawning live trees
 	//based on the density given, and then randomly putting the burning trees in the grid 
-	@Override
-	public int[][] initializeGrid(int rows, int cols, double treeDensity, int burningTrees) {
+	public int[][] initializeGrid() {
 	    ArrayList<int[]> treeCells = new ArrayList<>();
-		grid = new int[rows][cols];
+		grid = new int[(int)rows][(int)cols];
 		
 		for (int y = 0; y < rows; y++) {
 			for (int x = 0; x < cols; x++) {

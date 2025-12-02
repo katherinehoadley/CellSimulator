@@ -13,13 +13,13 @@ public class InitializationFactory {
 	 * uses reflection to load a class by name and call its no argument constructor.
 	 * @return a new Initialization object
 	 */
-	public Initialization getInitialization(String initializationType) {
+	public Initialization getInitialization(String initializationType, double[] args) {
 		try {
 			Class<?> theClass = Class.forName("controller."+ initializationType);
 			
-			Constructor<?> theConstructor = theClass.getConstructor();
+			Constructor<?> theConstructor = theClass.getConstructor(double[].class);
 			
-			return (Initialization) theConstructor.newInstance();
+			return (Initialization) theConstructor.newInstance((Object) args);
 			
 		} catch (ClassNotFoundException e) {
 			System.err.println("The problem is with the class name.");

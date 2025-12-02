@@ -1,8 +1,6 @@
 // Anna Rakes
 package view;
 
-import controller.Initialization;
-import controller.InitializationFactory;
 import controller.Step;
 import data.DataStorage;
 import javafx.geometry.Pos;
@@ -44,12 +42,11 @@ public abstract class ControlPanel {
 	protected DataStorage dataStorage = new DataStorage();
 	protected PresetFactory presetFactory = new PresetFactory();
 	protected GamePreset preset;
-	protected Initialization initialization;
-	protected InitializationFactory initFactory = new InitializationFactory();
 	protected SimulationController simulationController = new SimulationController();
 	protected UserInputPanel userInputPanel;
 	protected int numOfRows;
 	protected int numOfColumns;
+	protected double[] values;
 
 	// each subclass (different simulation types), determine what parameters are involved in
 	// creating the grid
@@ -150,9 +147,9 @@ public abstract class ControlPanel {
 	 * @param thirdValue
 	 * @param fourthValue
 	 */
-	protected void createRespectiveGrid(int rows, int cols, double thirdValue, int fourthValue) {
+	protected void createRespectiveGrid(double[] values) {
 		controlPanel.getChildren().remove(gridPane);
-		gridPane = gridUI.startGrid(rows, cols, thirdValue, fourthValue);
+		gridPane = gridUI.startGrid(simulationChoice, values);
 		controlPanel.getChildren().add(gridPane);
 		stepper.setCurrentPreset(preset);
 	}
@@ -167,14 +164,12 @@ public abstract class ControlPanel {
 		this.simulationChoice = choice;
 		this.preset = presetFactory.makeSimulation(choice);
 		userInputPanel = new UserInputPanel(this, preset);
-		this.initialization = initFactory.getInitialization("Initialization"+choice);
 
 		System.out.println("Preset: " + preset);
-		System.out.println("Initialization: " + initialization);
 
 		stepper = new Step(preset);
 		stepper.setCurrentPreset(preset);
-		gridUI = new GridUI(initialization);
+		gridUI = new GridUI();
 	}
 
 	/**

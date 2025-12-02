@@ -18,7 +18,7 @@ class FactoryTesters {
 	   @Test // test that InitializationFactory can create a valid class of the correct type.
 	    void testInitializationFactoryValidClass() {
 	        InitializationFactory factory = new InitializationFactory();
-	        Initialization initialization = factory.getInitialization("TestInitializationClass");
+	        Initialization initialization = factory.getInitialization("TestInitializationClass", new double[]{1.0, 2.0, 3.0});
 	        assertNotNull(initialization);
 	        assertTrue(initialization instanceof TestInitializationClass);
 	    }
@@ -26,7 +26,7 @@ class FactoryTesters {
 	    @Test // test that InitializationFactory returns null for initialization classes that don't exist
 	    void testInitializationFactoryInvalidClass() {
 	        InitializationFactory factory = new InitializationFactory();
-	        Initialization initialization = factory.getInitialization("NonExistentClass");
+	        Initialization initialization = factory.getInitialization("NonExistentClass", new double[]{1.0, 2.0, 3.0});
 	        assertNull(initialization);
 	    }
 

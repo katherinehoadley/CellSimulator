@@ -4,11 +4,14 @@
 package controller;
 
 public class TestInitializationClass extends Initialization {
+	
+	public TestInitializationClass(double[] args) {}
 
 	@Override
-	public int[][] initializeGrid(int rows, int cols, double thirdVariable, int fourthVariable) {
+	public int[][] initializeGrid() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

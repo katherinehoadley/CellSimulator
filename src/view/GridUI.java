@@ -4,6 +4,7 @@ package view;
 import java.util.HashMap;
 
 import controller.Initialization;
+import controller.InitializationFactory;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -25,7 +26,8 @@ public class GridUI {
 	private final int CELL_SIZE = 10;
 
     private int[][] grid;
-    private Rectangle[][] visualizer = new Rectangle[][] {};
+    private Rectangle[][] visualizer;
+	protected InitializationFactory initFactory = new InitializationFactory();
     private Initialization initialization;
     
     private int numCols;
@@ -34,15 +36,14 @@ public class GridUI {
     
     public GridUI() { }
     
-    public GridUI(Initialization initialization) {
-        this.initialization = initialization;
-    }
-    
-    public GridPane startGrid (int rows, int columns, double thirdVariable, int fourthVariable) {
-    		grid = initialization.initializeGrid(rows, columns, thirdVariable, fourthVariable);
-    		setGridDimensions(grid, rows, columns);
+
+    public GridPane startGrid (String choice, double[] values) {
+		this.initialization = initFactory.getInitialization("Initialization"+choice, values);
+		System.out.println("Initialization: " + initialization);
+    		grid = initialization.initializeGrid();
+    		setGridDimensions(grid, values[1], values[0]);
     		updateVisuals();
-    		return render(rows, columns);
+    		return render(values[1], values[0]);
     }
     
     private Rectangle createCell() {
@@ -80,9 +81,9 @@ public class GridUI {
     }
     
     
-    public void setGridDimensions(int[][] grid, int rows, int cols) { 
-        this.numRows = Math.max(rows, 5); 
-        this.numCols = Math.max(cols, 5);
+    public void setGridDimensions(int[][] grid, double rows, double cols) { 
+        this.numRows = Math.max((int)rows, 5); 
+        this.numCols = Math.max((int)cols, 5);
         
         this.visualizer = new Rectangle[numRows][numCols];
 
@@ -95,7 +96,7 @@ public class GridUI {
         updateVisuals();
     }
     
-    public GridPane render(int rows, int columns) { 
+    public GridPane render(double rows, double columns) { 
     	GridPane gridPane = new GridPane();
     	gridPane.setHgap(0);
     	gridPane.setVgap(0);

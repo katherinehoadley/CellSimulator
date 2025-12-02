@@ -6,16 +6,22 @@ package controller;
 import model.Cell;
 
 public class InitializationGameOfLife extends Initialization {
+	
+	double rows;
+	double cols;
+	double startAliveChance;
 	   
 
-    public InitializationGameOfLife(int rows, int cols, double startAliveChance, int fourthVariable) {
-    	initializeGrid(rows, cols, startAliveChance, fourthVariable);
+    public InitializationGameOfLife(double[] values ) {
+    		this.rows = values[1];
+    		this.cols = values[0];
+    		this.startAliveChance = values[2];
     };
       
     //creates a new grid when ui calls this function.
     //starts a grid of potentially alive bacteria based on the startAliveChance given by user
-    public int[][] initializeGrid(int rows, int cols, double startAliveChance, int fourthVariable) {
-    		grid = new int[rows][cols];
+    public int[][] initializeGrid() {
+    		grid = new int[(int)rows][(int)cols];
 
     		for (int y = 0; y < rows; y++) {
     			for (int x = 0; x < cols; x++) {
