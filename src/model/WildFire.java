@@ -14,8 +14,7 @@ public class WildFire extends GamePreset {
     @Override
     public int[][] updateGrid(int[][] grid) {
         super.updateGrid(grid);
-
-        // copy the grid into newGrid
+        
         for (int i = 0; i < grid.length; i++){
             System.arraycopy(grid[i], 0, newGrid[i], 0, grid.length);
         }
@@ -57,7 +56,7 @@ public class WildFire extends GamePreset {
             return;
 
         Random random = new Random();
-        if (random.nextDouble() < spreadChance)
+        if (random.nextDouble() > spreadChance)
             return;
 
         newGrid[newY][newX] = Cell.BURNING_TREE.getDisplayValue();
