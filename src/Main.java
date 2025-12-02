@@ -15,6 +15,7 @@ public class Main extends Application {
 	// window dimensions:
 	private final int SCREEN_WIDTH = 1000;
 	private final int SCREEN_HEIGHT = 800;
+	private final String TITLE = "Cell Simulator";
 
 	/**
 	 * Called automatically when program is ran.
@@ -27,7 +28,7 @@ public class Main extends Application {
 		buttonOperations(mainScreen, root);
 		
 		Scene scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
-		primaryStage.setTitle("Cell Simulator");
+		primaryStage.setTitle(TITLE);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

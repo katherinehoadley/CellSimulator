@@ -48,15 +48,13 @@ public class UserInputPanel {
 		Label rowLabel = createLabel("Rows");
 		Label columnLabel = createLabel("Columns");
 		Label thirdLabel = createLabel(preset.getThirdVariableLabel());
-		Label fourthLabel = createLabel(preset.getFourthVariableLabel());
-		
 		rows = createTextField();
 		columns = createTextField();
 		thirdRequirementValue = createTextField();
 		fourthRequirementValue = createTextField();
 		
 		if (preset.getPreset().equals("WildFire")) {
-			inputBox.getChildren().addAll(rowLabel, rows, columnLabel, columns, thirdLabel, thirdRequirementValue, fourthLabel, fourthRequirementValue, createGridButton());
+			inputBox.getChildren().addAll(rowLabel, rows, columnLabel, columns,  createGridButton());
 		} else {
 			inputBox.getChildren().addAll(rowLabel, rows, columnLabel, columns, thirdLabel, thirdRequirementValue, createGridButton());
 		}

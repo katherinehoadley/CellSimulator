@@ -1,8 +1,8 @@
 // Anna Rakes
 package view;
 
+import controller.ControlActions;
 import controller.Step;
-import data.DataStorage;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -16,37 +16,34 @@ import model.GamePreset;
 import model.PresetFactory;
 
 public abstract class ControlPanel {
-
-	// UI Components and current game state
-	protected Button pauseButton;
-	protected boolean paused = false;		
-	protected TextField saveFileNameAs;
-	protected TextField fileName;
-	protected HBox buttons = new HBox();
-	protected VBox controlPanel = new VBox();
-	protected HBox loadingButtons = new HBox();
-	protected GridPane gridPane;
-	protected String simulationChoice = "GameOfLife"; // default simulation choice so its not null.
-	protected Runnable onBackToMenu;
-
-
+	
 	// Constants
 	protected final int BUTTON_SPACING = 10;
 	protected final int GRID_BUTTON_SPACING = 25;
 	protected final int TEXT_FONT_SIZE = 20;
 	protected final int INPUT_BOX_SPACING = 15;
 
+	// UI Components and current game state
+	protected Button pauseButton;
+	protected boolean paused = false;		
+	protected TextField saveFileNameAs;
+	protected TextField fileName;
+	protected HBox loadingButtons = new HBox();
+	protected VBox controlPanel = new VBox();
+	protected GridPane gridPane;
+	protected String simulationChoice = "GameOfLife"; // default simulation choice so its not null when game starts.
+	protected Font font = new Font("Montserrat", TEXT_FONT_SIZE);
+
+
 	// Cell simulation logic 
 	protected Step stepper;
-	protected GridUI gridUI = new GridUI();	
-	protected DataStorage dataStorage = new DataStorage();
 	protected PresetFactory presetFactory = new PresetFactory();
 	protected GamePreset preset;
-	protected SimulationController simulationController = new SimulationController();
 	protected UserInputPanel userInputPanel;
 	protected int numOfRows;
 	protected int numOfColumns;
 	protected double[] values;
+	protected ControlActions controller;
 
 	// each subclass (different simulation types), determine what parameters are involved in
 	// creating the grid
@@ -65,29 +62,31 @@ public abstract class ControlPanel {
 	 * @return HBox containing all the buttons. 
 	 */
 	protected HBox setupControlButtons(){
+		HBox buttons = new HBox();
 		buttons.setAlignment(Pos.BASELINE_CENTER);
 		buttons.setSpacing(BUTTON_SPACING);
-		createStartButton();
-		createPauseButton();
-		createStepButton();
-		createSlowDownButton();
-		createSpeedUpButton();
-		createBackButton();
+		
+		buttons.getChildren().addAll(
+				createStartButton(),
+				createPauseButton(),
+				createStepButton(),
+				createSlowDownButton(),
+				createSpeedUpButton(),
+				createBackButton());
+
 		return buttons;
 	}
 
 	/**
 	 * method setUpLoadingButtons
 	 * creates and arranges the buttons used for loading or saving the simulation.
-	 * @return
+	 * @return the box with all the loading buttons.
 	 */
 	protected HBox setUpLoadingButtons() {
 		loadingButtons.setAlignment(Pos.TOP_CENTER);
 		loadingButtons.setSpacing(GRID_BUTTON_SPACING); 
-		setFileName();
-		createSaveButton();
-		getSavedFile();
-		createLoadButton();
+		loadingButtons.getChildren().addAll( setFileName(), createSaveButton(), getSavedFile(), createLoadButton());
+
 		return loadingButtons;
 	}
 
@@ -109,35 +108,32 @@ public abstract class ControlPanel {
 		return controlPanel;
 	}
 
+
 	// create the button that holds the functionality for saving a grid. 
-	protected void createSaveButton() {
+	protected Button createSaveButton() {
 		Button saveButton = new Button("Save");
-		saveButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-		saveButton.setOnAction(value -> dataStorage.saveData(gridUI.getGrid(), simulationChoice, saveFileNameAs.getText()));
-		loadingButtons.getChildren().add(saveButton);
+		saveButton.setFont(font);
+		saveButton.setOnAction(value -> controller.onSaveButton(simulationChoice, saveFileNameAs));
+		return saveButton;
 	}
 
-	// create the button that holds the functionality for loading an existing grid.
-	protected void createLoadButton() {
+	// create the load button, set its style, and assign the click handler.
+	protected Button createLoadButton() {
 		Button loadButton = new Button("Load");
-		loadButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		loadButton.setFont(font);
 		loadButton.setOnAction(value ->  {
-			dataStorage.loadData(fileName.getText());
-			int[][] grid = dataStorage.getLoadedGrid();
-			GamePreset preset = dataStorage.getAutomata();
-
-			if (grid != null && preset != null) {
-				stepper.setCurrentPreset(preset);
-				if (gridPane != null) controlPanel.getChildren().remove(gridPane);
-				gridUI.setGrid(grid);
-				gridPane = gridUI.render(grid.length, grid[0].length);
-				controlPanel.getChildren().add(gridPane);
-			} else {
-				showError("Upload Failed", "Could not load simulation from file.");
-			}
-		});
-		loadingButtons.getChildren().add(loadButton);
+	        GridPane newGrid = controller.onLoadButton(fileName);
+	        if (newGrid != null) {
+	            if (gridPane != null) {
+	                controlPanel.getChildren().remove(gridPane);
+	            }
+	            gridPane = newGrid; 
+	            controlPanel.getChildren().add(gridPane);
+	        }
+	    });
+		return loadButton;
 	}
+
 
 	/**
 	 * method createRespectivGrid
@@ -148,11 +144,15 @@ public abstract class ControlPanel {
 	 * @param fourthValue
 	 */
 	protected void createRespectiveGrid(double[] values) {
-		controlPanel.getChildren().remove(gridPane);
-		gridPane = gridUI.startGrid(simulationChoice, values);
+		if (gridPane != null) {
+		    controlPanel.getChildren().remove(gridPane);
+		}
+		gridPane = controller.startGrid(simulationChoice, values);
 		controlPanel.getChildren().add(gridPane);
 		stepper.setCurrentPreset(preset);
 	}
+	
+	
 
 	/**
 	 * method setSimulationChoice
@@ -165,66 +165,41 @@ public abstract class ControlPanel {
 		this.preset = presetFactory.makeSimulation(choice);
 		userInputPanel = new UserInputPanel(this, preset);
 
-		System.out.println("Preset: " + preset);
-
 		stepper = new Step(preset);
 		stepper.setCurrentPreset(preset);
-		gridUI = new GridUI();
+		controller = new ControlActions(stepper);
 	}
 
 	/**
 	 * method createStartButton
 	 * creates the start button that starts the simulation and prompts step to start running.
 	 */
-	protected void createStartButton() {
+	protected Button createStartButton() {
 		Button startButton = new Button("Start");
-		startButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-		startButton.setOnAction(value ->  {
-			runSimulation();
-		});
-		buttons.getChildren().add(startButton);
+		startButton.setFont(font);
+		startButton.setOnAction(value ->  controller.onStart());
+		return startButton;
 	}
 
-	/**
-	 * method runSimulation created by Lance
-	 * starts the simulation loop, repeatedly stepping through the simulation.
-	 */
-	protected void runSimulation() {
-		simulationController.stopSimulation();
-		Runnable step = () -> {
-			stepper.step(paused, false, gridUI.getGrid());
-			gridUI.updateVisuals();
-		};
-		simulationController.startSimulation(step);
-	}
 
 	/**
 	 * method createSlowDownButton
 	 * creates a slow down button that prompts the simulation to slow its speed.
 	 */
-	protected void createSlowDownButton() {
+	protected Button createSlowDownButton() {
 		Button slowDownButton = new Button("Slow Down");
-		slowDownButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-		slowDownButton.setOnAction(value ->  {
-			simulationController.slowDownSimSpeed();
-			runSimulation();
-		});
-		buttons.getChildren().add(slowDownButton);
+		slowDownButton.setFont(font);
+		slowDownButton.setOnAction(value ->  controller.onSlowDown());
+		return slowDownButton;
 	}
 
 	//Katherine Hoadley
 	//Speeds up the simulation by lowering buffer period. has a limit so that it doesn't break animation
-	protected void createSpeedUpButton() {
+	protected Button createSpeedUpButton() {
 		Button speedUpButton = new Button("Speed Up");
-		speedUpButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-		speedUpButton.setOnAction(value -> {
-
-			if (simulationController.checkLimitForSimSpeed()) {
-				simulationController.speedUpSim();
-				runSimulation();
-			}
-		});
-		buttons.getChildren().add(speedUpButton);
+		speedUpButton.setFont(font);
+		speedUpButton.setOnAction(value -> controller.onSpeedUp());
+		return speedUpButton;
 	}
 
 	/**
@@ -232,13 +207,11 @@ public abstract class ControlPanel {
 	 * Creates the pause button which stops the simulation. 
 	 * 	Updates the pause button to say resume. 
 	 */
-	protected void createPauseButton() {
+	protected Button createPauseButton() {
 		pauseButton = new Button("Pause");
-		pauseButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-		pauseButton.setOnAction(value ->  {
-			pressPause();
-		});
-		buttons.getChildren().add(pauseButton);
+		pauseButton.setFont(font);
+		pauseButton.setOnAction(value ->  controller.onPause(pauseButton));
+		return pauseButton;
 	}
 
 	/**
@@ -246,14 +219,11 @@ public abstract class ControlPanel {
 	 * Creates the step button which manually takes one individual step 
 	 * instead of using the scheduled executor. 
 	 */
-	protected void createStepButton() {
+	protected Button createStepButton() {
 		Button stepButton = new Button("Step");
-		stepButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
-		stepButton.setOnAction(value ->  {
-			stepper.step(paused, true, gridUI.getGrid()); 
-			gridUI.updateVisuals();
-		});
-		buttons.getChildren().add(stepButton);
+		stepButton.setFont(font);
+		stepButton.setOnAction(value ->  controller.onStep());
+		return stepButton;
 	}
 
 
@@ -278,11 +248,11 @@ public abstract class ControlPanel {
 		inputBox.setSpacing(INPUT_BOX_SPACING);
 
 		Label saveName = new Label ("Save file name as: ");
-		saveName.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		saveName.setFont(font);
 		saveFileNameAs = new TextField();
 		saveFileNameAs.setPrefWidth(100);
 
-		loadingButtons.getChildren().addAll(saveName, saveFileNameAs);
+	    inputBox.getChildren().addAll(saveName, saveFileNameAs);
 		return inputBox;
 	}
 
@@ -294,58 +264,28 @@ public abstract class ControlPanel {
 		inputBox.setSpacing(INPUT_BOX_SPACING);
 
 		Label retrieveFile = new Label ("Load file name: ");
-		retrieveFile.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		retrieveFile.setFont(font);
 		fileName = new TextField();
 		fileName.setPrefWidth(100);
 
-		loadingButtons.getChildren().addAll(retrieveFile, fileName);
+		inputBox.getChildren().addAll(retrieveFile, fileName);
 		return inputBox;
 	}
 
-	/**
-	 * method pressPause
-	 * changes the state of the simulation. 
-	 */
-	protected void pressPause(){
-		this.paused = !this.paused;
-		if(this.paused){
-			pauseButton.setText("Resume");
-		}
-		else{
-			pauseButton.setText("Pause");
-		}
-	}
 
 	//Kat Hoadley
 	//this function creates a back button that allows the user to return to the main screen
-	protected void createBackButton() {
-
+	protected Button createBackButton() {
 		Button backButton = new Button("Back");
-		backButton.setFont(new Font("Montserrat", TEXT_FONT_SIZE));
+		backButton.setFont(font);
+		backButton.setOnAction(e -> controller.onBack(controlPanel, gridPane));
 
-		backButton.setOnAction(e -> {
-			simulationController.stopSimulation();
-
-			// Hide simulation UI
-			this.controlPanel.setVisible(false);
-			this.controlPanel.setManaged(false);
-
-			if (gridPane != null) {
-				gridPane.setVisible(false);
-				gridPane.setManaged(false);
-			}
-
-			if (onBackToMenu != null) {
-				onBackToMenu.run();
-			}
-		});
-
-		buttons.getChildren().add(backButton);
+		return backButton;
 	}
 
 	//Kat Hoadley
 	//sets the callback so control panel can reference mainscreen without tight coupling
 	public void setOnBackToMenu(Runnable callback) {
-		this.onBackToMenu = callback;
+		controller.OnBackToMenu(callback);
 	}
 }
