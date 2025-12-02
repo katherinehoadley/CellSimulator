@@ -12,27 +12,30 @@ import model.Cell;
 
 public class JUnitTests {
 	
-	private Initialization getInitializationGOL() {
-		return new InitializationGameOfLife();
-	}
-	  
-	private Initialization getInitializationRPS() {
-		return new InitializationRockPaperScissors();
-	}
-	
-	private Initialization getInitializationWF() {
-		return new InitializationWildFire();
-	}
+    private Initialization getInitializationGOL(int rows, int cols, double aliveChance) {
+        double[] values = { cols, rows, aliveChance };
+        return new InitializationGameOfLife(values);
+    }
+
+    private Initialization getInitializationRPS(int rows, int cols) {
+        double[] values = { cols, rows };
+        return new InitializationRockPaperScissors(values);
+    }
+
+    private Initialization getInitializationWF(int rows, int cols, double treeDensity, double burnChance) {
+        double[] values = { cols, rows, treeDensity, burnChance };
+        return new InitializationWildFire(values);
+    }
 	
 	//tests that the initialization actually works with correct number of rows/columns
 	@Test
     public void testInitializeGridDimensions() {
-        Initialization init = getInitializationGOL();
         int rows = 6;
         int cols = 8;
 
-        int[][] grid = init.initializeGrid(rows, cols, .3, 1);
-
+        Initialization init = getInitializationGOL(rows, cols, 0.3);
+        int[][] grid = init.initializeGrid();
+        
         assertNotNull(grid, "Grid should not be null");
         assertEquals(rows, grid.length, "Grid should have the correct number of rows");
         assertEquals(cols, grid[0].length, "Grid should have the correct number of columns");
@@ -58,12 +61,12 @@ public class JUnitTests {
     //tests initialization spawn rate is accurate in a 5x5 
     @Test
     public void testSpawnRateIsAccurate() {
-        Initialization init = getInitializationGOL();
         int rows = 5;
         int cols = 5;
         double aliveRate = .3;
 
-        int[][] grid = init.initializeGrid(rows, cols, aliveRate, 1);
+        Initialization init = getInitializationGOL(rows, cols, aliveRate);
+        int[][] grid = init.initializeGrid();
         
         int aliveCount = 0;
         
@@ -82,10 +85,11 @@ public class JUnitTests {
     //tests fair split among r,p,s (within 3%) in a 50x50 example
     @Test
     public void testRPSRate() {
-        Initialization init = getInitializationRPS();
         int rows = 50;
         int cols = 50;
-        int[][] grid = init.initializeGrid(rows, cols, 1, 1);
+
+        Initialization init = getInitializationRPS(rows, cols);
+        int[][] grid = init.initializeGrid();
         
         int rockCount = 0;
         int paperCount = 0;
@@ -114,11 +118,14 @@ public class JUnitTests {
     //ensures the assigned burning trees amount is the same as the actual value of burning trees
     @Test
     public void wildfireBurningTreeCount() {
-    	Initialization init = getInitializationWF();
     	int rows = 50;
     	int cols = 50;
-    	int assignedBurningTrees = 10;
-        int[][] grid = init.initializeGrid(rows, cols, 1.0, assignedBurningTrees);
+    	
+    	int assignedBurningTreeCount = 10;
+    	
+        Initialization init = getInitializationWF(rows, cols, .5, 10);
+        int[][] grid = init.initializeGrid();
+        
         int burningTreeCount = 0;
         
         for (int r = 0; r < rows; r++) {
@@ -129,7 +136,7 @@ public class JUnitTests {
             }
         }
         
-        assertEquals(burningTreeCount, assignedBurningTrees);
+        assertEquals(burningTreeCount, assignedBurningTreeCount);
     }
     
 
@@ -137,13 +144,13 @@ public class JUnitTests {
     //to the maxed-out value of available tree cells.
     @Test
     public void wildfireBurningTreeOver() {
-    	Initialization init = getInitializationWF();
     	int rows = 20;
     	int cols = 20;
     	int assignedBurningTrees = 400;
-        int[][] grid = init.initializeGrid(rows, cols, 1.0, assignedBurningTrees);
+        Initialization init = getInitializationWF(rows, cols, 1.0, assignedBurningTrees);
         int burningTreeCount = 0;
         int aliveTreeCount = 0;
+        int[][] grid = init.initializeGrid();
         
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {

@@ -2,7 +2,6 @@
 //tests the initialization of wildfire
 package Tester;
 
-import controller.InitializationWildFire;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,9 +14,10 @@ public class WFInitializationTest extends Application {
         int cols = 30;
         double treeDensity = .5;
         int burningTrees = 10;
-
-        GridUI gridUI = new GridUI(new InitializationWildFire());
-        Scene scene = new Scene(gridUI.startGrid(rows, cols, treeDensity, burningTrees));
+        
+        double[] values = { cols, rows, treeDensity, burningTrees };
+        GridUI gridUI = new GridUI();
+        Scene scene = new Scene(gridUI.startGrid("WildFire", values));
 
         stage.setTitle("Wildfire Initialization Test");
         stage.setScene(scene);
