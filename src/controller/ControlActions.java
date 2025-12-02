@@ -10,7 +10,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import model.GamePreset;
 import view.GridUI;
-import view.SimulationController;
 
 public class ControlActions {
 
