@@ -26,7 +26,7 @@ public class MainScreenUI extends VBox {
 		this.setPrefSize(1000, 800);
 		this.setMinSize(1000, 800);
 
-		titleLabel = new Label("Game of Life");
+		titleLabel = new Label("Cell Simulator");
 		titleLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: white;");
 
 		gameOfLifeButton = new Button("Game of Life");

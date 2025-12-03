@@ -1,3 +1,8 @@
+//Katherine Hoadley
+//This class initializes wildfire by spawning alive trees
+//based on the given density, then randomly places the given
+//number of burning trees
+
 package controller;
 
 import java.util.ArrayList;
@@ -7,8 +12,7 @@ import model.Cell;
 
 public class InitializationWildFire extends Initialization{
 	
-	double rows;
-	double cols;
+	//fields
 	double treeDensity;
 	double burningTrees;
 	 
