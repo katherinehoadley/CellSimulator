@@ -1,4 +1,6 @@
 // Anna Rakes
+// Factory class for creating Initialization objects using reflection.
+// Given a class name and parameters, it instantiates the corresponding
 package controller;
 
 import java.lang.reflect.Constructor;

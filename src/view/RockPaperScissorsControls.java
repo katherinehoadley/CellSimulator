@@ -1,4 +1,6 @@
 // Anna Rakes
+// Implements the logic for creating a grid for the rock paper scissors rules.
+
 package view;
 
 public class RockPaperScissorsControls extends ControlPanel {

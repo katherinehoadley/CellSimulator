@@ -1,4 +1,6 @@
 // Anna Rakes
+// Factory class for creating ControlPanel objects using reflection.
+// Instantiates a ControlPanel subclass by its class name with a no-argument constructor.
 
 package view;
 

@@ -1,4 +1,7 @@
 // Anna Rakes
+// Main class for the Cell Simulator application, Sets up the JavaFX window, main menu, 
+// and simulation panels
+
 import java.util.HashMap;
 
 import javafx.application.Application;

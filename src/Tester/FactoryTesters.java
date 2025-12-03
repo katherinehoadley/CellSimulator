@@ -1,4 +1,5 @@
 // Author: Anna Rakes
+// Tester class for all the factories.
 
 package Tester;
 

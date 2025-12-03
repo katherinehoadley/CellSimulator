@@ -1,4 +1,7 @@
 // Anna Rakes
+// Handles user interactions for simulations, including starting, pausing,
+// stepping, saving, loading, and adjusting simulation speed.
+// Updates the UI grid and communicates with SimulationController and DataStorage.
 
 package controller;
 

@@ -1,4 +1,6 @@
 // Author: Anna Rakes
+// Implements the logic for creating a grid for the wild fire game.
+
 package view;
 
 public class WildFireControls extends ControlPanel {
