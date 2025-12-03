@@ -1,3 +1,4 @@
+// Lance
 package model;
 
 public class RockPaperScissors extends GamePreset{
