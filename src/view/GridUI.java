@@ -45,7 +45,15 @@ public class GridUI {
     		updateVisuals();
     		return render(values[1], values[0]);
     }
-    
+
+	/**
+	 * Method:   createCell()
+	 * @param:   none 
+	 * @return:   Rectangle object
+	 
+	 * create a new cell to be attached to the GridPane created inside
+	 * the function render().
+	 */
     private Rectangle createCell() {
         Rectangle rect = new Rectangle(CELL_SIZE, CELL_SIZE);
         rect.setStroke(Color.GRAY);
@@ -53,7 +61,15 @@ public class GridUI {
         return rect;
     }
     
-    
+
+	/**
+	 * Method:   createCell()
+	 * @param:   none 
+	 * @return:   none 
+	 
+	 * Update the visual display of the grid based on the Cell enum value and 
+	 * the color associated with it in the HashMap.
+	 */
     public void updateVisuals() {
         HashMap<Cell, Color> map = new HashMap<>();
         map.put(Cell.ALIVE, ALIVE_COLOR);
@@ -80,7 +96,14 @@ public class GridUI {
         }
     }
     
-    
+    /**
+	 * Method:   setGridDimensions()
+	 * @param:   int[][] grid, double rows, double cols
+	 * @return:   none
+	 
+	 * sets the numRows and numCols variable, and then loops
+	 * to create Rectangle objects for each cell in the visualizer.
+	 */
     public void setGridDimensions(int[][] grid, double rows, double cols) { 
         this.numRows = Math.max((int)rows, 5); 
         this.numCols = Math.max((int)cols, 5);
@@ -95,7 +118,15 @@ public class GridUI {
         }
         updateVisuals();
     }
-    
+
+	/**
+	 * Method:   render()
+	 * @param:   double rows, double columns
+	 * @return:   GridPane object
+	 
+	 * Takes the Rectangle cells we created via setGridDimensions() and renders them within
+	 * a GridPane object. 
+	 */
     public GridPane render(double rows, double columns) { 
     	GridPane gridPane = new GridPane();
     	gridPane.setHgap(0);
@@ -124,4 +155,5 @@ public class GridUI {
         setGridDimensions(loadedGrid, loadedGrid.length, loadedGrid[0].length);
     }
   
+
 }
