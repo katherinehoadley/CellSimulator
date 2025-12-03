@@ -1,4 +1,7 @@
 // Author: Anna Rakes
+// Controls the simulation loop and speed for continuous execution.
+// Provides methods to start, stop, slow down, and speed up the simulation.
+// Uses a scheduled executor to repeatedly run simulation steps at a configurable interval.
 
 package controller;
 

@@ -1,4 +1,5 @@
 // Author: Anna Rakes
+// Tester class for all the factories.
 
 package Tester;
 
@@ -12,6 +13,9 @@ import controller.TestInitializationClass;
 import model.GamePreset;
 import model.PresetFactory;
 import model.TestPresetClass;
+import view.ControlPanel;
+import view.ControlPanelFactory;
+import view.TestControlPanelFactoryControls;
 
 class FactoryTesters {
 	
@@ -43,5 +47,20 @@ class FactoryTesters {
 	        PresetFactory factory = new PresetFactory();
 	        GamePreset preset = factory.makeSimulation("NonExistentClass");
 	        assertNull(preset);
+	    }
+	    
+	    @Test // test that ControlPanelFactory can create a valid class of the correct type.
+	    void testControlPanelFactoryValidClass() {
+	        ControlPanelFactory factory = new ControlPanelFactory();
+	        ControlPanel chosenControlPanel = factory.makeControlPanel("TestControlPanelFactory");
+	        assertNotNull(chosenControlPanel);
+	        assertTrue(chosenControlPanel instanceof TestControlPanelFactoryControls);
+	    }
+
+	    @Test // test that ControlPanelFactory returns null for initialization classes that don't exist
+	    void testControlPanelFactoryInvalidClass() {
+	        ControlPanelFactory factory = new ControlPanelFactory();
+	        ControlPanel chosenControlPanel = factory.makeControlPanel("NonExistentClass");
+	        assertNull(chosenControlPanel);
 	    }
 }

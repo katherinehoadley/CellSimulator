@@ -1,4 +1,5 @@
 // Anna Rakes
+// Implements the logic for creating a grid for the game of life rules.
 package view;
 
 
