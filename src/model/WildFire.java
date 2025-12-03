@@ -48,6 +48,7 @@ public class WildFire extends GamePreset {
         }
     }
 
+    //Try spreading fire to a location of x and y
     private void trySpreadTo(int[][] oldGrid, int newY, int newX) {
         if (newY < 0 || newY >= oldGrid.length) return;
         if (newX < 0 || newX >= oldGrid[0].length) return;
