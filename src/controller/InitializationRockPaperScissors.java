@@ -8,19 +8,15 @@ import model.Cell;
 
 public class InitializationRockPaperScissors extends Initialization{
 	
-	double rows;
-	double cols;
-
+	//fields
+	private double ROCK_SCISSORS_PROPORTION = .5;  
+	private double TRANSITION_ROWS_PROPORTION = .3;
 	
 	//constructor
 	public InitializationRockPaperScissors(double[] values ) {
 		this.rows = values[1];
 		this.cols = values[0];
 	};
-	
-	//fields
-	private double ROCK_SCISSORS_PROPORTION = .5;  
-	private double TRANSITION_ROWS_PROPORTION = .3;
 
 	//Initialize grid calculates the exact regions that each cell type is supposed to go in.
 	//It then fills the grid with the correct cell type.
