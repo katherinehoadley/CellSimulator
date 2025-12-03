@@ -4,6 +4,8 @@ package model;
 
 public enum Cell {
 
+    // This class is an enum which is responsible for storing different cell types. these are used in logic and drawing.
+
     DEAD(0),
     ALIVE(1),
     ALIVE_TREE(2),
@@ -33,3 +35,4 @@ public enum Cell {
         return DEAD;
     }
 }
+
