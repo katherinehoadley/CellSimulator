@@ -1,4 +1,7 @@
 // Anna Rakes
+// Abstract class representing the control panel for a simulation.
+// Provides UI components 
+// Subclasses implement createGrid to define simulation specific grid setup.
 package view;
 
 import controller.ControlActions;

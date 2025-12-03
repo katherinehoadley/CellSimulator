@@ -1,4 +1,6 @@
 // Anna Rakes
+// Factory class for creating GamePreset objects using reflection.
+// Instantiates a GamePreset subclass by its class name with a no-argument constructor.
 package model;
 
 import java.lang.reflect.Constructor;
