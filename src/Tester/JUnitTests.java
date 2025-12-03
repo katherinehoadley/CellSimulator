@@ -1,4 +1,6 @@
 //Katherine Hoadley
+//This class contains a variety of junit tests to ensure the code is
+//working properly and correctly updating cells
 package Tester;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,9 +11,12 @@ import controller.InitializationGameOfLife;
 import controller.InitializationRockPaperScissors;
 import controller.InitializationWildFire;
 import model.Cell;
+import model.GameOfLife;
+import model.RockPaperScissors;
 
 public class JUnitTests {
 	
+	//retrieve initialized grids
     private Initialization getInitializationGOL(int rows, int cols, double aliveChance) {
         double[] values = { cols, rows, aliveChance };
         return new InitializationGameOfLife(values);
@@ -27,7 +32,7 @@ public class JUnitTests {
         return new InitializationWildFire(values);
     }
 	
-	//tests that the initialization actually works with correct number of rows/columns
+	//tests that the initialization actually works with correct number of rows/columns in GOL
 	@Test
     public void testInitializeGridDimensions() {
         int rows = 6;
@@ -46,6 +51,14 @@ public class JUnitTests {
     public void testGetDisplayValue() {
         assertEquals(0, Cell.DEAD.getDisplayValue());
         assertEquals(1, Cell.ALIVE.getDisplayValue());
+        assertEquals(2, Cell.ALIVE_TREE.getDisplayValue());
+        assertEquals(3, Cell.BURNING_TREE.getDisplayValue());
+        assertEquals(4, Cell.DEAD_TREE.getDisplayValue());
+        assertEquals(5, Cell.GROUND.getDisplayValue());
+        assertEquals(6, Cell.ROCK.getDisplayValue());
+        assertEquals(7, Cell.PAPER.getDisplayValue());
+        assertEquals(8, Cell.SCISSORS.getDisplayValue());
+
     }
     
     //tests enum values are accurate
@@ -53,12 +66,19 @@ public class JUnitTests {
     public void testEnumValue() {
         assertEquals(Cell.DEAD, Cell.fromValue(0));
         assertEquals(Cell.ALIVE, Cell.fromValue(1));
+        assertEquals(Cell.ALIVE_TREE, Cell.fromValue(2));
+        assertEquals(Cell.BURNING_TREE, Cell.fromValue(3));
+        assertEquals(Cell.DEAD_TREE, Cell.fromValue(4));
+        assertEquals(Cell.GROUND, Cell.fromValue(5));
+        assertEquals(Cell.ROCK, Cell.fromValue(6));
+        assertEquals(Cell.PAPER, Cell.fromValue(7));
+        assertEquals(Cell.SCISSORS, Cell.fromValue(8));
 
         // test invalid value returns DEAD
         assertEquals(Cell.DEAD, Cell.fromValue(99));
     }
 
-    //tests initialization spawn rate is accurate in a 5x5 
+    //tests initialization spawn rate is accurate in a 5x5 in GOL
     @Test
     public void testSpawnRateIsAccurate() {
         int rows = 5;
@@ -171,5 +191,145 @@ public class JUnitTests {
       
     }
     
+    //if a cell has more than three neighbors, it dies
+    @Test
+    public void testCellDiesWithTooManyNeighbors() {
+        GameOfLife gol = new GameOfLife();
+
+        int[][] grid = {
+            {1, 1, 1},
+            {1, 1, 1},
+            {1, 1, 1}
+        };
+
+        int result = gol.updateCell(grid, 1, 1, Cell.ALIVE);
+
+        assertEquals(
+            Cell.DEAD.getDisplayValue(),
+            result,
+            "Live cell with more than 3 neighbors should die"
+        );
+    }
+    
+    //if a dead cell has three neighbors it becomes alive
+    @Test
+    public void testCellSpawnsWithThreeNeighbors() {
+        GameOfLife gol = new GameOfLife();
+
+        int[][] grid = {
+            {0, 1, 0},
+            {1, 0, 0},
+            {0, 1, 0}
+        };
+
+        int result = gol.updateCell(grid, 1, 1, Cell.DEAD);
+
+        assertEquals(
+            Cell.ALIVE.getDisplayValue(),
+            result,
+            "An empty cell with three neighbors should become alive."
+        );
+    }
+    
+    //if a cell has no alive cells next to it it dies of loneliness
+    @Test
+    public void testCellHasNoAliveNeighbors() {
+        GameOfLife gol = new GameOfLife();
+
+        int[][] grid = {
+            {0, 0, 0},
+            {0, 1, 0},
+            {0, 0, 0}
+        };
+
+        int result = gol.updateCell(grid, 1, 1, Cell.ALIVE);
+
+        assertEquals(
+            Cell.DEAD.getDisplayValue(),
+            result,
+            "An alive cell with no alive neighbors should die."
+        );
+    }
+    
+    //if a cell has only one alive cell next to it it dies of loneliness
+    @Test
+    public void testCellHasOneAliveNeighbor() {
+        GameOfLife gol = new GameOfLife();
+
+        int[][] grid = {
+            {0, 0, 0},
+            {1, 1, 0},
+            {0, 0, 0}
+        };
+
+        int result = gol.updateCell(grid, 1, 1, Cell.ALIVE);
+
+        assertEquals(
+            Cell.DEAD.getDisplayValue(),
+            result,
+            "An alive cell with one alive neighbor should die."
+        );
+    }
+    
+    //if scissors is at or above threshold, scissors wins
+    @Test
+    public void testScissorsWins() {
+    	RockPaperScissors rps = new RockPaperScissors();
+        
+    	int[][] grid = {
+                {6, 6, 8},
+                {8, 7, 6},
+                {7, 8, 7}
+        };
+    	int result = rps.updateCell(grid, 1, 1, 7);
+    	
+        assertEquals(
+                Cell.SCISSORS.getDisplayValue(),
+                result,
+                "Paper should lose to scissors."
+            );
+    	
+    }
+    
+    //if rock is at or above threshold, rock wins
+    @Test
+    public void testRockWins() {
+    	RockPaperScissors rps = new RockPaperScissors();
+        
+    	int[][] grid = {
+                {6, 6, 7},
+                {7, 8, 6},
+                {8, 7, 8}
+        };
+    	
+    	int result = rps.updateCell(grid, 1, 1, 8);
+    	
+        assertEquals(
+                Cell.ROCK.getDisplayValue(),
+                result,
+                "Scissors should lose to rock."
+        );
+    	
+    }
+    
+    //if paper is at or above threshold, paper wins
+    @Test
+    public void testPaperWins() {
+    	RockPaperScissors rps = new RockPaperScissors();
+        
+    	int[][] grid = {
+                {8, 8, 7},
+                {7, 6, 8},
+                {6, 7, 6}
+        };
+    	
+    	int result = rps.updateCell(grid, 1, 1, 6);
+    	
+        assertEquals(
+                Cell.PAPER.getDisplayValue(),
+                result,
+                "Rock should lose to paper."
+        );
+    }
 
 }

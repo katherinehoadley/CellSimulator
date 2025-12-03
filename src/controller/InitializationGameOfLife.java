@@ -7,11 +7,10 @@ import model.Cell;
 
 public class InitializationGameOfLife extends Initialization {
 	
-	double rows;
-	double cols;
+	//fields
 	double startAliveChance;
 	   
-
+	//constructor
     public InitializationGameOfLife(double[] values ) {
     		this.rows = values[1];
     		this.cols = values[0];

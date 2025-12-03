@@ -6,6 +6,8 @@ public abstract class Initialization {
     
 	//fields
     protected int[][] grid;
+	double rows;
+	double cols;
   
     //initialize grid method
     public abstract int[][] initializeGrid();
