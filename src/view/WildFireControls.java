@@ -1,7 +1,7 @@
 // Author: Anna Rakes
 package view;
 
-public class WildfireControls extends ControlPanel {
+public class WildFireControls extends ControlPanel {
 	
 	protected double treeDensity = 1.0;
 	protected int burningTrees = 1;

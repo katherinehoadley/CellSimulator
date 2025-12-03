@@ -1,14 +1,15 @@
 // Anna Rakes
+import java.util.HashMap;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import view.ControlPanel;
-import view.GameOfLifeControls;
+import view.ControlPanelFactory;
 import view.MainScreenUI;
-import view.RockPaperScissorsControls;
-import view.WildfireControls;
 
 public class Main extends Application {
 	
@@ -16,6 +17,7 @@ public class Main extends Application {
 	private final int SCREEN_WIDTH = 1000;
 	private final int SCREEN_HEIGHT = 800;
 	private final String TITLE = "Cell Simulator";
+	private final String[] simulationNames = {"GameOfLife", "RockPaperScissors", "WildFire"};
 
 	/**
 	 * Called automatically when program is ran.
@@ -33,27 +35,34 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 	
+	// Create a hashmap to get the button associated with each simulation.
+	private HashMap<String, Button> createSimList(MainScreenUI mainScreen) {
+		HashMap<String, Button> simButtons = new HashMap<>();
+		simButtons.put("GameOfLife", mainScreen.getGameOfLifeButton());
+		simButtons.put( "RockPaperScissors", mainScreen.RPSButton());
+		simButtons.put("WildFire", mainScreen.getWildfireButton());
+		return simButtons;
+	}
+	
 	/**
 	 * method buttonOperations
 	 * @param mainScreen
 	 * @param root
-	 * Connects the menu buttons to the panel. 
+	 * Connects the menu buttons for each simulation to the panel. 
 	 */
-	private void buttonOperations(MainScreenUI mainScreen, StackPane root) {
-		VBox gameOfLifePanel = createSimulation(new GameOfLifeControls(), "GameOfLife", mainScreen);
-		VBox rpsPanel = createSimulation(new RockPaperScissorsControls(), "RockPaperScissors", mainScreen);
-		VBox wildfirePanel = createSimulation(new WildfireControls(), "WildFire", mainScreen);
-		root.getChildren().addAll(mainScreen, gameOfLifePanel, rpsPanel, wildfirePanel);
-		
-		mainScreen.getGameOfLifeButton().setOnAction(e -> {
-		    clickSimulation(mainScreen, gameOfLifePanel);
-		});
-		mainScreen.RPSButton().setOnAction(e -> {
-		    clickSimulation(mainScreen, rpsPanel);
-		});
-		mainScreen.getWildfireButton().setOnAction(e -> {
-			clickSimulation(mainScreen, wildfirePanel);
-		});
+	private void buttonOperations(MainScreenUI mainScreen, StackPane root) {	
+		root.getChildren().add(mainScreen);
+		HashMap<String, Button> simButtons = createSimList(mainScreen);
+		ControlPanelFactory controlFactory = new ControlPanelFactory();
+		for (String simulation: simulationNames) {
+			ControlPanel controls = controlFactory.makeControlPanel(simulation);
+			VBox panel = createSimulation(controls, simulation, mainScreen);
+			
+			simButtons.get(simulation).setOnAction(e -> {
+				clickSimulation(mainScreen, panel);
+			});
+			root.getChildren().add(panel);
+		}
 	}
 	
 	/**
